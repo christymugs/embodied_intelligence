@@ -1,10 +1,18 @@
 # Embodying Intelligence in Real Robots — Learnability-Driven Evolution
 
-Co-evolving robot **morphology** for **learnability** rather than peak task
-performance. The research question (per the SOTA report): can evolutionary
-pressure on _how fast a body learns_ — not on task success alone — produce
-morphologies that acquire skills faster within a lifetime (a morphological
-Baldwin effect)?
+
+This project explores how robot bodies can be evolved not just to perform well, but to **learn well**.
+
+Instead of selecting morphologies only by their final task performance, this system evolves robot bodies based on how efficiently a controller can learn to use them within a fixed lifetime. The goal is to study whether evolutionary pressure on **learnability** can produce morphologies that acquire skills faster.
+
+The project combines:
+
+- evolutionary algorithms for robot body design
+- recursive morphology generation
+- MuJoCo simulation
+- Gymnasium-compatible reinforcement learning environments
+- learnability-based fitness metrics
+- parallelized evaluation across populations
 
 ## Pipeline
 
@@ -25,26 +33,40 @@ final performance, drives selection.
 
 ```
 morphology/
-  robotic_tree.py    tree representation (Limb/Joint/Actuator/Connection)  [advisor]
-  mujoco_builder.py  RobotTree -> MJCF XML                                 [advisor, +fixes]
-  genome.py          evolvable recursive encoding + random init + compile  [new]
-evolution/
-  mutation.py        grow/prune/resize/perturb operators                   [new]
-  population.py      Individual + tournament/truncation selection           [new]
-  evolve.py          outer EA loop: evolve bodies for learnability          [new]
-learning/
-  env.py             Gymnasium locomotion env wrapping a morphology         [new]
-  train.py           inner RL loop — trains EVERY morphology, records curve  [new]
-fitness/
-  learnability.py    AUC / final / steps-to-threshold metrics               [new]
-scripts/
-  build_test_robot.py  rebuild the original hand-designed robot
-  run_evolution.py     CLI entry point (use --smoke for a fast check)
-tests/
-  test_pipeline.py     build + compile + step in MuJoCo (smoke test)
-config/
-  default.yaml         bounds, mutation rates, training/EA settings
-experiments/           generated XML, logs, checkpoints
+.
+├── README.md
+├── requirements.txt
+├── config
+│   └── default.yaml
+├── morphology
+│   ├── genome.py
+│   ├── mujoco_builder.py
+│   └── robotic_tree.py
+├── evolution
+│   ├── evolve.py
+│   ├── mutation.py
+│   ├── parallel.py
+│   └── population.py
+├── learning
+│   ├── env.py
+│   └── train.py
+├── fitness
+│   └── learnability.py
+├── scripts
+│   ├── build_test_robot.py
+│   ├── check_learning.py
+│   ├── plot_run.py
+│   ├── run_evolution.py
+│   └── visualizer.py
+├── tests
+│   └── test_pipeline.py
+└── experiments
+    ├── check
+    ├── run1
+    ├── run2
+    ├── run3
+    ├── seed5.xml
+    └── smoke
 ```
 
 ## Design space (intentionally open)
