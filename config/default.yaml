@@ -1,0 +1,40 @@
+# Default configuration. Values mirror the dataclass defaults in code so the
+# YAML and Python stay in sync; wire this in when building the EA/RL loops.
+
+morphology_bounds:
+  root_radius: [0.04, 0.12]
+  root_height: [0.20, 0.60]
+  limb_radius: [0.02, 0.06]
+  limb_height: [0.10, 0.50]
+  density: [400.0, 1200.0]
+  joint_range: [20.0, 120.0] # degrees, symmetric
+  attach_frac: [0.0, 1.0]
+  gear: [0.5, 2.0]
+  max_limbs: 12
+  max_depth: 4
+  max_children: 3
+
+mutation_rates:
+  grow_limb: 0.25
+  prune_limb: 0.15
+  resize_limb: 0.60
+  resize_torso: 0.30
+  perturb_joint: 0.50
+  move_attach: 0.30
+  sigma: 0.10
+
+# --- placeholders for the next build pass ---
+evolution:
+  population_size: 32
+  generations: 50
+  selection: tournament # tournament | truncation
+  tournament_k: 3
+  elitism: 2
+  seed: 0
+
+learning:
+  algo: ppo # ppo | sac
+  task: locomotion # forward locomotion (distance over fixed time)
+  lifetime_steps: 200000 # SHORT, fixed budget => selects for fast learners
+  eval_seeds: 2 # average over seeds to denoise the metric
+  fitness: auc # auc | final_at_budget | steps_to_threshold

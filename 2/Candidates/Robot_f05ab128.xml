@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mujoco model="RobotModel">
+  <option gravity="0 0 -9.81" timestep="0.002" solver="CG" iterations="500" integrator="Euler"/>
+  <worldbody>
+    <geom name="Floor" type="plane" size="10 10 0.1" pos="0 0 0" rgba="0.8 0.8 0.8 1"/>
+    <body name="Limb0" pos="0 0 0.5">
+      <geom type="capsule" fromto="0 0 0 0 0 0.5" size="0.05" density="1000" contype="0" conaffinity="0"/>
+      <body name="Limb0_f05ab128" pos="0 0 0.5">
+        <geom type="capsule" fromto="0 0 0 0 0 0.12642073650697447" size="0.01960383208354277" density="800" contype="0" conaffinity="0"/>
+        <joint name="Joint_Limb0_Limb0_f05ab128_0" type="hinge" axis="0 1 0" range="-60 60"/>
+      </body>
+      <body name="Limb1_f05ab128" pos="0 0 0.5">
+        <geom type="capsule" fromto="0 0 0 0 0 0.2061127602643679" size="0.021225724659166615" density="800" contype="0" conaffinity="0"/>
+        <body name="Limb2_f05ab128" pos="0 0 0.2061127602643679">
+          <geom type="capsule" fromto="0 0 0 0 0 0.10547432572166344" size="0.0363335970557647" density="800" contype="0" conaffinity="0"/>
+          <body name="Limb3_f05ab128" pos="0 0 0.10547432572166344">
+            <geom type="capsule" fromto="0 0 0 0 0 0.2449434186500521" size="0.01592051162938016" density="800" contype="0" conaffinity="0"/>
+            <joint name="Joint_Limb2_f05ab128_Limb3_f05ab128_0" type="hinge" axis="0 1 0" range="-60 60"/>
+          </body>
+          <joint name="Joint_Limb1_f05ab128_Limb2_f05ab128_0" type="hinge" axis="1 0 0" range="-60 60"/>
+        </body>
+        <joint name="Joint_Limb0_Limb1_f05ab128_0" type="hinge" axis="0 1 0" range="-60 60"/>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="position_Actuator_Joint_Limb0_Limb0_f05ab128_0" joint="Joint_Limb0_Limb0_f05ab128_0" gear="1.0"/>
+    <position name="position_Actuator_Joint_Limb0_Limb1_f05ab128_0" joint="Joint_Limb0_Limb1_f05ab128_0" gear="1.0"/>
+    <position name="position_Actuator_Joint_Limb1_f05ab128_Limb2_f05ab128_0" joint="Joint_Limb1_f05ab128_Limb2_f05ab128_0" gear="1.0"/>
+    <position name="position_Actuator_Joint_Limb2_f05ab128_Limb3_f05ab128_0" joint="Joint_Limb2_f05ab128_Limb3_f05ab128_0" gear="1.0"/>
+  </actuator>
+</mujoco>

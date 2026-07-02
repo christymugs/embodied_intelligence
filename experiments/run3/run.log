@@ -1,0 +1,635 @@
+06:48:51  INFO   ================================================================
+06:48:51  INFO   Learnability-driven morphology evolution
+06:48:51  INFO     population=24  generations=25  metric=auc  eval_seeds=1
+06:48:51  INFO     inner: algo=ppo  lifetime_steps=200000  eval_every=5000  horizon=1000
+06:48:51  INFO     workers=8  seed=0  out=experiments/run3
+06:48:51  INFO   ================================================================
+06:48:51  INFO   gen 0: evaluating 24/24 individuals (8 workers)
+06:52:20  DEBUG    id=0    fitness=   -0.939 limbs= 2 depth=2 metrics={'auc': -0.9391398897330907, 'final': -0.9314815727893911, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=1    fitness=   -0.693 limbs=12 depth=5 metrics={'auc': -0.6925469914314132, 'final': -0.6053122093402815, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=2    fitness=   -0.029 limbs=12 depth=5 metrics={'auc': -0.028976625955766618, 'final': 0.049492974185700055, 'steps_to_threshold': 120000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=3    fitness=    0.129 limbs= 2 depth=2 metrics={'auc': 0.12941715003251217, 'final': 0.17238907196773393, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=4    fitness=    2.433 limbs=12 depth=5 metrics={'auc': 2.433046342375878, 'final': 2.732904318038443, 'steps_to_threshold': 0.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=5    fitness=   -0.406 limbs= 7 depth=5 metrics={'auc': -0.4058954615538562, 'final': -0.3668657565176727, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=6    fitness=    0.806 limbs= 7 depth=5 metrics={'auc': 0.8055006380973199, 'final': 1.004306435969969, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=7    fitness=    0.914 limbs=12 depth=5 metrics={'auc': 0.9143640918523667, 'final': 1.2786242688419147, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=8    fitness=   -0.370 limbs= 2 depth=2 metrics={'auc': -0.37027806595990437, 'final': -0.3495461161157621, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=9    fitness=    0.109 limbs=12 depth=5 metrics={'auc': 0.10942763561645623, 'final': 0.36167293412153817, 'steps_to_threshold': 105000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=10   fitness=   -0.814 limbs=12 depth=5 metrics={'auc': -0.8137528612906938, 'final': -0.7543245371476545, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=11   fitness=   -0.478 limbs=12 depth=5 metrics={'auc': -0.4784956289005548, 'final': -0.10712491410362028, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=12   fitness=   -0.950 limbs= 4 depth=3 metrics={'auc': -0.9499989564106942, 'final': -0.9490114349937606, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=13   fitness=    4.187 limbs=12 depth=5 metrics={'auc': 4.186895298815378, 'final': 5.963215815064895, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=14   fitness=   -0.949 limbs= 2 depth=2 metrics={'auc': -0.9489653738064159, 'final': -0.9487317383513644, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=15   fitness=   -0.606 limbs=12 depth=5 metrics={'auc': -0.6063047828427519, 'final': -0.22522334937093205, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=16   fitness=    1.085 limbs=12 depth=5 metrics={'auc': 1.0852165313035418, 'final': 2.4990344212196134, 'steps_to_threshold': 100000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=17   fitness=   -0.018 limbs=12 depth=5 metrics={'auc': -0.018109580339314393, 'final': 0.14342511873720273, 'steps_to_threshold': 110000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=18   fitness=   -0.949 limbs= 2 depth=2 metrics={'auc': -0.9487696164226043, 'final': -0.9487504515131077, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=19   fitness=    0.213 limbs=12 depth=5 metrics={'auc': 0.21322054526023704, 'final': 0.42658153014432393, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=20   fitness=    0.364 limbs=12 depth=5 metrics={'auc': 0.3642260212800445, 'final': 0.460773655199989, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+06:52:20  DEBUG    id=21   fitness=   -1.121 limbs=12 depth=5 metrics={'auc': -1.1206558525528663, 'final': -1.1490446172626918, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=22   fitness=   -1.037 limbs=10 depth=5 metrics={'auc': -1.0371098722919045, 'final': -1.1869776420214186, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  DEBUG    id=23   fitness=   -0.949 limbs= 2 depth=2 metrics={'auc': -0.9488080790629493, 'final': -0.9487258005397945, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:52:20  INFO   gen 0 done | best 4.187 (id=13, 12 limbs) | mean -0.003 | worst -1.121 | invalid 0 | 208.9s
+06:52:20  INFO     ~3.5 min/gen, est. 83.5 min remaining
+06:52:20  INFO   gen 1: evaluating 22/24 individuals (8 workers)
+06:55:36  DEBUG    id=24   fitness=    0.832 limbs= 7 depth=5 metrics={'auc': 0.8320167918922087, 'final': 1.0430432869435704, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=25   fitness=    5.239 limbs=12 depth=5 metrics={'auc': 5.239183587812417, 'final': 8.404914615476999, 'steps_to_threshold': 90000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=26   fitness=    0.689 limbs=12 depth=5 metrics={'auc': 0.6890289616848274, 'final': 0.783944472390013, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=27   fitness=   -0.087 limbs=12 depth=5 metrics={'auc': -0.08678048588030506, 'final': -0.017554675153509502, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:55:36  DEBUG    id=28   fitness=   -0.719 limbs= 2 depth=2 metrics={'auc': -0.7188312026644273, 'final': -0.7075434252038523, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:55:36  DEBUG    id=29   fitness=   -0.936 limbs= 2 depth=2 metrics={'auc': -0.9362302478201134, 'final': -0.9359777240259953, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:55:36  DEBUG    id=30   fitness=    2.496 limbs=12 depth=5 metrics={'auc': 2.4957798486959626, 'final': 2.82139460199206, 'steps_to_threshold': 0.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=31   fitness=    0.801 limbs= 7 depth=5 metrics={'auc': 0.8013202491690146, 'final': 0.9960395188318473, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=32   fitness=   -0.316 limbs= 9 depth=5 metrics={'auc': -0.3158591946846961, 'final': -0.20182891052669816, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:55:36  DEBUG    id=33   fitness=    0.994 limbs=11 depth=5 metrics={'auc': 0.9943540891598577, 'final': 2.0724645256780425, 'steps_to_threshold': 105000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=34   fitness=    0.007 limbs=12 depth=5 metrics={'auc': 0.006595881721875021, 'final': 0.16714325293642285, 'steps_to_threshold': 110000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=35   fitness=    1.409 limbs=12 depth=5 metrics={'auc': 1.4090448138303944, 'final': 2.102337999654456, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=36   fitness=    0.410 limbs=10 depth=5 metrics={'auc': 0.4100127624696308, 'final': 0.5435227996723735, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=37   fitness=   -0.475 limbs= 7 depth=5 metrics={'auc': -0.4748462505189315, 'final': -0.44354225865334423, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:55:36  DEBUG    id=38   fitness=    1.289 limbs=12 depth=5 metrics={'auc': 1.2886021979904014, 'final': 2.273038832501547, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=39   fitness=    0.119 limbs= 2 depth=2 metrics={'auc': 0.11891694870767576, 'final': 0.17238907196773393, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=40   fitness=   -1.463 limbs=12 depth=5 metrics={'auc': -1.4634179950255597, 'final': -1.1873794336395995, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:55:36  DEBUG    id=41   fitness=    0.185 limbs=12 depth=5 metrics={'auc': 0.1848150332555004, 'final': 0.2819019352786947, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=42   fitness=    0.882 limbs=12 depth=5 metrics={'auc': 0.8818739079208497, 'final': 2.0485078590021084, 'steps_to_threshold': 110000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=43   fitness=   15.441 limbs=12 depth=5 metrics={'auc': 15.441408687302784, 'final': 20.911215961548333, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=44   fitness=    5.428 limbs=12 depth=5 metrics={'auc': 5.427554484231819, 'final': 11.127255054712814, 'steps_to_threshold': 115000.0, 'reached_threshold': 1.0}
+06:55:36  DEBUG    id=45   fitness=    5.031 limbs=12 depth=5 metrics={'auc': 5.030653307578598, 'final': 9.017563713562584, 'steps_to_threshold': 120000.0, 'reached_threshold': 1.0}
+06:55:36  INFO   gen 1 done | best 15.441 (id=43, 12 limbs) | mean 1.828 | worst -1.463 | invalid 0 | 196.7s
+06:55:36  INFO     ~3.4 min/gen, est. 77.7 min remaining
+06:55:36  INFO   gen 2: evaluating 22/24 individuals (8 workers)
+06:58:41  DEBUG    id=46   fitness=   14.170 limbs=12 depth=5 metrics={'auc': 14.170291890882849, 'final': 21.263018963220585, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=47   fitness=    0.366 limbs= 8 depth=5 metrics={'auc': 0.3656654675939617, 'final': 0.468530449664127, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=48   fitness=    0.623 limbs=12 depth=5 metrics={'auc': 0.6232556035498522, 'final': 1.7348967054943785, 'steps_to_threshold': 105000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=49   fitness=    1.290 limbs=12 depth=5 metrics={'auc': 1.28989620509325, 'final': 2.6934017442974425, 'steps_to_threshold': 115000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=50   fitness=    1.234 limbs=12 depth=5 metrics={'auc': 1.23410630816106, 'final': 1.8186815180375202, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=51   fitness=    1.685 limbs=12 depth=5 metrics={'auc': 1.6845140113886639, 'final': 1.947891512896237, 'steps_to_threshold': 0.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=52   fitness=   20.733 limbs=11 depth=5 metrics={'auc': 20.732786959982484, 'final': 28.004632341329323, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=53   fitness=    4.112 limbs=12 depth=5 metrics={'auc': 4.112181205033149, 'final': 5.650832745210707, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=54   fitness=   -1.024 limbs= 9 depth=5 metrics={'auc': -1.0240855165648597, 'final': -1.015657763524629, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:58:41  DEBUG    id=55   fitness=    4.670 limbs=12 depth=5 metrics={'auc': 4.669579500819693, 'final': 6.183195490586745, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=56   fitness=    5.332 limbs=12 depth=5 metrics={'auc': 5.332066401068562, 'final': 8.248466095907585, 'steps_to_threshold': 75000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=57   fitness=    1.000 limbs=11 depth=5 metrics={'auc': 0.9997188736149911, 'final': 2.213190346934968, 'steps_to_threshold': 125000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=58   fitness=    0.329 limbs= 3 depth=2 metrics={'auc': 0.32909004574215667, 'final': 0.4077517951516971, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=59   fitness=    2.403 limbs=12 depth=5 metrics={'auc': 2.4025096290780503, 'final': 3.132520706049539, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=60   fitness=   -1.297 limbs=12 depth=5 metrics={'auc': -1.296974822822244, 'final': -0.44402194881205254, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:58:41  DEBUG    id=61   fitness=    0.789 limbs=10 depth=5 metrics={'auc': 0.7894323359001173, 'final': 1.1897463677571836, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=62   fitness=   -0.469 limbs= 9 depth=5 metrics={'auc': -0.4693724904366446, 'final': -0.3813491848236196, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:58:41  DEBUG    id=63   fitness=    0.369 limbs= 9 depth=5 metrics={'auc': 0.3694904721600673, 'final': 0.5843046220488569, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=64   fitness=    5.027 limbs=12 depth=5 metrics={'auc': 5.026523609780563, 'final': 8.991020431766573, 'steps_to_threshold': 125000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=65   fitness=   10.246 limbs=12 depth=5 metrics={'auc': 10.246064454806124, 'final': 17.44490846748084, 'steps_to_threshold': 85000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=66   fitness=   11.658 limbs=12 depth=5 metrics={'auc': 11.657696959779704, 'final': 17.894698628701445, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+06:58:41  DEBUG    id=67   fitness=   -0.237 limbs= 7 depth=5 metrics={'auc': -0.23682837611414478, 'final': -0.19402102017123415, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+06:58:41  INFO   gen 2 done | best 20.733 (id=52, 11 limbs) | mean 4.328 | worst -1.297 | invalid 0 | 184.8s
+06:58:41  INFO     ~3.3 min/gen, est. 72.2 min remaining
+06:58:41  INFO   gen 3: evaluating 22/24 individuals (8 workers)
+07:01:46  DEBUG    id=68   fitness=    1.188 limbs=10 depth=5 metrics={'auc': 1.1877094116135438, 'final': 1.7557307463356324, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=69   fitness=    2.931 limbs=12 depth=5 metrics={'auc': 2.93129075596471, 'final': 5.5281232087076075, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=70   fitness=    9.186 limbs=12 depth=5 metrics={'auc': 9.186035089027719, 'final': 13.236198923927928, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=71   fitness=    3.038 limbs=12 depth=5 metrics={'auc': 3.0375779053563234, 'final': 4.036984460914752, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=72   fitness=    4.131 limbs= 9 depth=5 metrics={'auc': 4.131113302477632, 'final': 6.000386182139874, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=73   fitness=    4.606 limbs=12 depth=5 metrics={'auc': 4.606017406961912, 'final': 8.39071313540782, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=74   fitness=    1.253 limbs=11 depth=5 metrics={'auc': 1.2528157913588531, 'final': 1.7103790723397714, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=75   fitness=   16.752 limbs=12 depth=5 metrics={'auc': 16.75170565250552, 'final': 21.928092007030685, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=76   fitness=    7.004 limbs=12 depth=5 metrics={'auc': 7.004098469149654, 'final': 12.09088575611545, 'steps_to_threshold': 90000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=77   fitness=   10.452 limbs=12 depth=5 metrics={'auc': 10.45188609063156, 'final': 16.536678381171726, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=78   fitness=    1.994 limbs=11 depth=5 metrics={'auc': 1.99407982603314, 'final': 2.8179684629983206, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=79   fitness=   12.438 limbs=12 depth=5 metrics={'auc': 12.437626853919113, 'final': 20.297441369272118, 'steps_to_threshold': 85000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=80   fitness=    4.097 limbs=12 depth=5 metrics={'auc': 4.096665429615372, 'final': 5.022172570227004, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=81   fitness=   -0.457 limbs=11 depth=5 metrics={'auc': -0.45704524287525405, 'final': 0.23280841113865267, 'steps_to_threshold': 180000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=82   fitness=   14.211 limbs=12 depth=5 metrics={'auc': 14.2110015013187, 'final': 21.262769496182283, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=83   fitness=   18.269 limbs=12 depth=5 metrics={'auc': 18.26904361399295, 'final': 24.609239175699305, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=84   fitness=   20.309 limbs=11 depth=5 metrics={'auc': 20.30907210178582, 'final': 27.01525443660914, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=85   fitness=   16.352 limbs=12 depth=5 metrics={'auc': 16.35174420080442, 'final': 22.886574415756115, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=86   fitness=   13.904 limbs=12 depth=5 metrics={'auc': 13.903717825275017, 'final': 19.592694948473465, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=87   fitness=    8.108 limbs=12 depth=5 metrics={'auc': 8.108095012033736, 'final': 11.986083424222175, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=88   fitness=   11.275 limbs=12 depth=5 metrics={'auc': 11.275021259146198, 'final': 18.344232947391077, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:01:46  DEBUG    id=89   fitness=    4.200 limbs=12 depth=5 metrics={'auc': 4.200445498161651, 'final': 5.817285436702238, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:01:46  INFO   gen 3 done | best 20.733 (id=52, 11 limbs) | mean 9.226 | worst -0.457 | invalid 0 | 185.3s
+07:01:46  INFO     ~3.2 min/gen, est. 67.9 min remaining
+07:01:46  INFO   gen 4: evaluating 22/24 individuals (8 workers)
+07:04:49  DEBUG    id=90   fitness=   15.071 limbs=11 depth=5 metrics={'auc': 15.070800232974822, 'final': 19.69598879474901, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=91   fitness=   14.509 limbs=12 depth=5 metrics={'auc': 14.509143009501384, 'final': 21.463646648206193, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=92   fitness=   19.562 limbs=11 depth=5 metrics={'auc': 19.562180845176883, 'final': 28.10534717702343, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=93   fitness=   14.357 limbs=12 depth=5 metrics={'auc': 14.356517520974796, 'final': 19.737957114521073, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=94   fitness=   -0.091 limbs=12 depth=5 metrics={'auc': -0.09120783978056579, 'final': 1.956835972784548, 'steps_to_threshold': 140000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=95   fitness=    1.355 limbs= 9 depth=5 metrics={'auc': 1.3545629679446731, 'final': 1.8227365677649807, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=96   fitness=   12.407 limbs=11 depth=5 metrics={'auc': 12.406944641699283, 'final': 20.800573982334328, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=97   fitness=    5.686 limbs=12 depth=5 metrics={'auc': 5.68648759980167, 'final': 7.741132760503622, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=98   fitness=    8.521 limbs=12 depth=5 metrics={'auc': 8.521431868061029, 'final': 14.792900943438502, 'steps_to_threshold': 95000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=99   fitness=   13.284 limbs=12 depth=5 metrics={'auc': 13.28364174604204, 'final': 18.54266262466719, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=100  fitness=   11.165 limbs=12 depth=5 metrics={'auc': 11.165066419138396, 'final': 18.813088811731518, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=101  fitness=   16.427 limbs=12 depth=5 metrics={'auc': 16.427021613962147, 'final': 22.60720909752729, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=102  fitness=   21.251 limbs=11 depth=5 metrics={'auc': 21.25087522716767, 'final': 31.574546715633733, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=103  fitness=   16.639 limbs=11 depth=5 metrics={'auc': 16.638961721697754, 'final': 22.853975451729056, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=104  fitness=    5.793 limbs=12 depth=5 metrics={'auc': 5.79290482340104, 'final': 9.646515676785025, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=105  fitness=    0.266 limbs=11 depth=5 metrics={'auc': 0.2664374098694313, 'final': 0.889048604122109, 'steps_to_threshold': 75000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=106  fitness=   14.138 limbs=12 depth=5 metrics={'auc': 14.13775664932284, 'final': 20.001546956085328, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=107  fitness=   15.393 limbs=12 depth=5 metrics={'auc': 15.393150258137593, 'final': 21.012353684313634, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=108  fitness=   15.354 limbs=12 depth=5 metrics={'auc': 15.354119321327724, 'final': 21.710168415004148, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=109  fitness=   18.183 limbs=12 depth=5 metrics={'auc': 18.18255216513731, 'final': 26.089124655777923, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=110  fitness=   19.783 limbs=11 depth=5 metrics={'auc': 19.78308264720877, 'final': 25.835793870477605, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:04:49  DEBUG    id=111  fitness=    1.213 limbs= 8 depth=5 metrics={'auc': 1.2133174057210028, 'final': 1.6752157206523546, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:04:49  INFO   gen 4 done | best 21.251 (id=102, 11 limbs) | mean 12.554 | worst -0.091 | invalid 0 | 182.5s
+07:04:49  INFO     ~3.2 min/gen, est. 63.9 min remaining
+07:04:49  INFO   gen 5: evaluating 22/24 individuals (8 workers)
+07:07:47  DEBUG    id=112  fitness=    7.960 limbs=12 depth=5 metrics={'auc': 7.96015059317261, 'final': 10.574975159254306, 'steps_to_threshold': 95000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=113  fitness=    1.415 limbs= 8 depth=5 metrics={'auc': 1.4151360029830702, 'final': 1.8460601884400563, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=114  fitness=   19.918 limbs=11 depth=5 metrics={'auc': 19.91776845368761, 'final': 26.6208048760021, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=115  fitness=    9.184 limbs=11 depth=5 metrics={'auc': 9.184129134873231, 'final': 16.395826537328634, 'steps_to_threshold': 90000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=116  fitness=   15.879 limbs=12 depth=5 metrics={'auc': 15.878881549920372, 'final': 21.84659814033006, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=117  fitness=   11.787 limbs=12 depth=5 metrics={'auc': 11.787269044632197, 'final': 17.700205946659533, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=118  fitness=   14.306 limbs=11 depth=5 metrics={'auc': 14.306387840796194, 'final': 18.995395750172055, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=119  fitness=   20.274 limbs=11 depth=5 metrics={'auc': 20.27440952208381, 'final': 28.12101732126926, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=120  fitness=   16.585 limbs=11 depth=5 metrics={'auc': 16.585325494734104, 'final': 22.8868197196235, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=121  fitness=   12.118 limbs=11 depth=5 metrics={'auc': 12.118100865457714, 'final': 19.876582249310598, 'steps_to_threshold': 75000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=122  fitness=    6.805 limbs=12 depth=5 metrics={'auc': 6.804965453491102, 'final': 14.907011834066417, 'steps_to_threshold': 135000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=123  fitness=    0.455 limbs=12 depth=5 metrics={'auc': 0.4547961466416533, 'final': 1.782601630396967, 'steps_to_threshold': 105000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=124  fitness=   14.381 limbs=11 depth=5 metrics={'auc': 14.381215169052341, 'final': 23.7051243428397, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=125  fitness=   18.240 limbs=11 depth=5 metrics={'auc': 18.240161065714886, 'final': 27.202260879550224, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=126  fitness=   22.211 limbs=11 depth=5 metrics={'auc': 22.21121879674083, 'final': 30.87315455306806, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=127  fitness=    1.679 limbs=10 depth=5 metrics={'auc': 1.678833986430993, 'final': 2.2944811824474924, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=128  fitness=    3.758 limbs=11 depth=5 metrics={'auc': 3.7576781381940165, 'final': 5.665847299565319, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=129  fitness=    9.955 limbs=12 depth=5 metrics={'auc': 9.95464783099349, 'final': 15.856822764895087, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=130  fitness=   13.049 limbs=11 depth=5 metrics={'auc': 13.04884852206992, 'final': 17.74398969934355, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=131  fitness=   18.186 limbs=11 depth=5 metrics={'auc': 18.18576361932497, 'final': 29.023948541100236, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=132  fitness=   20.969 limbs=11 depth=5 metrics={'auc': 20.969274770279714, 'final': 29.23394610429032, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:07:47  DEBUG    id=133  fitness=   14.862 limbs=11 depth=5 metrics={'auc': 14.862343593022958, 'final': 18.335197693664764, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:07:47  INFO   gen 5 done | best 22.211 (id=126, 11 limbs) | mean 13.165 | worst 0.455 | invalid 0 | 178.2s
+07:07:47  INFO     ~3.2 min/gen, est. 60.0 min remaining
+07:07:47  INFO   gen 6: evaluating 22/24 individuals (8 workers)
+07:10:41  DEBUG    id=134  fitness=   20.161 limbs=11 depth=5 metrics={'auc': 20.161194203958246, 'final': 29.50962782941114, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=135  fitness=   22.003 limbs=11 depth=5 metrics={'auc': 22.00250533392208, 'final': 31.016526192488097, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=136  fitness=   18.572 limbs=11 depth=5 metrics={'auc': 18.572075242107672, 'final': 24.745741352759538, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=137  fitness=   15.806 limbs=11 depth=5 metrics={'auc': 15.805554467305297, 'final': 22.737970005629297, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=138  fitness=   21.074 limbs=11 depth=5 metrics={'auc': 21.073565882627456, 'final': 25.43437352315274, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=139  fitness=   20.378 limbs=11 depth=5 metrics={'auc': 20.37821067822811, 'final': 27.87606239415317, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=140  fitness=   16.786 limbs=11 depth=5 metrics={'auc': 16.786389490536727, 'final': 24.74254543897142, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=141  fitness=   18.509 limbs=11 depth=5 metrics={'auc': 18.509347204294688, 'final': 25.536369321979098, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=142  fitness=   10.683 limbs=12 depth=5 metrics={'auc': 10.683338953226617, 'final': 20.540582394108004, 'steps_to_threshold': 125000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=143  fitness=   11.411 limbs=11 depth=5 metrics={'auc': 11.411004488644146, 'final': 16.073434421226292, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=144  fitness=   14.502 limbs=12 depth=5 metrics={'auc': 14.502114867754267, 'final': 19.231527253925844, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=145  fitness=   14.917 limbs=12 depth=5 metrics={'auc': 14.917164398242761, 'final': 22.72820694933957, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=146  fitness=   19.676 limbs= 8 depth=5 metrics={'auc': 19.675743940725546, 'final': 26.494118573604748, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=147  fitness=    4.403 limbs=11 depth=5 metrics={'auc': 4.40325757023517, 'final': 9.447620097298747, 'steps_to_threshold': 150000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=148  fitness=   19.119 limbs=11 depth=5 metrics={'auc': 19.11940812867741, 'final': 24.471380682753324, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=149  fitness=    8.599 limbs=11 depth=5 metrics={'auc': 8.59940605547292, 'final': 16.395210345701297, 'steps_to_threshold': 105000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=150  fitness=    5.573 limbs=12 depth=5 metrics={'auc': 5.5734208082873655, 'final': 11.255393614494949, 'steps_to_threshold': 115000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=151  fitness=   21.470 limbs=11 depth=5 metrics={'auc': 21.469706515874613, 'final': 28.66545933599436, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=152  fitness=   20.723 limbs=11 depth=5 metrics={'auc': 20.723409415434176, 'final': 27.54672498464636, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=153  fitness=   19.141 limbs=11 depth=5 metrics={'auc': 19.141344770259966, 'final': 25.564152909352888, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=154  fitness=   19.013 limbs=11 depth=5 metrics={'auc': 19.013051847516397, 'final': 24.28717755610174, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:10:41  DEBUG    id=155  fitness=   21.107 limbs=11 depth=5 metrics={'auc': 21.106889704444267, 'final': 28.51454224637132, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:10:41  INFO   gen 6 done | best 22.211 (id=126, 11 limbs) | mean 16.962 | worst 4.403 | invalid 0 | 174.0s
+07:10:41  INFO     ~3.1 min/gen, est. 56.2 min remaining
+07:10:41  INFO   gen 7: evaluating 22/24 individuals (8 workers)
+07:13:35  DEBUG    id=156  fitness=   21.293 limbs=11 depth=5 metrics={'auc': 21.293090794521625, 'final': 27.833783782978415, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=157  fitness=   13.943 limbs=11 depth=5 metrics={'auc': 13.943205968088149, 'final': 21.040796238442947, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=158  fitness=   15.719 limbs=12 depth=5 metrics={'auc': 15.719044969972437, 'final': 23.549730738474945, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=159  fitness=   10.340 limbs=12 depth=5 metrics={'auc': 10.33979640961334, 'final': 13.756502493070313, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=160  fitness=    0.607 limbs= 9 depth=5 metrics={'auc': 0.6072059603640729, 'final': 0.8414282765603319, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=161  fitness=   21.157 limbs=11 depth=5 metrics={'auc': 21.157486357907633, 'final': 28.396451520579898, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=162  fitness=    3.166 limbs=10 depth=5 metrics={'auc': 3.1658435783962604, 'final': 4.015496349188767, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=163  fitness=    1.099 limbs= 7 depth=5 metrics={'auc': 1.098932507411016, 'final': 1.2887010463393953, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=164  fitness=    3.274 limbs= 5 depth=5 metrics={'auc': 3.273682733514377, 'final': 3.6943246934278258, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=165  fitness=   21.437 limbs=11 depth=5 metrics={'auc': 21.437379240228235, 'final': 30.553157999271523, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=166  fitness=    3.487 limbs=11 depth=5 metrics={'auc': 3.487451772491739, 'final': 6.892277437060095, 'steps_to_threshold': 75000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=167  fitness=   19.167 limbs=11 depth=5 metrics={'auc': 19.167399924751024, 'final': 29.992057163398552, 'steps_to_threshold': 75000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=168  fitness=    7.461 limbs=11 depth=5 metrics={'auc': 7.46070059459836, 'final': 17.610874759482204, 'steps_to_threshold': 140000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=169  fitness=   22.190 limbs=11 depth=5 metrics={'auc': 22.19045578444237, 'final': 32.27129225460221, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=170  fitness=   -0.111 limbs=10 depth=5 metrics={'auc': -0.11123262660057585, 'final': 0.2206242757934819, 'steps_to_threshold': 100000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=171  fitness=   17.301 limbs=11 depth=5 metrics={'auc': 17.301105587525527, 'final': 23.27821531443814, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=172  fitness=   12.539 limbs=11 depth=5 metrics={'auc': 12.539086477133594, 'final': 21.16514020687251, 'steps_to_threshold': 85000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=173  fitness=   16.919 limbs=12 depth=5 metrics={'auc': 16.91934401625188, 'final': 20.6532855272344, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=174  fitness=   21.556 limbs=11 depth=5 metrics={'auc': 21.555997737166916, 'final': 28.632371866460932, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=175  fitness=   23.248 limbs=11 depth=5 metrics={'auc': 23.247992412065916, 'final': 32.994885873038676, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=176  fitness=   22.103 limbs= 8 depth=5 metrics={'auc': 22.102632281276513, 'final': 26.44942978294884, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:13:35  DEBUG    id=177  fitness=   23.232 limbs=11 depth=5 metrics={'auc': 23.231925093203493, 'final': 34.73463924025807, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:13:35  INFO   gen 7 done | best 23.248 (id=175, 11 limbs) | mean 14.389 | worst -0.111 | invalid 0 | 174.0s
+07:13:35  INFO     ~3.1 min/gen, est. 52.6 min remaining
+07:13:35  INFO   gen 8: evaluating 22/24 individuals (8 workers)
+07:16:26  DEBUG    id=178  fitness=   15.589 limbs=11 depth=5 metrics={'auc': 15.588893187100853, 'final': 19.02224112023567, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=179  fitness=   18.122 limbs=11 depth=5 metrics={'auc': 18.122356228475166, 'final': 27.339559120112337, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=180  fitness=   23.578 limbs=11 depth=5 metrics={'auc': 23.577640948092387, 'final': 33.35526247831249, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=181  fitness=   21.635 limbs= 8 depth=5 metrics={'auc': 21.63456277771461, 'final': 26.054062101303984, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=182  fitness=   24.574 limbs=12 depth=5 metrics={'auc': 24.573593023409313, 'final': 35.44204676251684, 'steps_to_threshold': 75000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=183  fitness=   25.057 limbs=11 depth=5 metrics={'auc': 25.056719070920135, 'final': 34.68523875115688, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=184  fitness=   23.641 limbs=11 depth=5 metrics={'auc': 23.64076637873788, 'final': 33.6059924650799, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=185  fitness=   13.508 limbs=12 depth=5 metrics={'auc': 13.507826324537856, 'final': 21.25040214010136, 'steps_to_threshold': 100000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=186  fitness=   -0.559 limbs=11 depth=5 metrics={'auc': -0.5592570252330845, 'final': -0.14517216025982746, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+07:16:26  DEBUG    id=187  fitness=   23.699 limbs=11 depth=5 metrics={'auc': 23.698742289211463, 'final': 31.478433347004522, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=188  fitness=   -1.967 limbs=10 depth=5 metrics={'auc': -1.9674021905131864, 'final': -1.7042484130251838, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+07:16:26  DEBUG    id=189  fitness=   19.725 limbs=11 depth=5 metrics={'auc': 19.72530262245611, 'final': 27.140062045913158, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=190  fitness=   20.661 limbs=11 depth=5 metrics={'auc': 20.660607326286147, 'final': 28.259810030794892, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=191  fitness=    0.820 limbs= 8 depth=5 metrics={'auc': 0.8200573670945874, 'final': 1.282333366488128, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=192  fitness=   18.934 limbs=11 depth=5 metrics={'auc': 18.934053442450338, 'final': 29.2644135791255, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=193  fitness=   25.501 limbs=11 depth=5 metrics={'auc': 25.500690974761145, 'final': 34.452478769675174, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=194  fitness=   19.261 limbs=11 depth=5 metrics={'auc': 19.261071308166887, 'final': 25.538705751935947, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=195  fitness=   23.836 limbs=11 depth=5 metrics={'auc': 23.835965075876814, 'final': 33.05804679407652, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=196  fitness=   19.570 limbs=11 depth=5 metrics={'auc': 19.570431329173424, 'final': 28.029002639781172, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=197  fitness=   22.702 limbs=11 depth=5 metrics={'auc': 22.702457054735525, 'final': 30.640308705840962, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=198  fitness=    2.279 limbs= 9 depth=5 metrics={'auc': 2.2794445206004856, 'final': 2.859306188600836, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:16:26  DEBUG    id=199  fitness=   20.946 limbs=11 depth=5 metrics={'auc': 20.945861904565156, 'final': 32.512583385763406, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:16:26  INFO   gen 8 done | best 25.501 (id=193, 11 limbs) | mean 17.816 | worst -1.967 | invalid 0 | 170.6s
+07:16:26  INFO     ~3.1 min/gen, est. 49.0 min remaining
+07:16:26  INFO   gen 9: evaluating 22/24 individuals (8 workers)
+07:19:19  DEBUG    id=200  fitness=   18.186 limbs=11 depth=5 metrics={'auc': 18.18579351968935, 'final': 24.160697901937862, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=201  fitness=   19.035 limbs=11 depth=5 metrics={'auc': 19.035469466666292, 'final': 28.521517444377142, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=202  fitness=   24.529 limbs=11 depth=5 metrics={'auc': 24.528901990851853, 'final': 32.771387797224236, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=203  fitness=    0.705 limbs=10 depth=5 metrics={'auc': 0.7053020114085966, 'final': 1.1820695441955305, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=204  fitness=   22.586 limbs=11 depth=5 metrics={'auc': 22.586282029670652, 'final': 31.81501571271279, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=205  fitness=   18.179 limbs=11 depth=5 metrics={'auc': 18.179322686975723, 'final': 22.993157606602267, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=206  fitness=    1.332 limbs= 8 depth=5 metrics={'auc': 1.332207653929316, 'final': 1.7294962577854804, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=207  fitness=    3.074 limbs=10 depth=5 metrics={'auc': 3.074216160928982, 'final': 4.37119554963163, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=208  fitness=   16.007 limbs=12 depth=5 metrics={'auc': 16.006811815046685, 'final': 18.943735922843256, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=209  fitness=   23.001 limbs=11 depth=5 metrics={'auc': 23.00059886726469, 'final': 34.117885803730104, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=210  fitness=   -0.907 limbs= 8 depth=5 metrics={'auc': -0.906805822807734, 'final': 3.547605608162325, 'steps_to_threshold': 170000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=211  fitness=   24.784 limbs=11 depth=5 metrics={'auc': 24.78446703187392, 'final': 34.71008813134094, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=212  fitness=   13.928 limbs=11 depth=5 metrics={'auc': 13.92839968143052, 'final': 20.84598847115823, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=213  fitness=   23.667 limbs=11 depth=5 metrics={'auc': 23.667106395142508, 'final': 34.1835568677275, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=214  fitness=   23.975 limbs=11 depth=5 metrics={'auc': 23.97508860002368, 'final': 34.010535277088586, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=215  fitness=   21.201 limbs=11 depth=5 metrics={'auc': 21.201075353364843, 'final': 28.04010588581953, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=216  fitness=   22.696 limbs=11 depth=5 metrics={'auc': 22.695874884529648, 'final': 32.19514377794173, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=217  fitness=   28.709 limbs=11 depth=5 metrics={'auc': 28.70912208595112, 'final': 39.30809911373807, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=218  fitness=   23.563 limbs=11 depth=5 metrics={'auc': 23.563394422997284, 'final': 33.59264135066889, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=219  fitness=   24.678 limbs=11 depth=5 metrics={'auc': 24.67780037440057, 'final': 33.05044570807266, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=220  fitness=   25.111 limbs=11 depth=5 metrics={'auc': 25.111051443904937, 'final': 31.324545484548967, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:19:19  DEBUG    id=221  fitness=   25.471 limbs=12 depth=5 metrics={'auc': 25.470843269078113, 'final': 31.57720664607393, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:19:19  INFO   gen 9 done | best 28.709 (id=217, 11 limbs) | mean 18.920 | worst -0.907 | invalid 0 | 173.8s
+07:19:19  INFO     ~3.0 min/gen, est. 45.7 min remaining
+07:19:19  INFO   gen 10: evaluating 22/24 individuals (8 workers)
+07:22:14  DEBUG    id=222  fitness=   25.106 limbs= 8 depth=5 metrics={'auc': 25.105610431852117, 'final': 32.45567350572238, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=223  fitness=   26.424 limbs=12 depth=5 metrics={'auc': 26.424290521854385, 'final': 33.09054415366251, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=224  fitness=   22.107 limbs=12 depth=5 metrics={'auc': 22.107072066407845, 'final': 28.08526839168654, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=225  fitness=    1.972 limbs= 5 depth=5 metrics={'auc': 1.9722884070445825, 'final': 2.2186613852861505, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=226  fitness=   25.331 limbs=11 depth=5 metrics={'auc': 25.331057646353017, 'final': 32.73928314131446, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=227  fitness=   22.377 limbs=12 depth=5 metrics={'auc': 22.37665058059887, 'final': 30.25128663358395, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=228  fitness=   21.671 limbs=11 depth=5 metrics={'auc': 21.670749933039733, 'final': 30.164594896694485, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=229  fitness=   16.661 limbs= 9 depth=5 metrics={'auc': 16.660549421725865, 'final': 22.071579713324045, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=230  fitness=   20.619 limbs= 8 depth=5 metrics={'auc': 20.619235247803275, 'final': 25.1591708614562, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=231  fitness=   30.828 limbs=12 depth=5 metrics={'auc': 30.8283747874293, 'final': 43.67412085048426, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=232  fitness=   17.720 limbs=11 depth=5 metrics={'auc': 17.720282700926788, 'final': 23.96177695351194, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=233  fitness=   19.561 limbs=12 depth=5 metrics={'auc': 19.561159306904763, 'final': 29.334636122169332, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=234  fitness=   -0.254 limbs= 9 depth=5 metrics={'auc': -0.25369630275835015, 'final': 0.02614963987939471, 'steps_to_threshold': 165000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=235  fitness=   25.236 limbs=11 depth=5 metrics={'auc': 25.235951816530125, 'final': 34.00584263437428, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=236  fitness=   16.941 limbs=12 depth=5 metrics={'auc': 16.940966115139187, 'final': 21.48021634919355, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=237  fitness=    0.599 limbs= 9 depth=5 metrics={'auc': 0.5985000667070354, 'final': 0.9133028834662094, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=238  fitness=   25.192 limbs=11 depth=5 metrics={'auc': 25.191984119449202, 'final': 34.43766652116292, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=239  fitness=   30.502 limbs=11 depth=5 metrics={'auc': 30.502184675004617, 'final': 42.00338749507713, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=240  fitness=   15.777 limbs=11 depth=5 metrics={'auc': 15.77745066231505, 'final': 28.444592933296196, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=241  fitness=   29.187 limbs=11 depth=5 metrics={'auc': 29.186939326566424, 'final': 42.06106136809071, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=242  fitness=   24.649 limbs=12 depth=5 metrics={'auc': 24.648877794962786, 'final': 35.69845297420586, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:22:14  DEBUG    id=243  fitness=   25.170 limbs=12 depth=5 metrics={'auc': 25.169791518921983, 'final': 31.99646481080099, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:22:14  INFO   gen 10 done | best 30.828 (id=231, 12 limbs) | mean 20.733 | worst -0.254 | invalid 0 | 175.0s
+07:22:14  INFO     ~3.0 min/gen, est. 42.5 min remaining
+07:22:14  INFO   gen 11: evaluating 22/24 individuals (8 workers)
+07:25:13  DEBUG    id=244  fitness=   17.702 limbs=12 depth=5 metrics={'auc': 17.702363484624644, 'final': 22.988581873063264, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=245  fitness=   25.734 limbs=11 depth=5 metrics={'auc': 25.73398964008454, 'final': 35.388001433921424, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=246  fitness=   43.870 limbs=12 depth=5 metrics={'auc': 43.8696283277433, 'final': 65.88929265906744, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=247  fitness=   26.431 limbs=12 depth=5 metrics={'auc': 26.431335618674105, 'final': 35.37214479665247, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=248  fitness=   23.151 limbs=12 depth=5 metrics={'auc': 23.150540418872453, 'final': 31.380859049512704, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=249  fitness=   14.232 limbs=11 depth=5 metrics={'auc': 14.232225124538546, 'final': 19.440023202529126, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=250  fitness=    6.114 limbs= 5 depth=5 metrics={'auc': 6.1141275185812045, 'final': 6.519654551603099, 'steps_to_threshold': 10000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=251  fitness=   -0.727 limbs=11 depth=5 metrics={'auc': -0.7270336788316057, 'final': -0.4006509935294786, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+07:25:13  DEBUG    id=252  fitness=   27.033 limbs=12 depth=5 metrics={'auc': 27.033355487051942, 'final': 38.01651360078008, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=253  fitness=   25.336 limbs=12 depth=5 metrics={'auc': 25.335890743743732, 'final': 31.330248696856476, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=254  fitness=   -0.473 limbs=10 depth=5 metrics={'auc': -0.47343944094852236, 'final': -0.14132992936157565, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+07:25:13  DEBUG    id=255  fitness=    9.006 limbs=12 depth=5 metrics={'auc': 9.006122649477808, 'final': 14.402855924543216, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=256  fitness=    1.143 limbs=12 depth=5 metrics={'auc': 1.14288214635856, 'final': 2.235938607433686, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=257  fitness=   21.272 limbs=11 depth=5 metrics={'auc': 21.271745310403848, 'final': 27.527260938803526, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=258  fitness=   22.504 limbs=11 depth=5 metrics={'auc': 22.504279578070612, 'final': 30.635822579381244, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=259  fitness=   31.861 limbs=12 depth=5 metrics={'auc': 31.861246981420027, 'final': 43.42082247436846, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=260  fitness=   28.477 limbs=11 depth=5 metrics={'auc': 28.477077704492846, 'final': 38.114990045702015, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=261  fitness=   27.719 limbs=12 depth=5 metrics={'auc': 27.719101079208794, 'final': 37.82819128329499, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=262  fitness=   19.891 limbs=12 depth=5 metrics={'auc': 19.891353670378248, 'final': 27.899116333503613, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=263  fitness=   28.874 limbs=12 depth=5 metrics={'auc': 28.8738347357527, 'final': 40.14487586592042, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=264  fitness=   28.496 limbs=12 depth=5 metrics={'auc': 28.49581289486133, 'final': 40.86337766648851, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:25:13  DEBUG    id=265  fitness=   24.889 limbs=11 depth=5 metrics={'auc': 24.88882330622402, 'final': 40.092730895254256, 'steps_to_threshold': 90000.0, 'reached_threshold': 1.0}
+07:25:13  INFO   gen 11 done | best 43.870 (id=246, 12 limbs) | mean 21.411 | worst -0.727 | invalid 0 | 178.9s
+07:25:13  INFO     ~3.0 min/gen, est. 39.4 min remaining
+07:25:13  INFO   gen 12: evaluating 22/24 individuals (8 workers)
+07:28:13  DEBUG    id=266  fitness=    3.614 limbs= 5 depth=5 metrics={'auc': 3.6136721890103507, 'final': 4.024631917551987, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=267  fitness=   16.987 limbs=12 depth=5 metrics={'auc': 16.98675680886483, 'final': 25.580577472897403, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=268  fitness=   43.159 limbs=12 depth=5 metrics={'auc': 43.15919966308173, 'final': 61.56640101381878, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=269  fitness=   19.465 limbs=12 depth=5 metrics={'auc': 19.465457118947164, 'final': 28.657114414355338, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=270  fitness=   24.411 limbs=12 depth=5 metrics={'auc': 24.410985101618383, 'final': 31.344384589097473, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=271  fitness=   34.596 limbs=12 depth=5 metrics={'auc': 34.59572029448569, 'final': 49.848427090143616, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=272  fitness=   28.085 limbs=11 depth=5 metrics={'auc': 28.08525052195235, 'final': 39.92659748318247, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=273  fitness=   23.824 limbs=12 depth=5 metrics={'auc': 23.8242866765549, 'final': 31.35730458380066, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=274  fitness=    5.886 limbs=10 depth=5 metrics={'auc': 5.886443155171608, 'final': 6.918708155934439, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=275  fitness=   26.900 limbs=12 depth=5 metrics={'auc': 26.899734757886584, 'final': 51.76079211701011, 'steps_to_threshold': 115000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=276  fitness=   23.611 limbs=12 depth=5 metrics={'auc': 23.610715811172444, 'final': 29.635564353861458, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=277  fitness=    8.755 limbs=11 depth=5 metrics={'auc': 8.755217747741705, 'final': 12.30436890774857, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=278  fitness=   14.192 limbs=11 depth=5 metrics={'auc': 14.191660353193859, 'final': 23.054324593665807, 'steps_to_threshold': 90000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=279  fitness=   23.011 limbs=11 depth=5 metrics={'auc': 23.010633111484616, 'final': 29.123451926046812, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=280  fitness=   42.336 limbs=12 depth=5 metrics={'auc': 42.335836602902894, 'final': 61.50000532883163, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=281  fitness=   24.763 limbs=11 depth=5 metrics={'auc': 24.763488758460625, 'final': 33.72483082204661, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=282  fitness=   13.547 limbs=12 depth=5 metrics={'auc': 13.546864867524272, 'final': 22.87359991108376, 'steps_to_threshold': 95000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=283  fitness=   28.290 limbs=12 depth=5 metrics={'auc': 28.289843924470173, 'final': 39.35402723815655, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=284  fitness=   33.455 limbs=12 depth=5 metrics={'auc': 33.45502733384035, 'final': 49.259104283178935, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=285  fitness=   15.967 limbs=12 depth=5 metrics={'auc': 15.966771444760354, 'final': 23.832195109575824, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=286  fitness=   29.018 limbs=12 depth=5 metrics={'auc': 29.01754325735572, 'final': 44.163686960417344, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:28:13  DEBUG    id=287  fitness=   46.295 limbs=12 depth=5 metrics={'auc': 46.29460895589417, 'final': 63.06503157385675, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:28:13  INFO   gen 12 done | best 46.295 (id=287, 12 limbs) | mean 25.246 | worst 3.614 | invalid 0 | 179.3s
+07:28:13  INFO     ~3.0 min/gen, est. 36.3 min remaining
+07:28:13  INFO   gen 13: evaluating 22/24 individuals (8 workers)
+07:31:16  DEBUG    id=288  fitness=    7.544 limbs=12 depth=5 metrics={'auc': 7.544124125855523, 'final': 9.828667894305745, 'steps_to_threshold': 0.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=289  fitness=   29.530 limbs=12 depth=5 metrics={'auc': 29.530309806741364, 'final': 43.28186290173301, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=290  fitness=   31.517 limbs=12 depth=5 metrics={'auc': 31.516980583065003, 'final': 44.69687783317622, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=291  fitness=    0.475 limbs=12 depth=5 metrics={'auc': 0.47524039085422803, 'final': 1.3212157603585737, 'steps_to_threshold': 90000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=292  fitness=   24.706 limbs=12 depth=5 metrics={'auc': 24.705812967089816, 'final': 29.715253827135296, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=293  fitness=    7.378 limbs=11 depth=5 metrics={'auc': 7.378337496199541, 'final': 8.81246764899064, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=294  fitness=    0.642 limbs= 7 depth=5 metrics={'auc': 0.6415272463669682, 'final': 0.7555695806148713, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=295  fitness=   39.587 limbs=12 depth=5 metrics={'auc': 39.5869568924168, 'final': 63.21337173020017, 'steps_to_threshold': 90000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=296  fitness=   32.868 limbs=12 depth=5 metrics={'auc': 32.86794479658451, 'final': 52.43733803042855, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=297  fitness=   18.287 limbs=12 depth=5 metrics={'auc': 18.287171645205994, 'final': 24.163558358401716, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=298  fitness=   74.233 limbs=12 depth=5 metrics={'auc': 74.23257061560498, 'final': 89.96027672299971, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=299  fitness=   33.766 limbs=12 depth=5 metrics={'auc': 33.76562132070418, 'final': 47.25705018710132, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=300  fitness=   42.564 limbs=12 depth=5 metrics={'auc': 42.563974613491716, 'final': 59.05522907524659, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=301  fitness=   45.956 limbs=12 depth=5 metrics={'auc': 45.9563842220829, 'final': 63.95584469335421, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=302  fitness=   37.269 limbs=12 depth=5 metrics={'auc': 37.26914326985225, 'final': 46.525040235682326, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=303  fitness=   26.610 limbs=12 depth=5 metrics={'auc': 26.61012915908079, 'final': 37.869837251889926, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=304  fitness=   45.618 limbs=12 depth=5 metrics={'auc': 45.61845013719937, 'final': 64.15295286651174, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=305  fitness=    2.651 limbs= 6 depth=5 metrics={'auc': 2.6508540273777523, 'final': 2.9287060604148825, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=306  fitness=    8.469 limbs=12 depth=5 metrics={'auc': 8.468878469800494, 'final': 9.905667867679702, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=307  fitness=    1.009 limbs=11 depth=5 metrics={'auc': 1.0093985991669172, 'final': 1.4179194393340708, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=308  fitness=   28.216 limbs=12 depth=5 metrics={'auc': 28.215668098073134, 'final': 37.006782419361606, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:31:16  DEBUG    id=309  fitness=   23.078 limbs= 9 depth=5 metrics={'auc': 23.07811863433139, 'final': 26.66600220752893, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:31:16  INFO   gen 13 done | best 74.233 (id=298, 12 limbs) | mean 27.172 | worst 0.475 | invalid 0 | 183.6s
+07:31:16  INFO     ~3.0 min/gen, est. 33.3 min remaining
+07:31:16  INFO   gen 14: evaluating 22/24 individuals (8 workers)
+07:34:23  DEBUG    id=310  fitness=   38.708 limbs=12 depth=5 metrics={'auc': 38.70787626115483, 'final': 45.38937419486391, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=311  fitness=    1.518 limbs= 8 depth=5 metrics={'auc': 1.5179917069940025, 'final': 2.106291957500312, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=312  fitness=   73.555 limbs=12 depth=5 metrics={'auc': 73.55518449055981, 'final': 88.18552133707884, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=313  fitness=   41.144 limbs=12 depth=5 metrics={'auc': 41.144146662918295, 'final': 46.67082686557385, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=314  fitness=   22.564 limbs=11 depth=5 metrics={'auc': 22.56408269090426, 'final': 33.85168757187657, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=315  fitness=   54.351 limbs=12 depth=5 metrics={'auc': 54.35066194274757, 'final': 69.48501015798942, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=316  fitness=    0.747 limbs=12 depth=5 metrics={'auc': 0.7466959372851302, 'final': 1.6153882289087427, 'steps_to_threshold': 95000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=317  fitness=   14.526 limbs=10 depth=5 metrics={'auc': 14.526147531366023, 'final': 20.506092175795754, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=318  fitness=   46.295 limbs=12 depth=5 metrics={'auc': 46.295253932316776, 'final': 61.501432409004224, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=319  fitness=   74.618 limbs=12 depth=5 metrics={'auc': 74.61783601558618, 'final': 98.79735443384975, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=320  fitness=   30.293 limbs=12 depth=5 metrics={'auc': 30.293229991966314, 'final': 42.572992153819726, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=321  fitness=    2.728 limbs=12 depth=5 metrics={'auc': 2.728064726044288, 'final': 3.6899193161296515, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=322  fitness=   70.322 limbs=12 depth=5 metrics={'auc': 70.32221044699025, 'final': 85.78569654882084, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=323  fitness=   71.766 limbs=12 depth=5 metrics={'auc': 71.76601383706054, 'final': 87.73526697167533, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=324  fitness=   28.818 limbs=12 depth=5 metrics={'auc': 28.817533754713303, 'final': 38.063634801909764, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=325  fitness=   42.965 limbs=12 depth=5 metrics={'auc': 42.964772360245675, 'final': 54.1646141922699, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=326  fitness=   41.641 limbs=12 depth=5 metrics={'auc': 41.64149411125519, 'final': 61.05079252120358, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=327  fitness=   43.352 limbs=12 depth=5 metrics={'auc': 43.352047253127566, 'final': 63.315467734934344, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=328  fitness=    3.716 limbs= 6 depth=5 metrics={'auc': 3.7162606877672353, 'final': 4.120369389820282, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=329  fitness=   53.393 limbs=12 depth=5 metrics={'auc': 53.39276395355079, 'final': 69.83852311633542, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=330  fitness=   39.066 limbs=12 depth=5 metrics={'auc': 39.06565595410328, 'final': 58.85293037053075, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:34:23  DEBUG    id=331  fitness=   33.540 limbs=12 depth=5 metrics={'auc': 33.53973383501872, 'final': 46.75820819325102, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:34:23  INFO   gen 14 done | best 74.618 (id=319, 12 limbs) | mean 39.590 | worst 0.747 | invalid 0 | 187.0s
+07:34:23  INFO     ~3.0 min/gen, est. 30.4 min remaining
+07:34:23  INFO   gen 15: evaluating 22/24 individuals (8 workers)
+07:37:32  DEBUG    id=332  fitness=   46.638 limbs=12 depth=5 metrics={'auc': 46.63797421767907, 'final': 63.854877932168144, 'steps_to_threshold': 90000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=333  fitness=   43.442 limbs=12 depth=5 metrics={'auc': 43.442373685839314, 'final': 56.16987747180651, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=334  fitness=   31.505 limbs= 9 depth=5 metrics={'auc': 31.50488995562898, 'final': 44.339915782493826, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=335  fitness=   10.914 limbs=12 depth=5 metrics={'auc': 10.91374011804657, 'final': 21.082407871149574, 'steps_to_threshold': 175000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=336  fitness=   69.722 limbs=12 depth=5 metrics={'auc': 69.72244846112524, 'final': 85.84034378138638, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=337  fitness=   81.348 limbs=12 depth=5 metrics={'auc': 81.34831345103908, 'final': 95.63082257943779, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=338  fitness=    3.194 limbs= 6 depth=5 metrics={'auc': 3.1936083037942935, 'final': 3.559119568648505, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=339  fitness=   34.972 limbs=12 depth=5 metrics={'auc': 34.97231204227248, 'final': 52.998867141198446, 'steps_to_threshold': 85000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=340  fitness=   45.990 limbs=12 depth=5 metrics={'auc': 45.99011893820948, 'final': 66.81264505950084, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=341  fitness=   33.799 limbs= 9 depth=5 metrics={'auc': 33.799023990110534, 'final': 41.82505940037836, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=342  fitness=   60.727 limbs=11 depth=5 metrics={'auc': 60.726816745114064, 'final': 71.96963199949715, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=343  fitness=   72.296 limbs=12 depth=5 metrics={'auc': 72.29560036782212, 'final': 86.92479946888473, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=344  fitness=   14.338 limbs=12 depth=5 metrics={'auc': 14.337808020353648, 'final': 22.633961427147955, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=345  fitness=   51.613 limbs=12 depth=5 metrics={'auc': 51.61331264890784, 'final': 63.374918639039514, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=346  fitness=   -0.816 limbs=12 depth=5 metrics={'auc': -0.8163930262993955, 'final': -0.21293758833439527, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+07:37:32  DEBUG    id=347  fitness=   36.221 limbs=12 depth=5 metrics={'auc': 36.22057138835401, 'final': 45.756031547355455, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=348  fitness=   50.704 limbs=12 depth=5 metrics={'auc': 50.704144372178504, 'final': 65.53516370057069, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=349  fitness=   58.228 limbs=11 depth=5 metrics={'auc': 58.22786900653996, 'final': 71.54686643242417, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=350  fitness=    5.661 limbs=12 depth=5 metrics={'auc': 5.660600510435471, 'final': 8.264634762636865, 'steps_to_threshold': 115000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=351  fitness=   17.902 limbs=12 depth=5 metrics={'auc': 17.901933678695496, 'final': 43.46642991295249, 'steps_to_threshold': 140000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=352  fitness=   27.015 limbs=12 depth=5 metrics={'auc': 27.01465274086494, 'final': 34.847467904507745, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:37:32  DEBUG    id=353  fitness=   62.864 limbs=12 depth=5 metrics={'auc': 62.86350671189403, 'final': 84.39182486532984, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:37:32  INFO   gen 15 done | best 81.348 (id=337, 12 limbs) | mean 41.964 | worst -0.816 | invalid 0 | 189.0s
+07:37:32  INFO     ~3.0 min/gen, est. 27.4 min remaining
+07:37:32  INFO   gen 16: evaluating 22/24 individuals (8 workers)
+07:40:35  DEBUG    id=354  fitness=   58.870 limbs=11 depth=5 metrics={'auc': 58.86967261988122, 'final': 72.08330758011437, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=355  fitness=   -0.032 limbs=10 depth=5 metrics={'auc': -0.03214541706387661, 'final': 0.08714182750606207, 'steps_to_threshold': 75000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=356  fitness=   78.175 limbs=12 depth=5 metrics={'auc': 78.17549126861316, 'final': 87.13596568128408, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=357  fitness=    0.534 limbs=10 depth=5 metrics={'auc': 0.5338217476780415, 'final': 0.6941096527577536, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=358  fitness=   51.867 limbs=10 depth=5 metrics={'auc': 51.86705856723166, 'final': 65.83158431555756, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=359  fitness=   49.887 limbs=12 depth=5 metrics={'auc': 49.88690241177003, 'final': 65.0985152938464, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=360  fitness=   13.144 limbs=12 depth=5 metrics={'auc': 13.14354673514138, 'final': 17.151857758020657, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=361  fitness=   18.872 limbs= 9 depth=5 metrics={'auc': 18.87212129557186, 'final': 24.789545752174643, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=362  fitness=    4.181 limbs=12 depth=5 metrics={'auc': 4.180893922507534, 'final': 5.795280979757002, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=363  fitness=   74.913 limbs=12 depth=5 metrics={'auc': 74.91334872510596, 'final': 91.36760779183079, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=364  fitness=    0.271 limbs= 7 depth=5 metrics={'auc': 0.2705224053222915, 'final': 0.37269949436640043, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=365  fitness=   27.749 limbs=12 depth=5 metrics={'auc': 27.748587383527113, 'final': 35.86652797119698, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=366  fitness=   76.778 limbs=12 depth=5 metrics={'auc': 76.77794068020663, 'final': 93.19733015242271, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=367  fitness=   69.722 limbs=12 depth=5 metrics={'auc': 69.72228285967701, 'final': 87.51366175080425, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=368  fitness=    5.407 limbs=12 depth=5 metrics={'auc': 5.406593750463586, 'final': 12.03714854549746, 'steps_to_threshold': 145000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=369  fitness=   76.272 limbs=12 depth=5 metrics={'auc': 76.27204027597476, 'final': 100.29611757509069, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=370  fitness=   58.997 limbs=11 depth=5 metrics={'auc': 58.997222095353656, 'final': 73.06480364043199, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=371  fitness=    0.345 limbs= 7 depth=5 metrics={'auc': 0.34520983696482227, 'final': 0.4364441128661023, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=372  fitness=   73.949 limbs=12 depth=5 metrics={'auc': 73.94935096093516, 'final': 88.47648993832676, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=373  fitness=   36.690 limbs= 9 depth=5 metrics={'auc': 36.68983929722463, 'final': 39.29931349880277, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:40:35  DEBUG    id=374  fitness=   -0.210 limbs= 6 depth=4 metrics={'auc': -0.21023129146569372, 'final': -0.1420612978373101, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+07:40:35  DEBUG    id=375  fitness=   49.836 limbs=12 depth=5 metrics={'auc': 49.83562775438184, 'final': 64.26069683103704, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:40:35  INFO   gen 16 done | best 81.348 (id=337, 12 limbs) | mean 40.924 | worst -0.210 | invalid 0 | 182.9s
+07:40:35  INFO     ~3.0 min/gen, est. 24.3 min remaining
+07:40:35  INFO   gen 17: evaluating 22/24 individuals (8 workers)
+07:43:46  DEBUG    id=376  fitness=   71.210 limbs=12 depth=5 metrics={'auc': 71.20969065188643, 'final': 84.34301203101927, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=377  fitness=    0.425 limbs= 8 depth=5 metrics={'auc': 0.4245819869940413, 'final': 0.7157019516394514, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=378  fitness=   78.020 limbs=12 depth=5 metrics={'auc': 78.02001505085437, 'final': 102.75134392204045, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=379  fitness=   81.096 limbs=10 depth=5 metrics={'auc': 81.09568583038464, 'final': 104.98360771584707, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=380  fitness=   -0.326 limbs=10 depth=5 metrics={'auc': -0.3261974481221614, 'final': -0.2344494796307528, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+07:43:46  DEBUG    id=381  fitness=   45.009 limbs=12 depth=5 metrics={'auc': 45.00903476030231, 'final': 64.40578299666387, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=382  fitness=   80.048 limbs=12 depth=5 metrics={'auc': 80.04768190367419, 'final': 92.64127121142683, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=383  fitness=   69.604 limbs=12 depth=5 metrics={'auc': 69.6035415272352, 'final': 87.47215767972732, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=384  fitness=    3.546 limbs=12 depth=5 metrics={'auc': 3.5463541560998264, 'final': 4.764599985645053, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=385  fitness=    6.571 limbs=12 depth=5 metrics={'auc': 6.570768349561922, 'final': 7.982966861972616, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=386  fitness=   76.358 limbs=12 depth=5 metrics={'auc': 76.35782007135782, 'final': 88.68568831991301, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=387  fitness=   70.565 limbs=12 depth=5 metrics={'auc': 70.56455278662345, 'final': 88.32484091754777, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=388  fitness=   75.878 limbs=12 depth=5 metrics={'auc': 75.87767600505431, 'final': 94.94022500718417, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=389  fitness=    1.378 limbs= 7 depth=5 metrics={'auc': 1.3775990503983582, 'final': 1.9100398009926594, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=390  fitness=   67.337 limbs=12 depth=5 metrics={'auc': 67.33728569861664, 'final': 82.2136214251129, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=391  fitness=   41.751 limbs=12 depth=5 metrics={'auc': 41.7514747652645, 'final': 50.88236312840737, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=392  fitness=   79.986 limbs=12 depth=5 metrics={'auc': 79.98624114397508, 'final': 94.54269261402486, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=393  fitness=   77.113 limbs=12 depth=5 metrics={'auc': 77.1126507212477, 'final': 91.55471268960126, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=394  fitness=    6.299 limbs=12 depth=5 metrics={'auc': 6.299210465811598, 'final': 7.868040915763243, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=395  fitness=    0.237 limbs=11 depth=5 metrics={'auc': 0.23708576127817338, 'final': 0.4506002598551098, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=396  fitness=   72.479 limbs=12 depth=5 metrics={'auc': 72.47868937128541, 'final': 91.014190687827, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:43:46  DEBUG    id=397  fitness=   78.246 limbs=12 depth=5 metrics={'auc': 78.24576749824776, 'final': 93.45536764597038, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:43:46  INFO   gen 17 done | best 81.348 (id=337, 12 limbs) | mean 51.765 | worst -0.326 | invalid 0 | 190.8s
+07:43:46  INFO     ~3.1 min/gen, est. 21.4 min remaining
+07:43:46  INFO   gen 18: evaluating 22/24 individuals (8 workers)
+07:46:57  DEBUG    id=398  fitness=   -0.005 limbs= 8 depth=5 metrics={'auc': -0.005384941038169491, 'final': 0.10404857297558356, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=399  fitness=   18.387 limbs=12 depth=5 metrics={'auc': 18.386637118396923, 'final': 25.44138396935553, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=400  fitness=    7.247 limbs=10 depth=5 metrics={'auc': 7.247476444853685, 'final': 8.319001745897367, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=401  fitness=   85.577 limbs=12 depth=5 metrics={'auc': 85.57746025361259, 'final': 104.48404314960378, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=402  fitness=    6.643 limbs=10 depth=5 metrics={'auc': 6.642837570650219, 'final': 7.630820994757528, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=403  fitness=   88.721 limbs=10 depth=5 metrics={'auc': 88.72115580903665, 'final': 104.40960684741844, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=404  fitness=   77.405 limbs=12 depth=5 metrics={'auc': 77.4049773391088, 'final': 97.7719996579616, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=405  fitness=   34.873 limbs=11 depth=5 metrics={'auc': 34.87291675032644, 'final': 56.61907497970096, 'steps_to_threshold': 110000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=406  fitness=   69.420 limbs=10 depth=5 metrics={'auc': 69.42002182273659, 'final': 89.76662404574591, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=407  fitness=   72.652 limbs=12 depth=5 metrics={'auc': 72.65180115511858, 'final': 91.69739779132327, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=408  fitness=   70.846 limbs=12 depth=5 metrics={'auc': 70.8462069762616, 'final': 82.32113862915956, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=409  fitness=   81.262 limbs=12 depth=5 metrics={'auc': 81.2620907063414, 'final': 99.10734029141345, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=410  fitness=   45.685 limbs=12 depth=5 metrics={'auc': 45.68528680017067, 'final': 68.3874506070555, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=411  fitness=   74.744 limbs=12 depth=5 metrics={'auc': 74.74402584317177, 'final': 90.02623379434452, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=412  fitness=   38.056 limbs=12 depth=5 metrics={'auc': 38.05560602489753, 'final': 54.53599714716005, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=413  fitness=   82.975 limbs=12 depth=5 metrics={'auc': 82.9747504244929, 'final': 94.55247670309188, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=414  fitness=   48.211 limbs=10 depth=5 metrics={'auc': 48.211426122227515, 'final': 65.98167248057766, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=415  fitness=    3.873 limbs=12 depth=5 metrics={'auc': 3.8734197584723007, 'final': 5.546774121394105, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=416  fitness=   69.985 limbs=12 depth=5 metrics={'auc': 69.98508441715342, 'final': 85.12735559638752, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=417  fitness=   77.189 limbs=12 depth=5 metrics={'auc': 77.18855620702986, 'final': 87.25616714468678, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=418  fitness=    7.683 limbs=12 depth=5 metrics={'auc': 7.683077086935607, 'final': 27.564601461275302, 'steps_to_threshold': 165000.0, 'reached_threshold': 1.0}
+07:46:57  DEBUG    id=419  fitness=   80.435 limbs=12 depth=5 metrics={'auc': 80.43523168621527, 'final': 90.70586289131317, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:46:57  INFO   gen 18 done | best 88.721 (id=403, 10 limbs) | mean 54.346 | worst -0.005 | invalid 0 | 190.7s
+07:46:57  INFO     ~3.1 min/gen, est. 18.3 min remaining
+07:46:57  INFO   gen 19: evaluating 22/24 individuals (8 workers)
+07:50:07  DEBUG    id=420  fitness=   48.399 limbs=11 depth=5 metrics={'auc': 48.39913408217067, 'final': 64.84563709340216, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=421  fitness=   71.726 limbs=12 depth=5 metrics={'auc': 71.72637182190674, 'final': 88.16325480434118, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=422  fitness=   76.514 limbs=10 depth=5 metrics={'auc': 76.51415343306503, 'final': 101.02696829364618, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=423  fitness=   76.043 limbs=12 depth=5 metrics={'auc': 76.04253535147868, 'final': 91.34377493956102, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=424  fitness=   77.319 limbs=12 depth=5 metrics={'auc': 77.31870573588621, 'final': 87.31860754641099, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=425  fitness=    8.551 limbs=10 depth=5 metrics={'auc': 8.551391027320173, 'final': 9.924870579057961, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=426  fitness=   14.247 limbs=12 depth=5 metrics={'auc': 14.246864270366997, 'final': 27.70075658780699, 'steps_to_threshold': 95000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=427  fitness=   73.666 limbs=12 depth=5 metrics={'auc': 73.66583285650852, 'final': 90.70020756132955, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=428  fitness=   75.925 limbs=12 depth=5 metrics={'auc': 75.92541276646928, 'final': 83.7171496403685, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=429  fitness=   43.901 limbs=11 depth=5 metrics={'auc': 43.90069080073286, 'final': 53.140197388895196, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=430  fitness=    5.047 limbs=10 depth=5 metrics={'auc': 5.047018915349633, 'final': 5.780359978824606, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=431  fitness=   66.398 limbs=12 depth=5 metrics={'auc': 66.39806765049714, 'final': 85.13458000567255, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=432  fitness=   77.820 limbs=12 depth=5 metrics={'auc': 77.81958321377324, 'final': 86.9789924315739, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=433  fitness=   29.203 limbs=11 depth=5 metrics={'auc': 29.203203939997245, 'final': 49.26803655901464, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=434  fitness=   24.017 limbs=12 depth=5 metrics={'auc': 24.017352457565853, 'final': 32.622631878136495, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=435  fitness=   82.229 limbs=12 depth=5 metrics={'auc': 82.2285884814328, 'final': 104.68517416916302, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=436  fitness=    0.438 limbs=11 depth=5 metrics={'auc': 0.4379517916901349, 'final': 0.7491761514553891, 'steps_to_threshold': 75000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=437  fitness=   75.701 limbs=12 depth=5 metrics={'auc': 75.70064010558904, 'final': 91.2668819998119, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=438  fitness=    7.609 limbs=11 depth=5 metrics={'auc': 7.609385767322043, 'final': 8.443304904607025, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=439  fitness=   76.657 limbs=12 depth=5 metrics={'auc': 76.65724167624575, 'final': 89.78490193298592, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=440  fitness=   56.354 limbs=10 depth=5 metrics={'auc': 56.35437379506229, 'final': 66.96389766928742, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:50:07  DEBUG    id=441  fitness=   87.470 limbs=10 depth=5 metrics={'auc': 87.47021538244016, 'final': 104.76134497944683, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:50:07  INFO   gen 19 done | best 88.721 (id=403, 10 limbs) | mean 55.397 | worst 0.438 | invalid 0 | 189.9s
+07:50:07  INFO     ~3.1 min/gen, est. 15.3 min remaining
+07:50:07  INFO   gen 20: evaluating 22/24 individuals (8 workers)
+07:53:16  DEBUG    id=442  fitness=   86.985 limbs=10 depth=5 metrics={'auc': 86.98456846112416, 'final': 105.22829965855611, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=443  fitness=   42.269 limbs=11 depth=5 metrics={'auc': 42.268732720092395, 'final': 52.17762994925943, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=444  fitness=   87.408 limbs=10 depth=5 metrics={'auc': 87.40769902532361, 'final': 104.4505678926982, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=445  fitness=   77.944 limbs=12 depth=5 metrics={'auc': 77.94376179639714, 'final': 94.91382206632828, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=446  fitness=   78.106 limbs=12 depth=5 metrics={'auc': 78.10585012660202, 'final': 93.6271805162562, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=447  fitness=   24.875 limbs=10 depth=5 metrics={'auc': 24.87549111942586, 'final': 46.079066469578436, 'steps_to_threshold': 115000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=448  fitness=   10.560 limbs= 8 depth=5 metrics={'auc': 10.560140667064944, 'final': 14.589355882651352, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=449  fitness=   76.898 limbs=12 depth=5 metrics={'auc': 76.89770397970626, 'final': 90.06814469443209, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=450  fitness=   41.378 limbs=11 depth=5 metrics={'auc': 41.37841752648214, 'final': 57.8431043013033, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=451  fitness=   75.431 limbs=12 depth=5 metrics={'auc': 75.43118633330434, 'final': 104.37646319951368, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=452  fitness=   72.399 limbs=12 depth=5 metrics={'auc': 72.39857612615826, 'final': 87.08892446375421, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=453  fitness=   72.123 limbs=12 depth=5 metrics={'auc': 72.1234768413613, 'final': 86.75619243153575, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=454  fitness=    0.529 limbs= 8 depth=5 metrics={'auc': 0.529046883977347, 'final': 0.6920873020707458, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=455  fitness=   82.693 limbs=12 depth=5 metrics={'auc': 82.69263679959595, 'final': 98.60487537885615, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=456  fitness=   20.086 limbs=12 depth=5 metrics={'auc': 20.08574238337483, 'final': 27.507551119670367, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=457  fitness=   72.669 limbs=12 depth=5 metrics={'auc': 72.66900005195671, 'final': 89.5391666324468, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=458  fitness=   77.737 limbs=11 depth=5 metrics={'auc': 77.73661365520513, 'final': 105.09308008928463, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=459  fitness=   77.057 limbs=10 depth=5 metrics={'auc': 77.05694323996552, 'final': 104.44038508492243, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=460  fitness=   75.133 limbs=12 depth=5 metrics={'auc': 75.13285637223257, 'final': 88.44750085814, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=461  fitness=   71.971 limbs=12 depth=5 metrics={'auc': 71.97074581154364, 'final': 87.3280575040136, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=462  fitness=   81.357 limbs=12 depth=5 metrics={'auc': 81.35721457705498, 'final': 96.3224209127966, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:53:16  DEBUG    id=463  fitness=   75.626 limbs=11 depth=5 metrics={'auc': 75.62577815537142, 'final': 105.57754329075068, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:53:16  INFO   gen 20 done | best 88.721 (id=403, 10 limbs) | mean 64.893 | worst 0.529 | invalid 0 | 189.8s
+07:53:16  INFO     ~3.1 min/gen, est. 12.3 min remaining
+07:53:16  INFO   gen 21: evaluating 22/24 individuals (8 workers)
+07:56:25  DEBUG    id=464  fitness=   87.929 limbs=10 depth=5 metrics={'auc': 87.92868270909587, 'final': 104.56907089619148, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=465  fitness=    0.390 limbs=11 depth=5 metrics={'auc': 0.39039369401726015, 'final': 0.5625293962618426, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=466  fitness=   80.513 limbs=12 depth=5 metrics={'auc': 80.51296899444993, 'final': 91.29271493623524, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=467  fitness=    7.672 limbs=12 depth=5 metrics={'auc': 7.672393505482304, 'final': 9.419493329420527, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=468  fitness=   31.439 limbs=10 depth=5 metrics={'auc': 31.439000839770493, 'final': 52.66388179494249, 'steps_to_threshold': 100000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=469  fitness=   51.987 limbs=11 depth=5 metrics={'auc': 51.98651415397246, 'final': 72.3808342748447, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=470  fitness=   84.503 limbs=12 depth=5 metrics={'auc': 84.503039540845, 'final': 96.31301089312093, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=471  fitness=   89.785 limbs=10 depth=5 metrics={'auc': 89.7846371826435, 'final': 104.5729003966534, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=472  fitness=   89.403 limbs=10 depth=5 metrics={'auc': 89.40320046908583, 'final': 104.47998085193937, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=473  fitness=   88.826 limbs=10 depth=5 metrics={'auc': 88.82587326443362, 'final': 104.86796717732263, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=474  fitness=   76.457 limbs=10 depth=5 metrics={'auc': 76.45658035025428, 'final': 104.98236604814458, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=475  fitness=    1.576 limbs=12 depth=5 metrics={'auc': 1.5764241517346975, 'final': 2.4004047487405837, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=476  fitness=   78.581 limbs=12 depth=5 metrics={'auc': 78.5805287807687, 'final': 86.77342283682485, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=477  fitness=   58.290 limbs=12 depth=5 metrics={'auc': 58.290149628725366, 'final': 76.24917218742989, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=478  fitness=   77.233 limbs=12 depth=5 metrics={'auc': 77.23276436193342, 'final': 90.65911027746591, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=479  fitness=   74.367 limbs=12 depth=5 metrics={'auc': 74.3667409315351, 'final': 89.07980301244062, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=480  fitness=   87.969 limbs=10 depth=5 metrics={'auc': 87.96907243541789, 'final': 104.9175224711518, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=481  fitness=   87.011 limbs=10 depth=5 metrics={'auc': 87.0110830032026, 'final': 104.60737905932645, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=482  fitness=   76.048 limbs=12 depth=5 metrics={'auc': 76.04789708133481, 'final': 88.82544783395126, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=483  fitness=   32.798 limbs=10 depth=5 metrics={'auc': 32.79802699999873, 'final': 47.57391300840016, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=484  fitness=   88.443 limbs=10 depth=5 metrics={'auc': 88.44277593611731, 'final': 104.55049897307244, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:56:25  DEBUG    id=485  fitness=  -15.642 limbs=11 depth=5 metrics={'auc': -15.64157691610821, 'final': -39.4705369395291, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:56:25  INFO   gen 21 done | best 89.785 (id=471, 10 limbs) | mean 62.990 | worst -15.642 | invalid 0 | 188.5s
+07:56:25  INFO     ~3.1 min/gen, est. 9.2 min remaining
+07:56:25  INFO   gen 22: evaluating 22/24 individuals (8 workers)
+07:59:26  DEBUG    id=486  fitness=   11.832 limbs=10 depth=5 metrics={'auc': 11.832456166874723, 'final': 15.588534898600182, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=487  fitness=   72.881 limbs=10 depth=5 metrics={'auc': 72.88066097020011, 'final': 82.77419640568559, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=488  fitness=   45.724 limbs=11 depth=5 metrics={'auc': 45.724498944484964, 'final': 68.91535146972383, 'steps_to_threshold': 85000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=489  fitness=   81.494 limbs=11 depth=5 metrics={'auc': 81.49406968209402, 'final': 103.55402707010471, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=490  fitness=   86.090 limbs=10 depth=5 metrics={'auc': 86.09002117260475, 'final': 104.35628186810527, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=491  fitness=   61.780 limbs=11 depth=5 metrics={'auc': 61.77955731772167, 'final': 84.51826980327701, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=492  fitness=   -0.745 limbs= 7 depth=4 metrics={'auc': -0.7449729213764689, 'final': -0.6704267462849064, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+07:59:26  DEBUG    id=493  fitness=   -0.431 limbs= 7 depth=4 metrics={'auc': -0.43070533350953993, 'final': -0.3278850591380404, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+07:59:26  DEBUG    id=494  fitness=   74.231 limbs=12 depth=5 metrics={'auc': 74.23132102893673, 'final': 82.50968979876974, 'steps_to_threshold': 10000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=495  fitness=    0.785 limbs= 8 depth=5 metrics={'auc': 0.7845946824251655, 'final': 1.0010597286533016, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=496  fitness=   87.240 limbs=10 depth=5 metrics={'auc': 87.24024810632545, 'final': 104.59708348740826, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=497  fitness=   84.889 limbs=10 depth=5 metrics={'auc': 84.88873272493927, 'final': 104.65223140761623, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=498  fitness=   40.422 limbs= 8 depth=5 metrics={'auc': 40.42228951455051, 'final': 47.20666519152801, 'steps_to_threshold': 30000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=499  fitness=    2.642 limbs=11 depth=5 metrics={'auc': 2.6424017350970197, 'final': 3.713584167813375, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=500  fitness=   89.768 limbs=10 depth=5 metrics={'auc': 89.76762088035889, 'final': 105.01027369377482, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=501  fitness=   36.884 limbs=11 depth=5 metrics={'auc': 36.88427776724761, 'final': 49.771686831155655, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=502  fitness=   87.238 limbs=10 depth=5 metrics={'auc': 87.23754934846592, 'final': 104.6548045007875, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=503  fitness=   88.567 limbs=10 depth=5 metrics={'auc': 88.56690110336899, 'final': 105.07419221031721, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=504  fitness=   66.204 limbs=11 depth=5 metrics={'auc': 66.20412399652699, 'final': 97.37158546939342, 'steps_to_threshold': 70000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=505  fitness=   85.431 limbs=10 depth=5 metrics={'auc': 85.43054264847599, 'final': 105.16475065933214, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=506  fitness=   16.726 limbs=10 depth=5 metrics={'auc': 16.7259162345214, 'final': 32.555670053226095, 'steps_to_threshold': 125000.0, 'reached_threshold': 1.0}
+07:59:26  DEBUG    id=507  fitness=   14.281 limbs=11 depth=5 metrics={'auc': 14.280956356078782, 'final': 31.762214881751902, 'steps_to_threshold': 145000.0, 'reached_threshold': 1.0}
+07:59:26  INFO   gen 22 done | best 89.785 (id=471, 10 limbs) | mean 54.713 | worst -0.745 | invalid 0 | 180.8s
+07:59:26  INFO     ~3.1 min/gen, est. 6.1 min remaining
+07:59:26  INFO   gen 23: evaluating 22/24 individuals (8 workers)
+08:02:27  DEBUG    id=508  fitness=   13.792 limbs=10 depth=5 metrics={'auc': 13.792298791873613, 'final': 24.976042868122196, 'steps_to_threshold': 110000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=509  fitness=   74.486 limbs=10 depth=5 metrics={'auc': 74.48647583632827, 'final': 82.80486790885165, 'steps_to_threshold': 10000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=510  fitness=   45.125 limbs=11 depth=5 metrics={'auc': 45.124853770620135, 'final': 70.64504889548928, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=511  fitness=   88.247 limbs=10 depth=5 metrics={'auc': 88.24681968042358, 'final': 104.64550224329123, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=512  fitness=   77.320 limbs=12 depth=5 metrics={'auc': 77.32046174915372, 'final': 89.7934719827817, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=513  fitness=   60.848 limbs=11 depth=5 metrics={'auc': 60.847725430025214, 'final': 73.58152973524308, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=514  fitness=    2.317 limbs=11 depth=5 metrics={'auc': 2.316910639243526, 'final': 3.5027927285224814, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=515  fitness=   15.855 limbs=11 depth=5 metrics={'auc': 15.855185379269164, 'final': 21.95774629871165, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=516  fitness=   -0.523 limbs= 8 depth=4 metrics={'auc': -0.523366782408389, 'final': -0.4098410448006285, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+08:02:27  DEBUG    id=517  fitness=    0.106 limbs= 5 depth=5 metrics={'auc': 0.10553617818925437, 'final': 0.20616957238393, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=518  fitness=    6.973 limbs=10 depth=5 metrics={'auc': 6.973157053597364, 'final': 8.92128636948903, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=519  fitness=   90.465 limbs=10 depth=5 metrics={'auc': 90.46459184970293, 'final': 105.38039984713676, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=520  fitness=   54.660 limbs=12 depth=5 metrics={'auc': 54.65958195682744, 'final': 72.48094474741316, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=521  fitness=   55.948 limbs=11 depth=5 metrics={'auc': 55.9475161280951, 'final': 72.73905788502294, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=522  fitness=   86.881 limbs=10 depth=5 metrics={'auc': 86.88089234828347, 'final': 104.69751007528725, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=523  fitness=   19.338 limbs=11 depth=5 metrics={'auc': 19.337970833912667, 'final': 25.352630578032052, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=524  fitness=   90.335 limbs=10 depth=5 metrics={'auc': 90.33496616544876, 'final': 104.64914024056777, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=525  fitness=    3.596 limbs=12 depth=5 metrics={'auc': 3.596090337884382, 'final': 7.168212548834671, 'steps_to_threshold': 90000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=526  fitness=   -0.121 limbs= 5 depth=5 metrics={'auc': -0.12149826322205319, 'final': -0.026723523557759938, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+08:02:27  DEBUG    id=527  fitness=   46.459 limbs=11 depth=5 metrics={'auc': 46.459300465995334, 'final': 78.33699714724817, 'steps_to_threshold': 95000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=528  fitness=   21.172 limbs=11 depth=5 metrics={'auc': 21.172048651367742, 'final': 32.890838412008044, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+08:02:27  DEBUG    id=529  fitness=   26.807 limbs=11 depth=5 metrics={'auc': 26.807265250208815, 'final': 36.51677966191117, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+08:02:27  INFO   gen 23 done | best 90.465 (id=519, 10 limbs) | mean 44.152 | worst -0.523 | invalid 0 | 181.3s
+08:02:27  INFO     ~3.1 min/gen, est. 3.1 min remaining
+08:02:27  INFO   gen 24: evaluating 22/24 individuals (8 workers)
+08:05:31  DEBUG    id=530  fitness=   88.753 limbs=10 depth=5 metrics={'auc': 88.75340247622776, 'final': 105.00638012507581, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=531  fitness=   51.199 limbs=12 depth=5 metrics={'auc': 51.19864308949356, 'final': 69.53092218674216, 'steps_to_threshold': 60000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=532  fitness=   21.249 limbs=11 depth=5 metrics={'auc': 21.248551757162474, 'final': 28.28946709300953, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=533  fitness=   25.214 limbs=10 depth=5 metrics={'auc': 25.213524662096695, 'final': 55.81665187464866, 'steps_to_threshold': 135000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=534  fitness=   88.458 limbs=10 depth=5 metrics={'auc': 88.4582783527344, 'final': 105.02105602411969, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=535  fitness=    8.755 limbs=11 depth=5 metrics={'auc': 8.755293178054984, 'final': 9.800371170998575, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=536  fitness=   83.165 limbs=10 depth=5 metrics={'auc': 83.16460829647355, 'final': 105.13474623680939, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=537  fitness=    6.353 limbs=10 depth=5 metrics={'auc': 6.353278283080887, 'final': 7.541453203785925, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=538  fitness=   47.211 limbs=11 depth=5 metrics={'auc': 47.210785874464385, 'final': 53.06866573489655, 'steps_to_threshold': 20000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=539  fitness=   -0.707 limbs= 7 depth=4 metrics={'auc': -0.7070280156006591, 'final': -0.6434745794306052, 'steps_to_threshold': 200000.0, 'reached_threshold': 0.0}
+08:05:31  DEBUG    id=540  fitness=    0.103 limbs= 9 depth=4 metrics={'auc': 0.10257834005952296, 'final': 0.33134102391469616, 'steps_to_threshold': 80000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=541  fitness=    0.478 limbs= 9 depth=5 metrics={'auc': 0.4779729996638717, 'final': 0.7344215425531765, 'steps_to_threshold': 50000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=542  fitness=   89.986 limbs=12 depth=5 metrics={'auc': 89.98551928725902, 'final': 104.88817149611414, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=543  fitness=   62.108 limbs=10 depth=5 metrics={'auc': 62.10797938792905, 'final': 73.6190202277827, 'steps_to_threshold': 25000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=544  fitness=   61.823 limbs=11 depth=5 metrics={'auc': 61.823228738334414, 'final': 74.44928381221656, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=545  fitness=   56.677 limbs=11 depth=5 metrics={'auc': 56.67723806274515, 'final': 76.35190578627005, 'steps_to_threshold': 55000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=546  fitness=   69.412 limbs=10 depth=5 metrics={'auc': 69.41204981949676, 'final': 79.60173816928604, 'steps_to_threshold': 15000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=547  fitness=   37.902 limbs=10 depth=5 metrics={'auc': 37.90195082269178, 'final': 52.76594665614391, 'steps_to_threshold': 65000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=548  fitness=   84.951 limbs=11 depth=5 metrics={'auc': 84.95140055948937, 'final': 104.42971473993104, 'steps_to_threshold': 45000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=549  fitness=   91.343 limbs=10 depth=5 metrics={'auc': 91.34259806504033, 'final': 104.66693175167738, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=550  fitness=   88.580 limbs=10 depth=5 metrics={'auc': 88.57966907895967, 'final': 104.44073964069479, 'steps_to_threshold': 35000.0, 'reached_threshold': 1.0}
+08:05:31  DEBUG    id=551  fitness=   15.503 limbs=11 depth=5 metrics={'auc': 15.50275884164889, 'final': 20.463372538111386, 'steps_to_threshold': 40000.0, 'reached_threshold': 1.0}
+08:05:31  INFO   gen 24 done | best 91.343 (id=549, 10 limbs) | mean 52.471 | worst -0.707 | invalid 0 | 184.2s
+08:05:32  INFO   ================================================================
+08:05:32  INFO   Finished 25 generations in 76.7 min. Best fitness 91.343 (10 limbs).
+08:05:32  INFO   Artifacts: run.log, generation_stats.csv, history.json, and per generation gen*_best.xml + gen*_best_genome.pkl + gen*_best_policy.zip in experiments/run3

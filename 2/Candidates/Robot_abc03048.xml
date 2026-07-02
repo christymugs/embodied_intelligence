@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mujoco model="RobotModel">
+  <option gravity="0 0 -9.81" timestep="0.002" solver="CG" iterations="500" integrator="Euler"/>
+  <worldbody>
+    <geom name="Floor" type="plane" size="10 10 0.1" pos="0 0 0" rgba="0.8 0.8 0.8 1"/>
+    <body name="Limb0" pos="0 0 0.5">
+      <geom type="capsule" fromto="0 0 0 0 0 0.5" size="0.05" density="1000" contype="1" conaffinity="1"/>
+      <body name="Limb0_abc03048" pos="0 0 0.5">
+        <geom type="capsule" fromto="0 0 0 0 0 0.15881387006546638" size="0.023489639615894446" density="500.0" contype="1" conaffinity="1"/>
+        <joint name="Joint_Limb0_Limb0_abc03048_0" type="hinge" axis="0 1 0" range="-60 60"/>
+      </body>
+      <body name="Limb1_abc03048" pos="0 0 0.5">
+        <geom type="capsule" fromto="0 0 0 0 0 0.15908050130928564" size="0.02562425694150969" density="500.0" contype="1" conaffinity="1"/>
+        <body name="Limb2_abc03048" pos="0 0 0.15908050130928564">
+          <geom type="capsule" fromto="0 0 0 0 0 0.1719159437331125" size="0.026567803335375104" density="500.0" contype="1" conaffinity="1"/>
+          <body name="Limb3_abc03048" pos="0 0 0.1719159437331125">
+            <geom type="capsule" fromto="0 0 0 0 0 0.1132517050284302" size="0.02367596636250335" density="500.0" contype="1" conaffinity="1"/>
+            <joint name="Joint_Limb2_abc03048_Limb3_abc03048_0" type="hinge" axis="0 1 0" range="-60 60"/>
+          </body>
+          <joint name="Joint_Limb1_abc03048_Limb2_abc03048_0" type="hinge" axis="0 1 0" range="-60 60"/>
+        </body>
+        <joint name="Joint_Limb0_Limb1_abc03048_0" type="hinge" axis="1 0 0" range="-60 60"/>
+      </body>
+      <body name="Limb4_abc03048" pos="0 0 0.5">
+        <geom type="capsule" fromto="0 0 0 0 0 0.17673226137796816" size="0.02973033124191071" density="500.0" contype="1" conaffinity="1"/>
+        <body name="Limb5_abc03048" pos="0 0 0.17673226137796816">
+          <geom type="capsule" fromto="0 0 0 0 0 0.1548239045421313" size="0.021949942466364093" density="500.0" contype="1" conaffinity="1"/>
+          <joint name="Joint_Limb4_abc03048_Limb5_abc03048_0" type="hinge" axis="0 1 0" range="-60 60"/>
+        </body>
+        <joint name="Joint_Limb0_Limb4_abc03048_0" type="hinge" axis="1 0 0" range="-60 60"/>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="position_Actuator_Joint_Limb0_Limb0_abc03048_0" joint="Joint_Limb0_Limb0_abc03048_0" gear="1.0"/>
+    <position name="position_Actuator_Joint_Limb0_Limb1_abc03048_0" joint="Joint_Limb0_Limb1_abc03048_0" gear="1.0"/>
+    <position name="position_Actuator_Joint_Limb1_abc03048_Limb2_abc03048_0" joint="Joint_Limb1_abc03048_Limb2_abc03048_0" gear="1.0"/>
+    <position name="position_Actuator_Joint_Limb2_abc03048_Limb3_abc03048_0" joint="Joint_Limb2_abc03048_Limb3_abc03048_0" gear="1.0"/>
+    <position name="position_Actuator_Joint_Limb0_Limb4_abc03048_0" joint="Joint_Limb0_Limb4_abc03048_0" gear="1.0"/>
+    <position name="position_Actuator_Joint_Limb4_abc03048_Limb5_abc03048_0" joint="Joint_Limb4_abc03048_Limb5_abc03048_0" gear="1.0"/>
+  </actuator>
+</mujoco>

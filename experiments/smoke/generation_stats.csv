@@ -1,0 +1,3 @@
+gen,best_fitness,mean_fitness,worst_fitness,best_id,best_limbs,best_depth,n_invalid,gen_seconds,cumulative_seconds
+0,-0.5411665938997301,-0.794438907446168,-1.0677907381018898,3,2,2,0,2.06,2.06
+1,-0.5411665938997301,-0.6426112938744067,-0.7584605963430775,3,2,2,1,0.78,2.85

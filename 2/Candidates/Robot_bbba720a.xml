@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mujoco model="RobotModel">
+  <option gravity="0 0 -9.81" timestep="0.002" solver="CG" iterations="500" integrator="Euler"/>
+  <worldbody>
+    <geom name="Floor" type="plane" size="10 10 0.1" pos="0 0 0" rgba="0.8 0.8 0.8 1"/>
+    <body name="Limb0" pos="0 0 0.5">
+      <geom type="capsule" fromto="0 0 0 0 0 0.5" size="0.05" density="1000" contype="0" conaffinity="0"/>
+      <body name="Limb0_bbba720a" pos="0 0 0.5">
+        <geom type="capsule" fromto="0 0 0 0 0 0.20972446933013952" size="0.0284645171426973" density="800" contype="0" conaffinity="0"/>
+        <body name="Limb1_bbba720a" pos="0 0 0.20972446933013952">
+          <geom type="capsule" fromto="0 0 0 0 0 0.15026491618432283" size="0.034255491726933186" density="800" contype="0" conaffinity="0"/>
+          <joint name="Joint_Limb0_bbba720a_Limb1_bbba720a_0" type="hinge" axis="0 1 0" range="-45 45"/>
+        </body>
+        <joint name="Joint_Limb0_Limb0_bbba720a_0" type="hinge" axis="1 0 0" range="-60 60"/>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="position_Actuator_Joint_Limb0_Limb0_bbba720a_0" joint="Joint_Limb0_Limb0_bbba720a_0" gear="1.0"/>
+    <position name="position_Actuator_Joint_Limb0_bbba720a_Limb1_bbba720a_0" joint="Joint_Limb0_bbba720a_Limb1_bbba720a_0" gear="1.0"/>
+  </actuator>
+</mujoco>

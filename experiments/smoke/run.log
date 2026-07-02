@@ -1,0 +1,21 @@
+11:30:45  INFO   ================================================================
+11:30:45  INFO   Learnability-driven morphology evolution
+11:30:45  INFO     population=4  generations=2  metric=auc  eval_seeds=1
+11:30:45  INFO     inner: algo=ppo  lifetime_steps=1500  eval_every=500  horizon=120
+11:30:45  INFO     workers=4  seed=0  out=experiments/smoke
+11:30:45  INFO   ================================================================
+11:30:45  INFO   gen 0: evaluating 4/4 individuals (4 workers)
+11:30:47  DEBUG    id=0    fitness=   -0.953 limbs= 2 depth=2 metrics={'auc': -0.953237683228708, 'final': -0.9615702209023466, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
+11:30:47  DEBUG    id=1    fitness=   -1.068 limbs=12 depth=5 metrics={'auc': -1.0677907381018898, 'final': -1.0893108127941458, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
+11:30:47  DEBUG    id=2    fitness=   -0.616 limbs=12 depth=5 metrics={'auc': -0.6155606145543437, 'final': -0.5665599631917867, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
+11:30:47  DEBUG    id=3    fitness=   -0.541 limbs= 2 depth=2 metrics={'auc': -0.5411665938997301, 'final': -0.0253487292824152, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
+11:30:47  INFO   gen 0 done | best -0.541 (id=3, 2 limbs) | mean -0.794 | worst -1.068 | invalid 0 | 2.1s
+11:30:47  INFO     ~0.0 min/gen, est. 0.0 min remaining
+11:30:47  INFO   gen 1: evaluating 3/4 individuals (4 workers)
+11:30:47  DEBUG    id=4    fitness=   -0.628 limbs=12 depth=5 metrics={'auc': -0.6282066913804127, 'final': -0.5806830560226427, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
+11:30:47  DEBUG    id=5    fitness=     -inf limbs= 1 depth=1 metrics={'invalid': 'no_actuators'}
+11:30:47  DEBUG    id=6    fitness=   -0.758 limbs=11 depth=5 metrics={'auc': -0.7584605963430775, 'final': -0.7409204516956089, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
+11:30:47  INFO   gen 1 done | best -0.541 (id=3, 2 limbs) | mean -0.643 | worst -0.758 | invalid 1 | 0.8s
+11:30:48  INFO   ================================================================
+11:30:48  INFO   Finished 2 generations in 0.1 min. Best fitness -0.541 (2 limbs).
+11:30:48  INFO   Artifacts: run.log, generation_stats.csv, history.json, gen*_best.xml in experiments/smoke

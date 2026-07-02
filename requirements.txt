@@ -1,0 +1,12 @@
+# Core morphology + simulation
+numpy>=1.26
+lxml>=5.0
+mujoco>=3.1
+
+# Reinforcement learning (inner loop) — needed once learning/ is built
+gymnasium>=0.29
+stable-baselines3>=2.3
+torch>=2.2
+
+# Config + experiment tracking
+pyyaml>=6.0
