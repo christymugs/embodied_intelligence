@@ -224,8 +224,6 @@ class Genome:
         # with roughly equal probability, per individual, with nothing hardcoded.
         target_non_root = int(rng.integers(1, bounds.max_limbs))  # 1 .. max_limbs-1
         g._grow_to_target(root, target_non_root, rng)
-        # Guarantee the body is trainable: a torso with no actuated limb can't
-        # locomote or learn anything, so force one rather than waste an eval on it.
         if g.num_actuators() == 0:
             root.children.append(
                 LimbGene(
@@ -377,9 +375,6 @@ def _u(rng: np.random.Generator, lohi: tuple[float, float]) -> float:
 
 
 def _sample_azimuth(rng: np.random.Generator, bounds: "MorphologyBounds") -> float:
-    """Pick a mounting angle -- one of a small set of standard bracket
-    positions (see MorphologyBounds.azimuth_choices), not an arbitrary
-    continuous angle, unless azimuth_choices is disabled (None)."""
     if bounds.azimuth_choices is None:
         return _u(rng, (0.0, 2 * math.pi))
     choices = bounds.azimuth_choices
