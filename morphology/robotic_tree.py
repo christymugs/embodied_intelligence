@@ -13,10 +13,11 @@ morphology/genome.py) is just a recipe for assembling one of these trees.
 class Site:
     """The position/frame of an attachment point relative to its parent limb."""
 
-    def __init__(self, name, pos, euler=None, index=None):
+    def __init__(self, name, pos, euler=None, quat=None, index=None):
         self.name = name
         self.pos = pos
         self.euler = euler
+        self.quat = quat  # (w, x, y, z); takes precedence over euler if both given
         self.index = index  # local index within parent limb
 
 
@@ -37,13 +38,15 @@ class Actuator:
     """Drives exactly one Joint."""
 
     def __init__(
-        self, name, actuator_type, target_joint: "Joint", ctrlrange=None, gear=1.0
+        self, name, actuator_type, target_joint: "Joint", ctrlrange=None, gear=1.0,
+        forcerange=None,
     ):
         self.name = name
         self.actuator_type = actuator_type  # e.g., 'motor', 'position'
         self.target_joint = target_joint
         self.ctrlrange = ctrlrange  # e.g., (-1.0, 1.0)
         self.gear = gear
+        self.forcerange = forcerange  # e.g., (-2.5, 2.5); None = unbounded
 
 
 class Limb:
@@ -63,13 +66,13 @@ class Limb:
 
         self._next_site_index = 0
 
-    def add_site(self, pos, euler=None) -> Site:
+    def add_site(self, pos, euler=None, quat=None) -> Site:
         """Create a new site on this limb with a unique index and auto name."""
         idx = self._next_site_index
         self._next_site_index += 1
 
         name = f"{self.name}_site{idx}"  # i.e. limbX_siteY
-        site = Site(name, pos, euler, index=idx)
+        site = Site(name, pos, euler, quat=quat, index=idx)
         self.sites.append(site)
         return site
 
@@ -170,6 +173,7 @@ class RobotTree:
         actuator_type: str = "position",
         gear: float = 1.0,
         ctrlrange=None,
+        forcerange=None,
     ) -> Actuator:
         """Attach an actuator (1:1) to a joint on this connection."""
         act_name = f"{actuator_type}_actuator_{target_joint.name}"
@@ -179,6 +183,7 @@ class RobotTree:
             target_joint=target_joint,
             ctrlrange=ctrlrange,
             gear=gear,
+            forcerange=forcerange,
         )
         connection.actuators.append(act)
         return act

@@ -6,8 +6,11 @@ The genome is a *recipe* for building a RobotTree. It is deliberately open:
   - Heterogeneous size: every limb carries its own radius/height/density.
   - Open torso        : the root limb's size is part of the genome too.
   - Free attachment   : a child attaches at `attach_frac` along its parent's
-                        long axis (0 = base, 1 = tip), so limbs can sprout
-                        anywhere on a parent, not just the tip.
+                        long axis (0 = base, 1 = tip) and `attach_azimuth`
+                        around its circumference, so limbs can sprout anywhere
+                        on the parent's SURFACE, not just the tip and not
+                        embedded on its centerline -- a hinge bracket bolted to
+                        the side, not a limb growing from inside the body.
 
 Design choices are intentionally minimal so the search can find body plans a
 human wouldn't hand-design. Hard bounds (in `MorphologyBounds`) exist only to
@@ -17,11 +20,99 @@ keep models physically simulable, not to bias the shape.
 from __future__ import annotations
 
 import copy
+import math
 from dataclasses import dataclass, field
 
 import numpy as np
 
 from .robotic_tree import Limb, RobotTree
+
+
+# --------------------------------------------------------------------------- #
+# Actuator realism: cap peak actuator force from the geometry of the limb it
+# drives, so a bigger/heavier limb needs a bigger motor to match -- instead of
+# the previous flat, unbounded kp, where a hinge on a tiny limb could apply
+# the same force as one on the torso for free. The evolved `gear` (mechanical
+# advantage, see MorphologyBounds.gear) then scales the *delivered* torque
+# within this cap, rather than scaling an unbounded one.
+# TORQUE_DENSITY_NM_PER_KG is an order-of-magnitude stand-in for small
+# hobby/robotic servos (Nm of stall torque per kg of actuator mass) -- a
+# tunable realism knob, not a measured constant.
+# --------------------------------------------------------------------------- #
+TORQUE_DENSITY_NM_PER_KG = 5.0
+
+# Small explicit gap added on top of true tangency in _attach's surface offset,
+# so a joint at rest has real daylight from its parent instead of sitting
+# exactly on the contact boundary (where normal jitter constantly registers as
+# "touching" even though it isn't doing anything -- confirmed on run13: 97% of
+# steps showed contact but with near-zero correlation to displacement, i.e.
+# not exploited, just noisy). A few mm is a reasonable clearance for a real
+# hinge bracket at this size scale, not a measured constant.
+ATTACHMENT_CLEARANCE_M = 0.004
+
+
+def _capsule_mass(radius: float, height: float, density: float) -> float:
+    """Mass of the capsule MuJoCo will build for this limb (cylinder + two
+    hemispherical caps), matching the geometry emitted by MujocoBuilder."""
+    volume = math.pi * radius ** 2 * height + (4.0 / 3.0) * math.pi * radius ** 3
+    return density * volume
+
+
+def _subtree_mass(gene: "LimbGene") -> float:
+    """Total mass this limb's own joint has to actually hold up: itself PLUS
+    everything hanging further down the chain from it. A joint sized only
+    from its immediate limb's own mass has no idea it may also need to
+    support a heavy sub-limb further out -- that starves proximal joints of
+    the torque they need to hold the body up at all, leaving gravity-driven
+    toppling (lean forward, sink, bank the fall as forward reward) as the
+    only strategy that produces any reward, since actively supporting the
+    chain is physically impossible for the motor it was given."""
+    m = _capsule_mass(gene.radius, gene.height, gene.density)
+    for c in gene.children:
+        m += _subtree_mass(c)
+    return m
+
+
+def _actuator_force_cap(subtree_mass: float) -> float:
+    """Max actuator force (pre-gear) for a joint carrying this much mass."""
+    return TORQUE_DENSITY_NM_PER_KG * subtree_mass
+
+
+# Reference angular speed used only to calibrate joint damping below -- kept
+# numerically in sync with TaskConfig.max_joint_speed (learning/env.py) by
+# convention, not by import (genome.py must not depend on learning.env, which
+# itself imports from morphology.genome -- that would be circular).
+REFERENCE_JOINT_SPEED_RAD_S = 8.0
+
+# Joint damping used to be a flat 5.0 Nm/(rad/s) for every joint regardless of
+# its own actuator's torque budget -- a constant sized (if ever deliberately)
+# for the project's original unbounded kp=100 actuators. Every realism fix
+# since (mass-based force capping, subtree-mass accounting, torque-speed
+# limiting) made actuators progressively weaker without ever revisiting this,
+# so damping silently became a dominant drag: measured directly on
+# experiments/run20's champion, one joint had a 9.53 Nm peak torque against a
+# 10-20 Nm damping resistance at just 2-4 rad/s -- damping alone exceeding the
+# ENTIRE torque budget of the motor meant to overcome it. Smaller, more
+# "buildable" bodies (lower torque budgets from complexity pressure) were hit
+# hardest, and no amount of extra training could fix a physical force the
+# motor can't out-torque. Damping now scales with each joint's OWN peak
+# torque instead: calibrated so damping resistance at a reference angular
+# speed is a fixed FRACTION of that joint's peak torque -- proportional drag,
+# not an absolute one that dwarfs weak actuators. First attempt used 0.15
+# (matching experiments/damping_fix_policy.zip) but that measurably made
+# things WORSE, not better -- damping isn't purely a drag, some of it
+# provides passive stability against small wobbles growing into falls, and
+# 0.15 likely went far enough the other way to under-damp the joints. Raised
+# to 0.5 as a more moderate middle ground: still a fraction of the old flat
+# 5.0's effective drag on weak actuators, without cutting it so far that
+# passive stability is lost.
+DAMPING_TORQUE_FRACTION = 0.5
+
+
+def _joint_damping(peak_torque: float) -> float:
+    """Damping coefficient so damping torque at REFERENCE_JOINT_SPEED_RAD_S
+    is DAMPING_TORQUE_FRACTION of this joint's own peak actuator torque."""
+    return DAMPING_TORQUE_FRACTION * peak_torque / REFERENCE_JOINT_SPEED_RAD_S
 
 
 # --------------------------------------------------------------------------- #
@@ -41,11 +132,38 @@ class MorphologyBounds:
     joint_range: tuple[float, float] = (20.0, 120.0)
     # Where a child attaches along its parent's axis (0=base, 1=tip).
     attach_frac: tuple[float, float] = (0.0, 1.0)
+    # Mounting angle around the parent's circumference: a small set of
+    # standard positions (like a real bracket's bolt-hole pattern), not an
+    # arbitrary continuous angle. A body can still evolve any number of
+    # limbs, any sizes, any tree shape, fully asymmetric -- but whichever
+    # angles it picks are always one of these 8 (45 degree steps), so a real
+    # build only ever needs a handful of repeated brackets, never one
+    # custom-machined angle per joint. Set to None to allow any continuous
+    # angle (fully open, but each joint may need its own custom bracket).
+    azimuth_choices: tuple[float, ...] | None = tuple(
+        i * math.pi / 4 for i in range(8)
+    )
     gear: tuple[float, float] = (0.5, 2.0)
 
     # Tree-shape limits keep evaluation tractable. Loosen to open further.
+    # Was raised to 12, then dropped to 8 after run19 showed a lot of
+    # unearned dead-weight limbs -- but a hand-built symmetric quadruped
+    # (4 legs x thigh+shin = 8 non-root limbs) sits EXACTLY at 8, leaving no
+    # headroom for anything beyond that minimal reference shape. Back to 12:
+    # complexity_weight (raised alongside this) is now the primary pressure
+    # against dead weight, so the cap doesn't also need to do that job --
+    # it's just enough room for a mirrored-pair body plan plus something
+    # extra, without dictating what that extra thing is.
     max_limbs: int = 12
-    max_depth: int = 4
+    # Was 4: let evolution chain limbs off limbs off limbs off limbs, which
+    # produced spindly structures where a limb three levels down the chain
+    # ends up longer than the torso it's ultimately hanging off -- no visible
+    # "trunk" to read as a buildable body, just a tangle of comparably-sized
+    # rods (see experiments/run15 gen4 champion). Capped at 2 (torso -> limb
+    # -> sub-limb, e.g. an upper leg + lower leg/foot segment) so every body
+    # keeps a legible torso-and-limbs shape, the kind you could actually
+    # bracket-mount and build.
+    max_depth: int = 2
     max_children: int = 3
 
     # Principal axes only (interpretable). Set to None to sample any unit vector.
@@ -68,6 +186,7 @@ class LimbGene:
     density: float
     # None for the root limb; otherwise where on the parent this attaches.
     attach_frac: float | None = None
+    attach_azimuth: float | None = None
     # None => rigid weld to parent; otherwise an actuated joint.
     joint: JointGene | None = None
     children: list["LimbGene"] = field(default_factory=list)
@@ -96,9 +215,15 @@ class Genome:
             joint=None,
         )
         g = cls(root, bounds)
-        # Grow a random subtree under the torso.
-        budget = [bounds.max_limbs - 1]  # remaining non-root limbs
-        g._grow(root, depth=1, rng=rng, budget=budget)
+        # Sample how many non-root limbs THIS body gets, uniformly over the legal
+        # range, then grow toward that target. Letting per-node branching decide
+        # organically (the old approach) makes tree size a Galton-Watson process
+        # under a hard cap: those are bimodal -- growth either dies out almost
+        # immediately or runs away to the cap, badly under-sampling every value
+        # in between. Sampling the target first keeps every limb count reachable
+        # with roughly equal probability, per individual, with nothing hardcoded.
+        target_non_root = int(rng.integers(1, bounds.max_limbs))  # 1 .. max_limbs-1
+        g._grow_to_target(root, target_non_root, rng)
         # Guarantee the body is trainable: a torso with no actuated limb can't
         # locomote or learn anything, so force one rather than waste an eval on it.
         if g.num_actuators() == 0:
@@ -108,30 +233,38 @@ class Genome:
                     height=_u(rng, bounds.limb_height),
                     density=_u(rng, bounds.density),
                     attach_frac=_u(rng, bounds.attach_frac),
+                    attach_azimuth=_sample_azimuth(rng, bounds),
                     joint=g._random_joint(rng),
                 )
             )
         return g
 
-    def _grow(self, parent: LimbGene, depth: int, rng, budget: list[int]) -> None:
-        if depth > self.bounds.max_depth or budget[0] <= 0:
-            return
-        # Branching shrinks with depth so trees don't always max out.
-        max_kids = min(self.bounds.max_children, budget[0])
-        n_children = rng.integers(0, max_kids + 1) if max_kids > 0 else 0
-        for _ in range(int(n_children)):
-            if budget[0] <= 0:
-                break
-            budget[0] -= 1
+    def _grow_to_target(self, root: LimbGene, target: int, rng) -> None:
+        """Attach `target` limbs one at a time, each to a uniformly random
+        eligible existing limb (any limb under max_depth/max_children). Growth
+        order is randomized across the whole tree rather than depth-first, so
+        no single node's branching roll can determine the final size."""
+        depth = {id(root): 0}
+        pool = [root]
+        added = 0
+        while added < target:
+            eligible = [l for l in pool if depth[id(l)] < self.bounds.max_depth
+                        and len(l.children) < self.bounds.max_children]
+            if not eligible:
+                break  # tree-shape limits reached before hitting the target
+            parent = eligible[rng.integers(len(eligible))]
             child = LimbGene(
                 radius=_u(rng, self.bounds.limb_radius),
                 height=_u(rng, self.bounds.limb_height),
                 density=_u(rng, self.bounds.density),
                 attach_frac=_u(rng, self.bounds.attach_frac),
+                attach_azimuth=_sample_azimuth(rng, self.bounds),
                 joint=self._random_joint(rng),
             )
             parent.children.append(child)
-            self._grow(child, depth + 1, rng, budget)
+            depth[id(child)] = depth[id(parent)] + 1
+            pool.append(child)
+            added += 1
 
     def _random_joint(self, rng) -> JointGene:
         if self.bounds.axis_choices is not None:
@@ -162,7 +295,37 @@ class Genome:
 
     def _attach(self, tree: RobotTree, parent_limb: Limb, gene: LimbGene) -> None:
         z = (gene.attach_frac or 0.0) * parent_limb.height
-        site = parent_limb.add_site(pos=(0, 0, z))
+        theta = gene.attach_azimuth or 0.0
+        # Site sits just clear of the parent's surface -- offset by parent
+        # radius PLUS the child's own radius, not parent radius alone. The
+        # child is itself a capsule with a rounded end-cap of radius
+        # gene.radius; anchoring that cap's CENTER exactly on the parent's
+        # surface (the old, buggy offset) leaves the cap's own volume
+        # overlapping the parent by up to gene.radius, guaranteed by
+        # construction on every attachment, not something evolution found.
+        # This offset is the tangent case: cap surface just touches parent
+        # surface, like a ball resting against a cylinder, zero overlap.
+        # ATTACHMENT_CLEARANCE_M adds a bit of real daylight on top of that,
+        # so a resting joint doesn't sit exactly on the contact boundary.
+        offset = parent_limb.radius + gene.radius + ATTACHMENT_CLEARANCE_M
+        x = offset * math.cos(theta)
+        y = offset * math.sin(theta)
+        # Base orientation: rotate the child's local +z (the axis its own
+        # capsule grows along) to point radially outward from that surface
+        # point -- a hinge bracket mounted on the side, not a limb sprouting
+        # parallel to the parent's own long axis. The target direction
+        # (cos theta, sin theta, 0) is always exactly 90 deg from +z, about
+        # axis (-sin theta, cos theta, 0) -- a fixed closed-form quaternion,
+        # no rotation library needed. The joint's own evolved range then
+        # rotates the limb away from this resting, surface-normal pose.
+        half = math.pi / 4  # cos/sin of half the 90 deg rotation angle
+        quat = (
+            math.cos(half),
+            -math.sin(half) * math.sin(theta),
+            math.sin(half) * math.cos(theta),
+            0.0,
+        )
+        site = parent_limb.add_site(pos=(x, y, z), quat=quat)
         child_limb, conn = tree.add_limb(
             parent_limb, site, gene.radius, gene.height, gene.density
         )
@@ -170,9 +333,12 @@ class Genome:
             j = tree.add_joint_to_connection(
                 conn, "hinge", gene.joint.axis, gene.joint.range_min, gene.joint.range_max
             )
+            force_cap = _actuator_force_cap(_subtree_mass(gene))
             tree.add_actuator_to_connection(
-                conn, j, actuator_type=gene.joint.actuator_type, gear=gene.joint.gear
+                conn, j, actuator_type=gene.joint.actuator_type, gear=gene.joint.gear,
+                forcerange=(-force_cap, force_cap),
             )
+            j.damping = _joint_damping(force_cap * gene.joint.gear)
         for c in gene.children:
             self._attach(tree, child_limb, c)
 
@@ -208,3 +374,13 @@ class Genome:
 def _u(rng: np.random.Generator, lohi: tuple[float, float]) -> float:
     lo, hi = lohi
     return float(rng.uniform(lo, hi))
+
+
+def _sample_azimuth(rng: np.random.Generator, bounds: "MorphologyBounds") -> float:
+    """Pick a mounting angle -- one of a small set of standard bracket
+    positions (see MorphologyBounds.azimuth_choices), not an arbitrary
+    continuous angle, unless azimuth_choices is disabled (None)."""
+    if bounds.azimuth_choices is None:
+        return _u(rng, (0.0, 2 * math.pi))
+    choices = bounds.azimuth_choices
+    return float(choices[rng.integers(len(choices))])

@@ -3,12 +3,14 @@
 Each operator respects `MorphologyBounds` so mutants stay simulable. The set
 covers the full open design space the project targets:
 
-  grow_limb     : a new limb sprouts from an existing one (recursive growth)
-  prune_limb    : remove a non-root limb (and its subtree)
-  resize_limb   : jitter a random limb's radius/height/density
-  resize_torso  : jitter the root specifically (torso stays open to change)
-  perturb_joint : jitter a joint's axis/range/gear
-  move_attach   : slide where a limb attaches along its parent
+  grow_limb        : a new limb sprouts from an existing one (recursive growth)
+  prune_limb        : remove a non-root limb (and its subtree)
+  resize_limb        : jitter a random limb's radius/height/density
+  resize_torso        : jitter the root specifically (torso stays open to change)
+  perturb_joint        : jitter a joint's axis/range/gear
+  move_attach        : slide where a limb attaches along its parent
+  duplicate_mirror : clone an existing limb (+ its subtree) onto its own
+                     parent at a mirrored angle
 
 `mutate()` composes these stochastically. It always works on a *copy*, so the
 parent genome is never altered in place.
@@ -16,22 +18,46 @@ parent genome is never altered in place.
 
 from __future__ import annotations
 
+import copy
+import math
 from dataclasses import dataclass
 
 import numpy as np
 
-from morphology.genome import Genome, LimbGene, JointGene, MorphologyBounds, _u
+from morphology.genome import Genome, LimbGene, JointGene, MorphologyBounds, _u, _sample_azimuth
 
 
 @dataclass
 class MutationRates:
     """Per-call probability of applying each operator."""
-    grow_limb: float = 0.25
-    prune_limb: float = 0.15
+    # grow/prune kept equal so limb-count drift is driven by selection, not by
+    # the mutation operator itself favoring growth over pruning.
+    grow_limb: float = 0.20
+    prune_limb: float = 0.20
     resize_limb: float = 0.6
     resize_torso: float = 0.3
     perturb_joint: float = 0.5
     move_attach: float = 0.3
+    # Clones an existing limb (with its whole subtree) onto its own parent at
+    # a mirrored azimuth. Without this, every limb's placement is sampled
+    # independently at random -- there is no way for mutation to reuse a
+    # working leg design symmetrically, so stumbling into e.g. 4 legs at
+    # clean 90-degree spacing relies on pure chance across many generations.
+    # A hand-built symmetric quadruped tested under this exact codebase
+    # reached 2-3x the survival time and 2-4x the distance of anything 10
+    # generations of evolution had found (see the corresponding experiment
+    # note); this gives mutation an actual PATH to that kind of structure,
+    # without hardcoding leg count, spacing, or gait -- selection still
+    # decides whether a clone is kept. Raised from 0.15 to 0.35 -- at 0.15
+    # symmetric structure was too rare an event to meaningfully compete with
+    # the many other mutations happening every generation.
+    duplicate_mirror: float = 0.35
+    # A second, independent (optional, not required) path to symmetry: when
+    # grow_limb sprouts a new limb, this is the chance it comes in as a
+    # mirrored pair from the start rather than growing alone. Asymmetric
+    # bodies remain fully reachable either way -- this and duplicate_mirror
+    # just make symmetric structure common instead of a rare accident.
+    grow_mirror_chance: float = 0.35
     # Relative scale of Gaussian jitter (fraction of each bound's span).
     sigma: float = 0.1
 
@@ -62,12 +88,16 @@ def mutate(genome: Genome, rng: np.random.Generator, rates: MutationRates | None
             target.attach_frac = _clip(
                 target.attach_frac + rng.normal(0, rates.sigma), b.attach_frac
             )
+            target.attach_azimuth = _sample_azimuth(rng, b)
 
     if rng.random() < rates.grow_limb:
-        _grow_limb(g, b, rng)
+        _grow_limb(g, b, rng, rates.grow_mirror_chance)
 
     if rng.random() < rates.prune_limb:
         _prune_limb(g, rng)
+
+    if rng.random() < rates.duplicate_mirror:
+        _duplicate_mirror(g, b, rng)
 
     return g
 
@@ -93,7 +123,7 @@ def _perturb_joint(joint: JointGene, b: MorphologyBounds, rng, sigma) -> None:
         joint.axis = list(b.axis_choices[rng.integers(len(b.axis_choices))])
 
 
-def _grow_limb(g: Genome, b: MorphologyBounds, rng) -> None:
+def _grow_limb(g: Genome, b: MorphologyBounds, rng, mirror_chance: float = 0.0) -> None:
     if g.count_limbs() >= b.max_limbs:
         return
     # Candidate parents: limbs whose depth leaves room for a child.
@@ -107,9 +137,18 @@ def _grow_limb(g: Genome, b: MorphologyBounds, rng) -> None:
         height=_u(rng, b.limb_height),
         density=_u(rng, b.density),
         attach_frac=_u(rng, b.attach_frac),
+        attach_azimuth=_sample_azimuth(rng, b),
         joint=_random_joint(b, rng),
     )
     parent.children.append(child)
+    # Optional (not required) second path to symmetry: the new limb has a
+    # real chance of coming in as a mirrored pair immediately, rather than
+    # relying solely on a later duplicate_mirror mutation to pair it up.
+    if (rng.random() < mirror_chance and len(parent.children) < b.max_children
+            and g.count_limbs() < b.max_limbs):
+        twin = copy.deepcopy(child)
+        twin.attach_azimuth = (child.attach_azimuth + math.pi) % (2 * math.pi)
+        parent.children.append(twin)
 
 
 def _prune_limb(g: Genome, rng) -> None:
@@ -122,6 +161,31 @@ def _prune_limb(g: Genome, rng) -> None:
         return
     parent, idx = detachable[rng.integers(len(detachable))]
     del parent.children[idx]
+
+
+def _duplicate_mirror(g: Genome, b: MorphologyBounds, rng) -> None:
+    """Clone an existing non-root limb (with its whole subtree) onto its own
+    parent, mirrored 180 degrees around the circumference. Lets mutation
+    reuse a working leg design symmetrically instead of relying on
+    independent random placement to stumble into matching pairs by chance."""
+    candidates: list[tuple[LimbGene, LimbGene]] = []
+    for parent in g.all_limbs():
+        for child in parent.children:
+            candidates.append((parent, child))
+    if not candidates:
+        return
+    parent, child = candidates[rng.integers(len(candidates))]
+    clone_size = _count_subtree(child)
+    if g.count_limbs() + clone_size > b.max_limbs:
+        return
+    clone = copy.deepcopy(child)
+    if clone.attach_azimuth is not None:
+        clone.attach_azimuth = (clone.attach_azimuth + math.pi) % (2 * math.pi)
+    parent.children.append(clone)
+
+
+def _count_subtree(gene: LimbGene) -> int:
+    return 1 + sum(_count_subtree(c) for c in gene.children)
 
 
 # --------------------------------------------------------------------------- #

@@ -40,8 +40,6 @@ def main():
     p.add_argument("--algo", choices=["ppo", "sac"], default="ppo")
     p.add_argument("--healthy-reward", type=float, default=0.0)
     p.add_argument("--min-z-frac", type=float, default=0.6)
-    p.add_argument("--target-distance", type=float, default=0.5,
-                   help="Finish line in +x metres. Lower it if nothing reaches it.")
     p.add_argument("--no-terminate", action="store_true",
                    help="Disable fall termination (to compare against the broken task).")
     p.add_argument("--out", type=str, default="experiments/check")
@@ -67,7 +65,6 @@ def main():
         healthy_reward=a.healthy_reward,
         terminate_on_fall=not a.no_terminate,
         min_z_frac=a.min_z_frac,
-        target_distance=a.target_distance,
     )
     cfg = TrainConfig(algo=a.algo, lifetime_steps=a.steps, eval_every=a.eval_every,
                       eval_episodes=3, seed=a.seed)
@@ -91,28 +88,24 @@ def main():
     from learning.env import MorphologyLocomotionEnv
     model = out["model"]
     eval_env = MorphologyLocomotionEnv(genome, task, seed=a.seed + 7)
-    dists, reach_flags, reach_steps = [], [], []
+    dists, fell_steps = [], []
     for ep in range(5):
         obs, _ = eval_env.reset(seed=20_000 + ep)
         done = False
-        info = {"x": 0.0, "reached": False, "steps": 0}
+        info = {"x": 0.0, "steps": 0}
         while not done:
             act, _ = model.predict(obs, deterministic=True)
             obs, _, term, trunc, info = eval_env.step(act)
             done = term or trunc
         dists.append(info["x"])
-        reach_flags.append(info["reached"])
-        if info["reached"]:
-            reach_steps.append(info["steps"])
-    reach_rate = float(np.mean(reach_flags))
-    print(f"\ntrained rollout over 5 episodes (target = {a.target_distance:.2f} m):")
-    print(f"  mean distance reached : {np.mean(dists):+.3f} m  (max {max(dists):+.3f})")
-    print(f"  reached target        : {int(reach_rate*5)}/5 episodes")
-    if reach_steps:
-        print(f"  steps to reach (mean) : {np.mean(reach_steps):.0f}  <- the speed number")
+        if info["steps"] < task.horizon:
+            fell_steps.append(info["steps"])
+    print(f"\ntrained rollout over 5 episodes (fixed horizon = {task.horizon} steps, no finish line):")
+    print(f"  mean distance covered : {np.mean(dists):+.3f} m  (max {max(dists):+.3f})  <- the speed number")
+    if fell_steps:
+        print(f"  fell early in {len(fell_steps)}/5 episodes (mean step {np.mean(fell_steps):.0f})")
     else:
-        print(f"  never reached the target -> lower --target-distance toward "
-              f"{max(max(dists), 0.01):.2f} to activate the speed bonus")
+        print(f"  never fell -- ran the full horizon in all 5 episodes")
 
     if gain > 0.5:
         print("VERDICT: this body LEARNS within a lifetime (curve rises). Good — evolution")

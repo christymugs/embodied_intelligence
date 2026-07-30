@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mujoco model="robot_model">
+  <worldbody>
+    <light name="light" pos="0 -3 10" dir="0 0.5 -1" diffuse=".8 .8 .8" specular="0.1 0.1 0.1"/>
+    <geom name="floor" type="plane" size="10.0 10.0 0.1" pos="0 0 0" rgba="0.8 0.8 1 1" contype="2" conaffinity="1"/>
+    <body name="limb0" pos="0 0 0">
+      <geom type="capsule" fromto="0 0 0 0 0 0.6" size="0.04" density="1200.0" contype="1" conaffinity="2"/>
+      <site type="sphere" size="0.01" name="limb0_site0" pos="0 0 0.5332966851792164"/>
+      <site type="sphere" size="0.01" name="limb0_site1" pos="0 0 0.5650236933179318"/>
+      <freejoint name="limb0_root"/>
+      <body name="limb1" pos="0 0 0.5332966851792164">
+        <geom type="capsule" fromto="0 0 0 0 0 0.2108483557747831" size="0.03176305440673138" density="688.7771406626807" contype="1" conaffinity="2"/>
+        <site type="sphere" size="0.01" name="limb1_site0" pos="0 0 0.1315488757351795"/>
+        <site type="sphere" size="0.01" name="limb1_site1" pos="0 0 0.20255461164896735"/>
+        <body name="limb2" pos="0 0 0.1315488757351795">
+          <geom type="capsule" fromto="0 0 0 0 0 0.3275892204410617" size="0.05495976002937755" density="729.9579150506644" contype="1" conaffinity="2"/>
+          <joint name="joint_limb1_limb2_0" type="hinge" axis="0 1 0" range="-79.19027832141104 79.19027832141104" damping="5.0"/>
+        </body>
+        <body name="limb3" pos="0 0 0.20255461164896735">
+          <geom type="capsule" fromto="0 0 0 0 0 0.4886525017141072" size="0.02730849030649112" density="1118.1587480940386" contype="1" conaffinity="2"/>
+          <site type="sphere" size="0.01" name="limb3_site0" pos="0 0 0.2148602362279738"/>
+          <body name="limb4" pos="0 0 0.2148602362279738">
+            <geom type="capsule" fromto="0 0 0 0 0 0.2702323108022217" size="0.05077679122345154" density="1107.6977661945734" contype="1" conaffinity="2"/>
+            <joint name="joint_limb3_limb4_0" type="hinge" axis="0 1 0" range="-105.79506732382342 105.79506732382342" damping="5.0"/>
+          </body>
+          <joint name="joint_limb1_limb3_0" type="hinge" axis="0 1 0" range="-80.38696577407528 80.38696577407528" damping="5.0"/>
+        </body>
+        <joint name="joint_limb0_limb1_0" type="hinge" axis="0 1 0" range="-98.3708742457562 98.3708742457562" damping="5.0"/>
+      </body>
+      <body name="limb5" pos="0 0 0.5650236933179318">
+        <geom type="capsule" fromto="0 0 0 0 0 0.13252947652278277" size="0.05372058858359962" density="1100.1826029615775" contype="1" conaffinity="2"/>
+        <site type="sphere" size="0.01" name="limb5_site0" pos="0 0 0.0"/>
+        <body name="limb6" pos="0 0 0.0">
+          <geom type="capsule" fromto="0 0 0 0 0 0.3297643075211269" size="0.03183707388037653" density="514.4016674114245" contype="1" conaffinity="2"/>
+          <joint name="joint_limb5_limb6_0" type="hinge" axis="1 0 0" range="-55.42184628795283 55.42184628795283" damping="5.0"/>
+        </body>
+        <joint name="joint_limb0_limb5_0" type="hinge" axis="0 1 0" range="-46.186401585393725 46.186401585393725" damping="5.0"/>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="position_actuator_joint_limb0_limb1_0" joint="joint_limb0_limb1_0" gear="1.2084304557007752" inheritrange="1" kp="100.0"/>
+    <position name="position_actuator_joint_limb1_limb2_0" joint="joint_limb1_limb2_0" gear="1.0104857860709995" inheritrange="1" kp="100.0"/>
+    <position name="position_actuator_joint_limb1_limb3_0" joint="joint_limb1_limb3_0" gear="1.272740550353963" inheritrange="1" kp="100.0"/>
+    <position name="position_actuator_joint_limb3_limb4_0" joint="joint_limb3_limb4_0" gear="1.0060890082801364" inheritrange="1" kp="100.0"/>
+    <position name="position_actuator_joint_limb0_limb5_0" joint="joint_limb0_limb5_0" gear="0.5181521235082891" inheritrange="1" kp="100.0"/>
+    <position name="position_actuator_joint_limb5_limb6_0" joint="joint_limb5_limb6_0" gear="1.3038517495512207" inheritrange="1" kp="100.0"/>
+  </actuator>
+</mujoco>

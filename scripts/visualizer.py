@@ -51,13 +51,19 @@ def _load_policy(path: str, algo: str):
 def run_episode(env, policy, viewer, dt: float) -> dict:
     """Step one episode under the policy, syncing the viewer, until it ends."""
     obs, _ = env.reset(seed=np.random.randint(0, 100_000))
+    viewer.cam.lookat[:] = env.data.qpos[0:3]
     viewer.sync()
     done = False
-    info = {"x": 0.0, "reached": False, "steps": 0}
+    info = {"x": 0.0, "steps": 0}
     while viewer.is_running() and not done:
         action, _ = policy.predict(obs, deterministic=True)
         obs, _, terminated, truncated, info = env.step(action)
         done = terminated or truncated
+        # Camera tracks the robot's position every frame -- only the lookat
+        # POINT follows (not distance/azimuth/elevation), so you can still
+        # freely rotate/zoom by hand while it keeps the body centered as it
+        # walks off, instead of leaving it behind the fixed initial frame.
+        viewer.cam.lookat[:] = env.data.qpos[0:3]
         viewer.sync()
         time.sleep(dt)          # play back at roughly real time
     return info
@@ -71,8 +77,6 @@ def main():
     p.add_argument("--genome", type=str, default=None, help="Explicit genome .pkl (instead of --run/--gen)")
     p.add_argument("--policy", type=str, default=None, help="Explicit policy .zip (instead of --run/--gen)")
     p.add_argument("--algo", choices=["ppo", "sac"], default="ppo")
-    p.add_argument("--target-distance", type=float, default=0.3,
-                   help="Finish line used for the episode (match what it trained on).")
     p.add_argument("--horizon", type=int, default=1000, help="Time cap in env steps.")
     p.add_argument("--loop", action="store_true",
                    help="Replay the episode over and over instead of holding the final frame.")
@@ -83,12 +87,12 @@ def main():
         genome = pickle.load(f)
     policy = _load_policy(policy_path, args.algo)
 
-    task = TaskConfig(horizon=args.horizon, target_distance=args.target_distance)
+    task = TaskConfig(horizon=args.horizon)
     env = MorphologyLocomotionEnv(genome, task)
     dt = env.model.opt.timestep * task.frame_skip
 
     print(f"Body: {genome.count_limbs()} limbs, {genome.num_actuators()} actuators")
-    print(f"Target: {args.target_distance:.2f} m in +x, time cap {args.horizon} steps")
+    print(f"No finish line -- run as far as possible, time cap {args.horizon} steps")
     print("Running episode... (close the window to quit)")
 
     # launch_passive lets us drive the sim ourselves and sync each frame.
@@ -99,10 +103,8 @@ def main():
                 break
 
             # Report the outcome — this is the "end" the episode reached.
-            if info["reached"]:
-                outcome = f"REACHED the target in {info['steps']} steps"
-            elif info["steps"] >= args.horizon:
-                outcome = f"ran out of time at x={info['x']:.3f} m (never reached target)"
+            if info["steps"] >= args.horizon:
+                outcome = f"ran full horizon, x={info['x']:.3f} m"
             else:
                 outcome = f"fell at step {info['steps']}, x={info['x']:.3f} m"
             print(f"Episode ended: {outcome}")

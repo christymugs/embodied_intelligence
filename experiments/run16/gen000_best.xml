@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mujoco model="robot_model">
+  <worldbody>
+    <light name="light" pos="0 -3 10" dir="0 0.5 -1" diffuse=".8 .8 .8" specular="0.1 0.1 0.1"/>
+    <geom name="floor" type="plane" size="10.0 10.0 0.1" pos="0 0 0" rgba="0.8 0.8 1 1" contype="2" conaffinity="1"/>
+    <body name="limb0" pos="0 0 0">
+      <geom name="limb0_geom" type="capsule" fromto="0 0 0 0 0 0.525765723199866" size="0.06318729198528299" density="471.75457777310925" contype="1" conaffinity="2"/>
+      <site type="sphere" size="0.01" name="limb0_site0" pos="-0.10205787699919176 -0.06987982683101357 0.15546221925872275" quat="0.7071067811865476 0.39948943052718733 -0.5834451087266594 0.0"/>
+      <site type="sphere" size="0.01" name="limb0_site1" pos="0.05054136097072201 0.08099255214024285 0.058753170928810106" quat="0.7071067811865476 -0.5998881304749015 0.37434506930815514 0.0"/>
+      <freejoint name="limb0_root"/>
+      <body name="limb1" pos="-0.10205787699919176 -0.06987982683101357 0.15546221925872275" quat="0.7071067811865476 0.39948943052718733 -0.5834451087266594 0.0">
+        <geom name="limb1_geom" type="capsule" fromto="0 0 0 0 0 0.40986089410600157" size="0.05650183629814618" density="557.4904918084212" contype="1" conaffinity="2"/>
+        <joint name="joint_limb0_limb1_0" type="hinge" axis="1 0 0" range="-93.62338159474545 93.62338159474545" damping="5.0"/>
+      </body>
+      <body name="limb2" pos="0.05054136097072201 0.08099255214024285 0.058753170928810106" quat="0.7071067811865476 -0.5998881304749015 0.37434506930815514 0.0">
+        <geom name="limb2_geom" type="capsule" fromto="0 0 0 0 0 0.34404380395359024" size="0.028281146102719583" density="411.2472681191295" contype="1" conaffinity="2"/>
+        <joint name="joint_limb0_limb2_0" type="hinge" axis="0 1 0" range="-21.190973834101783 21.190973834101783" damping="5.0"/>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="position_actuator_joint_limb0_limb1_0" joint="joint_limb0_limb1_0" gear="1.3885443040159904" inheritrange="1" forcerange="-13.564390487275977 13.564390487275977" forcelimited="true" kp="100.0"/>
+    <position name="position_actuator_joint_limb0_limb2_0" joint="joint_limb0_limb2_0" gear="1.8948612854955176" inheritrange="1" forcerange="-1.972414712917439 1.972414712917439" forcelimited="true" kp="100.0"/>
+  </actuator>
+  <contact>
+    <pair geom1="limb0_geom" geom2="limb1_geom"/>
+    <pair geom1="limb0_geom" geom2="limb2_geom"/>
+  </contact>
+</mujoco>

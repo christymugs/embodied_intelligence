@@ -30,9 +30,36 @@ from concurrent.futures import ProcessPoolExecutor
 import numpy as np
 
 from morphology.genome import Genome
-from learning.env import TaskConfig
+from learning.env import MorphologyLocomotionEnv, TaskConfig
 from learning.train import train_morphology, TrainConfig
 from fitness.learnability import compute_learnability
+
+
+def _behavior_descriptor(model, genome: Genome, task: TaskConfig, seed: int, k: int = 8) -> list[float]:
+    """Replay one deterministic episode under the trained policy and summarize
+    it as a fixed-length trajectory shape: raw x-position at k evenly-spaced
+    fractions of the horizon (carrying the last known x forward once the
+    episode ends), and how much of the horizon was used before falling (1.0 if
+    it never fell). Runs after fitness/policy are already finalized, so it
+    can't affect either.
+    """
+    env = MorphologyLocomotionEnv(genome, task, seed=seed)
+    obs, _ = env.reset(seed=seed)
+    x_trace: list[float] = []
+    for _ in range(task.horizon):
+        action, _ = model.predict(obs, deterministic=True)
+        obs, _, terminated, truncated, info = env.step(action)
+        x_trace.append(info["x"])
+        if terminated or truncated:
+            break
+
+    samples = []
+    for i in range(1, k + 1):
+        idx = round((i / k) * task.horizon)
+        x = x_trace[idx - 1] if idx <= len(x_trace) else x_trace[-1]
+        samples.append(x)
+
+    return samples + [len(x_trace) / task.horizon]
 
 
 def worker_init() -> None:
@@ -49,16 +76,22 @@ def worker_init() -> None:
 
 def evaluate_one(genome: Genome, task: TaskConfig, train_cfg: TrainConfig,
                  eval_seeds: int, metric: str, base_seed: int,
-                 policy_path: str | None = None) -> dict:
+                 policy_path: str | None = None, complexity_weight: float = 0.0) -> dict:
     """Train + score a single morphology. Returns a plain, picklable result dict.
 
     If `policy_path` is given, the best-scoring seed's trained policy is saved
     there (a .zip) so it can be replayed later. The model itself is never
     returned across the process boundary — only written to disk.
+
+    `complexity_weight` subtracts complexity_weight * num_actuators from the
+    raw task-performance fitness -- a parsimony pressure applied directly to
+    the score that drives selection AND which body gets reported/promoted as
+    "best," so a more complex body must clearly outperform a simpler one to
+    still win, rather than merely tying it.
     """
     if genome.num_actuators() == 0:
         return {"fitness": float("-inf"), "metrics": {"invalid": "no_actuators"},
-                "curve": None, "policy_path": None}
+                "curve": None, "policy_path": None, "behavior_descriptor": None}
 
     scores, results = [], []
     best_model, best_score = None, float("-inf")
@@ -78,6 +111,10 @@ def evaluate_one(genome: Genome, task: TaskConfig, train_cfg: TrainConfig,
 
     finite = [x for x in scores if np.isfinite(x)]
     fitness = float(np.mean(finite)) if finite else float("-inf")
+    num_actuators = genome.num_actuators()
+    complexity_penalty = complexity_weight * num_actuators
+    if np.isfinite(fitness):
+        fitness -= complexity_penalty
 
     saved = None
     if policy_path is not None and best_model is not None:
@@ -86,6 +123,13 @@ def evaluate_one(genome: Genome, task: TaskConfig, train_cfg: TrainConfig,
             saved = policy_path
         except Exception:
             saved = None
+
+    behavior_descriptor = None
+    if best_model is not None:
+        try:
+            behavior_descriptor = _behavior_descriptor(best_model, genome, task, base_seed + 999_999)
+        except Exception:
+            behavior_descriptor = None
 
     valid = [r for r in results if r is not None]
     metrics, curve = {}, None
@@ -98,8 +142,11 @@ def evaluate_one(genome: Genome, task: TaskConfig, train_cfg: TrainConfig,
         }
         best = max(valid, key=lambda r: r.score(metric))
         curve = {"t": list(best.curve_t), "r": list(best.curve_r)}
+    metrics["num_actuators"] = num_actuators
+    metrics["complexity_penalty"] = complexity_penalty
 
-    return {"fitness": fitness, "metrics": metrics, "curve": curve, "policy_path": saved}
+    return {"fitness": fitness, "metrics": metrics, "curve": curve, "policy_path": saved,
+            "behavior_descriptor": behavior_descriptor}
 
 
 def _eval_star(args):

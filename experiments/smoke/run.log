@@ -1,21 +1,21 @@
-11:30:45  INFO   ================================================================
-11:30:45  INFO   Learnability-driven morphology evolution
-11:30:45  INFO     population=4  generations=2  metric=auc  eval_seeds=1
-11:30:45  INFO     inner: algo=ppo  lifetime_steps=1500  eval_every=500  horizon=120
-11:30:45  INFO     workers=4  seed=0  out=experiments/smoke
-11:30:45  INFO   ================================================================
-11:30:45  INFO   gen 0: evaluating 4/4 individuals (4 workers)
-11:30:47  DEBUG    id=0    fitness=   -0.953 limbs= 2 depth=2 metrics={'auc': -0.953237683228708, 'final': -0.9615702209023466, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
-11:30:47  DEBUG    id=1    fitness=   -1.068 limbs=12 depth=5 metrics={'auc': -1.0677907381018898, 'final': -1.0893108127941458, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
-11:30:47  DEBUG    id=2    fitness=   -0.616 limbs=12 depth=5 metrics={'auc': -0.6155606145543437, 'final': -0.5665599631917867, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
-11:30:47  DEBUG    id=3    fitness=   -0.541 limbs= 2 depth=2 metrics={'auc': -0.5411665938997301, 'final': -0.0253487292824152, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
-11:30:47  INFO   gen 0 done | best -0.541 (id=3, 2 limbs) | mean -0.794 | worst -1.068 | invalid 0 | 2.1s
-11:30:47  INFO     ~0.0 min/gen, est. 0.0 min remaining
-11:30:47  INFO   gen 1: evaluating 3/4 individuals (4 workers)
-11:30:47  DEBUG    id=4    fitness=   -0.628 limbs=12 depth=5 metrics={'auc': -0.6282066913804127, 'final': -0.5806830560226427, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
-11:30:47  DEBUG    id=5    fitness=     -inf limbs= 1 depth=1 metrics={'invalid': 'no_actuators'}
-11:30:47  DEBUG    id=6    fitness=   -0.758 limbs=11 depth=5 metrics={'auc': -0.7584605963430775, 'final': -0.7409204516956089, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0}
-11:30:47  INFO   gen 1 done | best -0.541 (id=3, 2 limbs) | mean -0.643 | worst -0.758 | invalid 1 | 0.8s
-11:30:48  INFO   ================================================================
-11:30:48  INFO   Finished 2 generations in 0.1 min. Best fitness -0.541 (2 limbs).
-11:30:48  INFO   Artifacts: run.log, generation_stats.csv, history.json, gen*_best.xml in experiments/smoke
+16:23:47  INFO   ================================================================
+16:23:47  INFO   Learnability-driven morphology evolution
+16:23:47  INFO     population=4  generations=2  metric=auc  eval_seeds=1
+16:23:47  INFO     inner: algo=ppo  lifetime_steps=1500  eval_every=500  horizon=120
+16:23:47  INFO     workers=12  seed=0  out=experiments/smoke
+16:23:47  INFO   ================================================================
+16:23:47  INFO   gen 0: evaluating 4/4 individuals (12 workers)
+16:23:48  DEBUG    id=0    fitness=   -9.764 limbs= 2 depth=2 metrics={'auc': -9.263591411875971, 'final': -9.224591565403058, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0, 'num_actuators': 1, 'complexity_penalty': 0.5}
+16:23:48  DEBUG    id=1    fitness=  -13.753 limbs=10 depth=4 metrics={'auc': -9.253064988019275, 'final': -8.039043023930882, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0, 'num_actuators': 9, 'complexity_penalty': 4.5}
+16:23:48  DEBUG    id=2    fitness=  -11.212 limbs= 3 depth=3 metrics={'auc': -10.212454206269593, 'final': -9.997227597585008, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0, 'num_actuators': 2, 'complexity_penalty': 1.0}
+16:23:48  DEBUG    id=3    fitness=  -13.588 limbs= 9 depth=5 metrics={'auc': -9.588402769300204, 'final': -9.663882736216243, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0, 'num_actuators': 8, 'complexity_penalty': 4.0}
+16:23:48  INFO   gen 0 done | best -9.764 (id=0, 2 limbs) | mean -12.079 | worst -13.753 | invalid 0 | 1.4s
+16:23:48  INFO     ~0.0 min/gen, est. 0.0 min remaining
+16:23:48  INFO   gen 1: evaluating 3/4 individuals (12 workers)
+16:23:49  DEBUG    id=4    fitness=   -9.832 limbs= 2 depth=2 metrics={'auc': -9.332077783147431, 'final': -9.111480995786899, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0, 'num_actuators': 1, 'complexity_penalty': 0.5}
+16:23:49  DEBUG    id=5    fitness=  -10.709 limbs= 3 depth=3 metrics={'auc': -9.709065030671693, 'final': -9.736502445373102, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0, 'num_actuators': 2, 'complexity_penalty': 1.0}
+16:23:49  DEBUG    id=6    fitness=   -9.644 limbs= 2 depth=2 metrics={'auc': -9.144102014563973, 'final': -9.059600663785238, 'steps_to_threshold': 1500.0, 'reached_threshold': 0.0, 'num_actuators': 1, 'complexity_penalty': 0.5}
+16:23:49  INFO   gen 1 done | best -9.644 (id=6, 2 limbs) | mean -9.987 | worst -10.709 | invalid 0 | 0.4s
+16:23:49  INFO   ================================================================
+16:23:49  INFO   Finished 2 generations in 0.0 min. Best fitness -9.644 (2 limbs).
+16:23:49  INFO   Artifacts: run.log, generation_stats.csv, history.json, and per generation gen*_best.xml + gen*_best_genome.pkl + gen*_best_policy.zip in experiments/smoke

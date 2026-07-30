@@ -25,6 +25,10 @@ from evolution.evolve import run_evolution, EvolutionConfig
 
 def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
+    # Task defaults come from TaskConfig itself, not a second hardcoded number
+    # here, so this script and anything else constructing TaskConfig() directly
+    # (e.g. scripts/diagnose_selfcollision.py) can't silently drift apart.
+    _default_task = TaskConfig()
     p.add_argument("--population", type=int, default=32)
     p.add_argument("--generations", type=int, default=50)
     p.add_argument("--elitism", type=int, default=2)
@@ -34,10 +38,24 @@ def parse_args():
     p.add_argument("--lifetime-steps", type=int, default=200_000)
     p.add_argument("--eval-every", type=int, default=10_000)
     p.add_argument("--algo", choices=["ppo", "sac"], default="ppo")
-    p.add_argument("--horizon", type=int, default=1000)
-    p.add_argument("--target-distance", type=float, default=0.5,
-                   help="Finish line in +x metres (same for every body).")
+    p.add_argument("--horizon", type=int, default=_default_task.horizon)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--novelty-weight", type=float, default=0.0,
+                   help="0 = pure fitness selection (default). >0 blends in a hybrid "
+                        "morphology+behavior novelty bonus, ranked against an archive "
+                        "of past individuals, so selection keeps exploring different "
+                        "body plans instead of only refining the current best.")
+    p.add_argument("--novelty-k", type=int, default=5,
+                   help="k nearest neighbors used to score novelty.")
+    p.add_argument("--novelty-archive-size", type=int, default=500)
+    p.add_argument("--morphology-novelty-weight", type=float, default=0.5,
+                   help="Split within the novelty score: 1.0 = morphology-only, "
+                        "0.0 = behavior-only, 0.5 = even hybrid (default).")
+    p.add_argument("--complexity-weight", type=float, default=0.0,
+                   help="0 = off (default). Subtracted from fitness as "
+                        "complexity_weight * num_actuators -- parsimony pressure, "
+                        "so a more complex body must clearly outperform a simpler "
+                        "one to still win, not just tie it.")
     p.add_argument("--out", type=str, default="experiments/run")
     p.add_argument("--workers", type=int, default=0,
                    help="Parallel workers for evaluation. 0 = auto (all CPUs).")
@@ -57,7 +75,7 @@ def main():
         a.lifetime_steps, a.eval_every, a.horizon = 1500, 500, 120
         a.out = "experiments/smoke"
 
-    task = TaskConfig(horizon=a.horizon, target_distance=a.target_distance)
+    task = TaskConfig(horizon=a.horizon)
     train = TrainConfig(
         algo=a.algo, lifetime_steps=a.lifetime_steps, eval_every=a.eval_every,
         n_steps=256 if a.smoke else 2048, seed=a.seed,
@@ -67,6 +85,10 @@ def main():
         tournament_k=a.tournament_k, selection_metric=a.metric,
         eval_seeds=a.eval_seeds, seed=a.seed, out_dir=a.out,
         n_workers=1 if a.serial else a.workers,
+        novelty_weight=a.novelty_weight, novelty_k=a.novelty_k,
+        novelty_archive_size=a.novelty_archive_size,
+        morphology_novelty_weight=a.morphology_novelty_weight,
+        complexity_weight=a.complexity_weight,
     )
 
     print(f"Evolving for learnability (metric={a.metric}) -> {a.out}")

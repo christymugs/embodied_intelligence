@@ -1,6 +1,17 @@
 """Compile a RobotTree into MuJoCo MJCF XML.
 
-Two fixes vs the original draft are marked with `# FIX:` below.
+Three fixes vs the original draft are marked with `# FIX:` below.
+
+Limbs don't collide with each other by contype/conaffinity (see the FIX in
+_emit_body_with_geom) -- except a limb and its OWN direct parent, which are
+force-included via explicit <contact><pair> elements in build_etree, mimicking
+a real hinge's mechanical stop. A first attempt at this reopened the original
+jamming exploit (~14,500 static force at rest); root cause was genome.py's
+attach offset only clearing the PARENT's radius, not the CHILD's own -- the
+child's rounded end-cap was guaranteed to overlap the parent by construction,
+on every attachment, before evolution ever touched anything. Fixed at the
+source (genome.py now offsets by parent radius + child radius, true tangency),
+so this pair mechanism is safe to re-enable on top of that.
 """
 
 from lxml import etree
@@ -25,6 +36,7 @@ class MujocoBuilder:
         worldbody.append(root_body)
 
         self._emit_all_actuators(mj_root, root_limb)
+        self._emit_parent_child_contact_pairs(mj_root, root_limb)
         return etree.ElementTree(mj_root)
 
     def to_xml_string(self, robot_tree: RobotTree) -> str:
@@ -78,17 +90,35 @@ class MujocoBuilder:
             size=f"{size} {size} {thickness}",
             pos="0 0 0",
             rgba="0.8 0.8 1 1",
+            # FIX: contype/conaffinity pair with the limb geoms below — floor
+            # collides with every limb, limbs never collide with each other.
+            contype="2",
+            conaffinity="1",
         )
 
-    def _emit_body_with_geom(self, limb: Limb) -> etree._Element:
+    def _emit_body_with_geom(self, limb: Limb, is_root: bool = False) -> etree._Element:
         body_name = limb.name or "unnamed"
         body = etree.Element("body", name=body_name)
 
         # Vertical capsule along +z, from (0,0,0) to (0,0,height)
         fromto = f"0 0 0 0 0 {limb.height}"
+        # Torso rendered in a distinct color from every limb -- with several
+        # gray-on-gray segments and no bracket/flange geometry to read as
+        # "mounted," it was hard to tell which piece was the root body at a
+        # glance in the viewer. Purely cosmetic: no effect on physics.
+        rgba = "0.85 0.25 0.2 1" if is_root else "0.5 0.5 0.55 1"
         etree.SubElement(
-            body, "geom", type="capsule", fromto=fromto,
-            size=str(limb.radius), density=str(limb.density),
+            body, "geom", name=f"{body_name}_geom", type="capsule", fromto=fromto,
+            size=str(limb.radius), density=str(limb.density), rgba=rgba,
+            # FIX: without an explicit contype/conaffinity, MuJoCo's default lets
+            # any two non-adjacent limb geoms collide. Nothing in genome/mutation
+            # stops evolution from placing limbs so they overlap, so the search
+            # was finding morphologies that jam limbs into each other and ride
+            # the constraint solver's resolution force instead of learning to
+            # walk. Limbs only collide with the floor (contype=2/conaffinity=1
+            # above), never with each other.
+            contype="1",
+            conaffinity="2",
         )
         return body
 
@@ -109,6 +139,29 @@ class MujocoBuilder:
             out_list.extend(conn.actuators)
             self._collect_actuators(conn.child_limb, out_list)
 
+    def _emit_parent_child_contact_pairs(self, mj_root: etree._Element, root_limb: Limb) -> None:
+        """Force-include collision between each limb and its own direct
+        parent only (see module docstring) -- MuJoCo excludes adjacent
+        (parent/child) body pairs from collision by default, same as it
+        excludes any pair contype/conaffinity doesn't grant, so this needs an
+        explicit <pair> either way; a bare `name="..._geom"` reference is
+        enough, no friction/solver overrides."""
+        pairs: list[tuple[str, str]] = []
+        self._collect_parent_child_pairs(root_limb, pairs)
+        if not pairs:
+            return
+
+        contact_root = mj_root.find("contact")
+        if contact_root is None:
+            contact_root = etree.SubElement(mj_root, "contact")
+        for geom1, geom2 in pairs:
+            etree.SubElement(contact_root, "pair", geom1=geom1, geom2=geom2)
+
+    def _collect_parent_child_pairs(self, limb: Limb, out_list: list[tuple[str, str]]) -> None:
+        for conn in limb.connections:
+            out_list.append((f"{limb.name}_geom", f"{conn.child_limb.name}_geom"))
+            self._collect_parent_child_pairs(conn.child_limb, out_list)
+
     def _emit_single_actuator(self, actuator_root: etree.Element, act: Actuator) -> None:
         assert act.target_joint is not None, "Actuator must have a target_joint."
 
@@ -122,14 +175,21 @@ class MujocoBuilder:
         else:
             attrs["ctrlrange"] = f"{act.ctrlrange[0]} {act.ctrlrange[1]}"
 
+        if act.forcerange is not None:
+            # Caps the actuator's own force before the gear (mechanical
+            # advantage) multiplies it through to the joint -- see
+            # morphology/genome.py:_actuator_force_cap.
+            attrs["forcerange"] = f"{act.forcerange[0]} {act.forcerange[1]}"
+            attrs["forcelimited"] = "true"
+
         # FIX: was `is "position"` — string identity is not guaranteed; use ==.
         if act.actuator_type == "position":
-            attrs["kp"] = "10.0"  # default proportional gain
+            attrs["kp"] = "100.0"  # default proportional gain
 
         etree.SubElement(actuator_root, act.actuator_type, **attrs)
 
     def _build_limb_subtree(self, limb: Limb, is_root: bool = False) -> etree._Element:
-        body_elem = self._emit_body_with_geom(limb)
+        body_elem = self._emit_body_with_geom(limb, is_root=is_root)
         self._emit_sites(body_elem, limb)
 
         if is_root:
@@ -143,7 +203,10 @@ class MujocoBuilder:
 
             sx, sy, sz = conn.parent_site.pos
             child_body.set("pos", f"{sx} {sy} {sz}")
-            if conn.parent_site.euler is not None:
+            if conn.parent_site.quat is not None:
+                qw, qx, qy, qz = conn.parent_site.quat
+                child_body.set("quat", f"{qw} {qx} {qy} {qz}")
+            elif conn.parent_site.euler is not None:
                 ex, ey, ez = conn.parent_site.euler
                 child_body.set("euler", f"{ex} {ey} {ez}")
 
@@ -158,7 +221,10 @@ class MujocoBuilder:
         for site in limb.sites:
             sx, sy, sz = site.pos
             attrs = {"name": site.name, "pos": f"{sx} {sy} {sz}"}
-            if site.euler is not None:
+            if site.quat is not None:
+                qw, qx, qy, qz = site.quat
+                attrs["quat"] = f"{qw} {qx} {qy} {qz}"
+            elif site.euler is not None:
                 ex, ey, ez = site.euler
                 attrs["euler"] = f"{ex} {ey} {ez}"
             etree.SubElement(body_elem, "site", type="sphere", size="0.01", **attrs)

@@ -27,9 +27,11 @@ import numpy as np
 
 from morphology.genome import Genome, MorphologyBounds
 from morphology.mujoco_builder import MujocoBuilder
+from morphology.descriptor import morphology_descriptor
 from evolution.mutation import mutate, MutationRates
 from evolution.population import Individual, tournament_select
 from evolution.parallel import worker_init, evaluate_jobs, resolve_workers
+from evolution.novelty import NoveltyArchive, compute_novelty, percentile_ranks
 from learning.env import TaskConfig
 from learning.train import TrainConfig
 
@@ -46,6 +48,22 @@ class EvolutionConfig:
     out_dir: str = "experiments/run"
     reevaluate_elites: bool = False  # re-score elites each gen to fight metric noise
     n_workers: int = 0               # 0 => auto (all CPUs); 1 => serial
+    # Novelty bonus blended into SELECTION only (tournament/elitism), never into
+    # reported fitness. 0.0 = pure fitness selection (today's behavior, exact
+    # passthrough). >0.0 blends in a hybrid morphology+behavior novelty score,
+    # ranked against an archive of past individuals, so the search keeps
+    # exploring different body plans instead of only refining the current best.
+    novelty_weight: float = 0.0
+    novelty_k: int = 5
+    novelty_archive_size: int = 500
+    morphology_novelty_weight: float = 0.5
+    # Parsimony pressure: subtracted from fitness as complexity_weight *
+    # num_actuators, applied where fitness itself is computed (parallel.py), so
+    # it shapes which body is reported/promoted as "best" each generation, not
+    # just an invisible tie-breaker. 0.0 = off (today's behavior). A simpler
+    # body no longer just ties a complex one on raw task performance -- the
+    # complex one has to clear this bar too to still win.
+    complexity_weight: float = 0.0
 
 
 # --------------------------------------------------------------------------- #
@@ -127,13 +145,14 @@ def run_evolution(evo: EvolutionConfig | None = None, task: TaskConfig | None = 
         csv.writer(f).writerow([
             "gen", "best_fitness", "mean_fitness", "worst_fitness",
             "best_id", "best_limbs", "best_depth", "n_invalid",
-            "gen_seconds", "cumulative_seconds",
+            "gen_seconds", "cumulative_seconds", "mean_novelty", "best_novelty",
         ])
 
     history = []
     executor = None
     run_start = time.time()
     gen_times: list[float] = []
+    archive = NoveltyArchive(max_size=evo.novelty_archive_size)
     try:
         if not serial:
             executor = ProcessPoolExecutor(max_workers=n_workers, initializer=worker_init)
@@ -151,6 +170,7 @@ def run_evolution(evo: EvolutionConfig | None = None, task: TaskConfig | None = 
                     evo.eval_seeds, evo.selection_metric,
                     _seed_for(evo.seed, ind.id, gen),
                     os.path.join(policies_dir, f"ind_{ind.id}.zip"),
+                    evo.complexity_weight,
                 ))
             log.info("gen %d: evaluating %d/%d individuals (%s)",
                      gen, len(jobs), len(pop), "serial" if serial else f"{n_workers} workers")
@@ -168,9 +188,46 @@ def run_evolution(evo: EvolutionConfig | None = None, task: TaskConfig | None = 
                 log.debug("  id=%-4d fitness=%9.3f limbs=%2d depth=%d metrics=%s",
                           ind.id, ind.fitness, ind.genome.count_limbs(),
                           ind.genome.max_depth(),
-                          {k: v for k, v in ind.metrics.items() if k != "_curve"})
+                          {k: v for k, v in ind.metrics.items()
+                           if k not in ("_curve", "_morphology_descriptor", "_behavior_descriptor")})
 
-            # Rank + stats.
+            # ---- Novelty scoring: informs SELECTION only, never reported fitness. ----
+            for ind in pop:
+                ind.metrics["_morphology_descriptor"] = morphology_descriptor(ind.genome).tolist()
+                if ind.id in results:  # elites keep their carried-over descriptor otherwise
+                    ind.metrics["_behavior_descriptor"] = results[ind.id].get("behavior_descriptor")
+
+            novelty_scores = compute_novelty(
+                [np.array(ind.metrics["_morphology_descriptor"]) for ind in pop],
+                [ind.metrics.get("_behavior_descriptor") for ind in pop],
+                archive, k=evo.novelty_k, morphology_weight=evo.morphology_novelty_weight,
+            )
+            for ind, score in zip(pop, novelty_scores):
+                ind.metrics["novelty"] = score
+
+            # Archive only genuinely-new-this-generation individuals (not elites
+            # re-seen every gen), so long-lived elites don't dominate the archive.
+            for ind_id in results:
+                ind = by_id[ind_id]
+                if np.isfinite(ind.fitness):
+                    archive.add(np.array(ind.metrics["_morphology_descriptor"]),
+                                ind.metrics.get("_behavior_descriptor"))
+
+            if evo.novelty_weight <= 0.0:
+                for ind in pop:
+                    ind.selection_score = ind.fitness
+            else:
+                finite_idx = [i for i, ind in enumerate(pop) if np.isfinite(ind.fitness)]
+                fitness_ranks = percentile_ranks([pop[i].fitness for i in finite_idx])
+                novelty_ranks = percentile_ranks([pop[i].metrics["novelty"] for i in finite_idx])
+                for ind in pop:
+                    ind.selection_score = float("-inf")
+                w = evo.novelty_weight
+                for rank_pos, i in enumerate(finite_idx):
+                    pop[i].selection_score = (1 - w) * fitness_ranks[rank_pos] + w * novelty_ranks[rank_pos]
+
+            # Rank + stats (reporting stays pure fitness -- novelty never
+            # contaminates the learnability measurement being written out).
             pop.sort(key=lambda i: i.fitness, reverse=True)
             best = pop[0]
             finite = [i.fitness for i in pop if np.isfinite(i.fitness)]
@@ -206,11 +263,15 @@ def run_evolution(evo: EvolutionConfig | None = None, task: TaskConfig | None = 
                 shutil.copy(src_policy, os.path.join(evo.out_dir, f"gen{gen:03d}_best_policy.zip"))
             else:
                 log.debug("  no saved policy for best id=%d (invalid?); skipped promote", best.id)
+            mean_novelty = float(np.mean([ind.metrics.get("novelty", 0.0) for ind in pop
+                                          if np.isfinite(ind.fitness)])) if finite else 0.0
+            best_novelty = best.metrics.get("novelty", 0.0)
             with open(csv_path, "a", newline="") as f:
                 csv.writer(f).writerow([
                     gen, best.fitness, mean_fit, worst_fit, best.id,
                     best.genome.count_limbs(), best.genome.max_depth(),
                     n_invalid, round(gen_seconds, 2), round(cum_seconds, 2),
+                    round(mean_novelty, 4), round(best_novelty, 4),
                 ])
             history.append(_history_entry(gen, pop, best, gen_seconds))
             with open(os.path.join(evo.out_dir, "history.json"), "w") as f:
@@ -219,9 +280,10 @@ def run_evolution(evo: EvolutionConfig | None = None, task: TaskConfig | None = 
             if gen == evo.generations - 1:
                 break
 
-            elites = pop[: evo.elitism]
+            elites = sorted(pop, key=lambda i: i.selection_score, reverse=True)[: evo.elitism]
             next_pop = [
                 Individual(e.genome.copy(), id=e.id, fitness=e.fitness,
+                           selection_score=e.selection_score,
                            evaluated=True, metrics=dict(e.metrics))
                 for e in elites
             ]
@@ -245,8 +307,19 @@ def run_evolution(evo: EvolutionConfig | None = None, task: TaskConfig | None = 
 
 
 def _history_entry(gen: int, pop: list[Individual], best: Individual, gen_seconds: float) -> dict:
-    """Rich per-generation record: summary + per-individual rows + best curve."""
-    def clean(m: dict) -> dict:
+    """Rich per-generation record: summary + per-individual rows + best curve.
+
+    Per-individual rows keep their morphology/behavior descriptors (needed to
+    measure population diversity across a run, not just track the champion),
+    but not the learning curve -- that one's genuinely large and only useful
+    for the champion. `best_metrics` excludes both descriptors since they're
+    already promoted as their own top-level `best_*` keys below.
+    """
+    def clean_best(m: dict) -> dict:
+        return {k: v for k, v in m.items()
+                if k not in ("_curve", "_morphology_descriptor", "_behavior_descriptor")}
+
+    def clean_population(m: dict) -> dict:
         return {k: v for k, v in m.items() if k != "_curve"}
 
     return {
@@ -256,15 +329,17 @@ def _history_entry(gen: int, pop: list[Individual], best: Individual, gen_second
         "best_fitness": best.fitness,
         "best_limbs": best.genome.count_limbs(),
         "best_depth": best.genome.max_depth(),
-        "best_metrics": clean(best.metrics),
+        "best_metrics": clean_best(best.metrics),
         "best_curve": best.metrics.get("_curve"),   # (t, r) — for Baldwin-effect plots
+        "best_morphology_descriptor": best.metrics.get("_morphology_descriptor"),
+        "best_behavior_descriptor": best.metrics.get("_behavior_descriptor"),
         "population": [
             {
                 "id": i.id,
                 "fitness": i.fitness,
                 "limbs": i.genome.count_limbs(),
                 "depth": i.genome.max_depth(),
-                "metrics": clean(i.metrics),
+                "metrics": clean_population(i.metrics),
             }
             for i in pop
         ],
