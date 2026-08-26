@@ -55,6 +55,20 @@ class TaskConfig:
     # actuator body was at most ~0.01 -- negligible next to a typical per-step
     # forward reward of ~0.1-1.0, so it wasn't actually discouraging flailing.
     ctrl_cost_weight: float = 0.1
+    # ctrl_cost only penalizes action MAGNITUDE, never how fast an action
+    # changes between consecutive steps -- so rapidly jittering a joint's
+    # target back and forth costs exactly the same as moving it smoothly.
+    # That let a champion (experiments/run22, gen9) win by vibrating in
+    # place to creep forward via stick-slip friction rather than a
+    # coordinated swinging gait. Tried weight=0.1 (experiments/run23): on a
+    # controlled A/B retrain of the SAME body/budget that broke through to
+    # full-horizon survival under fall_penalty_frac alone (return 283,
+    # 4/5 seeds), adding this on top left it stuck at exactly 0.0 return for
+    # the entire 150k-step budget -- solving "don't fall" and "don't jitter"
+    # at once was too hard within budget, not just slower. DISABLED by
+    # default until tried at a much smaller weight (e.g. 0.01) as a gentler
+    # nudge rather than a hard constraint.
+    action_rate_weight: float = 0.0
     # No finish line: same start, same fixed horizon for every body (fair +
     # standardized), reward is just distance covered in that time. Removing the
     # target distance removes an arbitrary number to tune -- speed pressure comes
@@ -91,15 +105,31 @@ class TaskConfig:
     # sustained sink toward the fall line increasingly expensive, so leaning
     # into a slow topple is a net loss well before it reaches the cutoff.
     height_reward_weight: float = 20.0
-    # Falling used to cost a flat -1 regardless of when it happened -- nowhere
-    # near enough to discourage "sprint hard, then let it fall" once a body had
-    # already banked a good burst of forward reward, since it only forfeits a
-    # tiny fixed amount for throwing away the REST of the episode's distance
-    # opportunity. Now scaled by the fraction of the horizon thrown away, so
-    # falling early (most time left, most distance opportunity forfeited)
-    # costs close to the full penalty, and falling near the natural end costs
-    # almost nothing.
-    fall_penalty_weight: float = 8.0
+    # Falling used to cost a flat -1, then a fixed -8 scaled by fraction of
+    # horizon forfeited -- neither scales with how much reward the episode
+    # had already banked. A fast morphology can lunge for a burst of forward
+    # reward (proportional to distance covered, via the /dt term below) worth
+    # far more than any fixed penalty, then eat the capped fall cost and
+    # still net a large positive return -- confirmed on experiments/run22's
+    # champion, which fell at ~1s into every 25s episode and still won
+    # selection, because +100+ banked from the lunge dwarfed an at-most -8
+    # fixed penalty. Clawing back a fraction of THIS EPISODE'S OWN banked
+    # reward on a fall closes that off regardless of how large the banked
+    # amount is -- a lunge worth 10 or 1000 is equally unprofitable to follow
+    # with a fall, so this doesn't need re-tuning as bodies get faster.
+    # Tried 0.5 (half clawback) after experiments/run24 showed a third of ALL
+    # individuals across a fresh population-scale run, including the reported
+    # champion, stuck at final=0.0 -- hypothesis was that full clawback erases
+    # the gradient between "no progress" and "real partial progress" before a
+    # fall. Controlled A/B on two known bodies disproved it: run24's own stuck
+    # champion (a 2-limb/1-actuator body) fell at step 8 regardless of the
+    # weight -- it's morphologically incapable of standing, not reward-
+    # starved, so there was no gradient to rescue. Worse, run22's champion --
+    # which reliably reached full-horizon survival (return 283, 4/5 seeds) at
+    # frac=1.0 -- regressed to falling in ALL 5 seeds at frac=0.5, because
+    # half a clawback still leaves a profitable lunge-and-fall (banks ~100,
+    # keeps ~50). Reverted to full clawback.
+    fall_penalty_frac: float = 1.0
     reset_noise: float = 0.01
     settle_steps: int = 30            # let the body settle before reward counts, so the
                                       # one-time "topple forward" drop isn't free reward
@@ -163,6 +193,8 @@ class MorphologyLocomotionEnv(gym.Env):
         self._step_count = 0
         self._settled_z = self._init_z
         self._healthy_z = 0.0  # set per-episode in reset() from the settled height
+        self._episode_reward = 0.0  # set per-episode in reset()
+        self._prev_action = np.zeros(self.model.nu, dtype=np.float32)  # set per-episode in reset()
 
     # ---------------------------------------------------------------- #
     def _contact_vector(self) -> np.ndarray:
@@ -216,6 +248,8 @@ class MorphologyLocomotionEnv(gym.Env):
         self._settled_z = float(self.data.qpos[2])
         self._healthy_z = self.task.min_z_frac * self._settled_z
         self._step_count = 0
+        self._episode_reward = 0.0  # tracked so a fall can claw back what THIS episode banked
+        self._prev_action = np.zeros(self.model.nu, dtype=np.float32)
         return self._get_obs(), {}
 
     def step(self, action: np.ndarray):
@@ -237,6 +271,8 @@ class MorphologyLocomotionEnv(gym.Env):
         dt = self.model.opt.timestep * self.task.frame_skip
         forward = (x_after - x_before) / dt
         ctrl_cost = self.task.ctrl_cost_weight * float(np.mean(np.square(action)))
+        action_rate_cost = self.task.action_rate_weight * float(np.mean(np.square(action - self._prev_action)))
+        self._prev_action = np.asarray(action, dtype=np.float32).copy()
         # Only penalizes dropping BELOW the body's own settled height, never being
         # above it, so this doesn't bias tall-standing over a genuinely low crawl --
         # it targets "progressively sinking during a fall" specifically.
@@ -246,16 +282,23 @@ class MorphologyLocomotionEnv(gym.Env):
         reward = (
             self.task.forward_reward_weight * forward
             - ctrl_cost
+            - action_rate_cost
             + self.task.healthy_reward
             + height_penalty
         )
+        self._episode_reward += reward
 
         self._step_count += 1
         terminated = False
         if self.task.terminate_on_fall and self.data.qpos[2] < self._healthy_z:
-            frac_time_forfeited = max(0.0, 1.0 - self._step_count / self.task.horizon)
             terminated = True
-            reward -= self.task.fall_penalty_weight * frac_time_forfeited
+            # Claw back a fraction of THIS episode's own banked reward -- makes a
+            # fall unprofitable regardless of how large the lunge that preceded it
+            # was, instead of competing against a fixed penalty that has to be
+            # re-tuned every time a faster/bigger lunge is discovered.
+            fall_penalty = self.task.fall_penalty_frac * max(0.0, self._episode_reward)
+            reward -= fall_penalty
+            self._episode_reward -= fall_penalty
         truncated = self._step_count >= self.task.horizon
 
         obs = self._get_obs()
