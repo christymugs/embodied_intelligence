@@ -166,6 +166,22 @@ class MorphologyLocomotionEnv(gym.Env):
 
         self._init_z = self.task.init_z if self.task.init_z is not None \
             else max(genome.root.height, 0.3)
+        # Reference for the standing-height reward below -- root.height alone
+        # (the trunk capsule's own length) is too weak a bar whenever the
+        # actual legs are sub-limbs chained off a short trunk, so a body can
+        # sit at ~100% of "standing" already collapsed flat (see genome.py's
+        # max_reach() docstring for how this was found).
+        # 0.6x, not the full reach: max_reach() is a straight-line upper
+        # bound (the chain fully extended in one direction), but a real
+        # jointed leg standing on the ground is bent, not a rigid vertical
+        # pole -- demanding the full straight-line length as "100% standing"
+        # is an unreachable bar for most joint geometries. Confirmed via a
+        # controlled A/B on run25's champion: at the full reach (1.07m) it
+        # never got past ~0.4m (37% of target) and returns collapsed
+        # (~1100 vs. the original 4021); the discount was punishing a body
+        # for a bar no bent leg could plausibly reach, not rewarding real
+        # standing.
+        self._stand_ref_z = max(0.6 * genome.max_reach(), self._init_z, 0.1)
 
         self.action_space = spaces.Box(-1.0, 1.0, shape=(self.model.nu,), dtype=np.float32)
 
@@ -270,6 +286,27 @@ class MorphologyLocomotionEnv(gym.Env):
 
         dt = self.model.opt.timestep * self.task.frame_skip
         forward = (x_after - x_before) / dt
+        # Forward reward is credited in proportion to how upright the body
+        # currently is (root height as a fraction of its own longest-limb-
+        # chain reach, self._stand_ref_z -- see genome.max_reach()). Without
+        # this, "cover distance" and "stay upright" are entirely independent,
+        # so a body that collapses onto a stable, low sprawl (cheap to keep
+        # "healthy" -- height_reward_weight above only guards against SINKING
+        # below wherever it already settled, not against never rising in the
+        # first place) earns full forward credit for creeping along on the
+        # ground. Confirmed exactly this on experiments/run25's champion: it
+        # flattened out within the first ~5m of a 43m walk and never rose
+        # again for the rest of the episode. Scaling forward reward directly,
+        # rather than adding a separate standing bonus, avoids opening a new
+        # "stand still and collect reward" exploit (see healthy_reward's
+        # comment above) -- standing upright without moving still earns zero
+        # from this term, same as before. Scales with the body's OWN
+        # geometry, not a universal height, so a genuinely short-legged
+        # design isn't penalized for being short -- only for being lower
+        # than ITS OWN reach, same gait-agnostic principle as
+        # height_reward_weight.
+        stand_frac = np.clip(self.data.qpos[2] / self._stand_ref_z, 0.0, 1.0)
+        forward_reward = self.task.forward_reward_weight * forward * stand_frac
         ctrl_cost = self.task.ctrl_cost_weight * float(np.mean(np.square(action)))
         action_rate_cost = self.task.action_rate_weight * float(np.mean(np.square(action - self._prev_action)))
         self._prev_action = np.asarray(action, dtype=np.float32).copy()
@@ -280,7 +317,7 @@ class MorphologyLocomotionEnv(gym.Env):
         height_deficit = max(0.0, 1.0 - height_frac)
         height_penalty = -self.task.height_reward_weight * height_deficit ** 2
         reward = (
-            self.task.forward_reward_weight * forward
+            forward_reward
             - ctrl_cost
             - action_rate_cost
             + self.task.healthy_reward

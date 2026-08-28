@@ -10,3 +10,7 @@ torch>=2.2
 
 # Config + experiment tracking
 pyyaml>=6.0
+
+# Rendering + plots (scripts/render_episode.py, plot_run.py, check_learning.py)
+pillow>=10.0
+matplotlib>=3.8

@@ -362,6 +362,24 @@ class Genome:
 
         return depth(self.root)
 
+    def max_reach(self) -> float:
+        """Longest root-to-leaf sum of limb heights, in meters.
+
+        A physically-motivated "how tall could this body stand if its
+        longest kinematic chain were extended in a straight line" estimate
+        -- used as the absolute standing-height reference in
+        learning/env.py's forward-reward shaping. root.height alone (the
+        trunk capsule's own length) badly undersells this for a body whose
+        actual legs are chained sub-limbs off a short trunk, letting a
+        collapsed sprawl already sit at ~100% of "standing" by that measure
+        alone (see run25's champion, root.height <= 0.3 -- confirmed on a
+        controlled A/B retrain that reusing root.height as the reference
+        wasn't a tall-enough bar to change anything)."""
+        def reach(g: LimbGene) -> float:
+            return g.height + max((reach(c) for c in g.children), default=0.0)
+
+        return reach(self.root)
+
     def num_actuators(self) -> int:
         return sum(1 for g in self.all_limbs() if g.joint is not None)
 

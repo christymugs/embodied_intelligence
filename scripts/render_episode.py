@@ -62,13 +62,18 @@ def render(genome_path, policy_path, algo, horizon, seed,
     obs, _ = env.reset(seed=seed)
 
     renderer = mujoco.Renderer(env.model, height=height, width=width)
-    cam = _fit_camera(env.model, env.data)
 
     frames = []
     done = False
     while not done:
         action, _ = policy.predict(obs, deterministic=True)
         obs, _, terminated, truncated, info = env.step(action)
+        # Recompute every frame so the camera tracks the body across the whole
+        # episode -- a one-time fit (the old behaviour) freezes on the start
+        # pose, so any body that travels more than a body-length just walks
+        # out of frame and the rest of the GIF shows empty ground, looking
+        # like it stopped moving even when the policy is fully active.
+        cam = _fit_camera(env.model, env.data)
         renderer.update_scene(env.data, camera=cam)
         frames.append(Image.fromarray(renderer.render()))
         done = terminated or truncated
