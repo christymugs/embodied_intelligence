@@ -124,14 +124,34 @@ class MorphologyBounds:
     # Torso (root) tends to be chunkier than limbs.
     root_radius: tuple[float, float] = (0.04, 0.12)
     root_height: tuple[float, float] = (0.20, 0.60)
-    # Non-root limbs.
+    # Non-root limbs. Absolute simulability clamps -- actual sampling is
+    # tapered from the parent's own size (taper_radius_frac/taper_height_frac
+    # above); these just bound how far that tapering can drift.
     limb_radius: tuple[float, float] = (0.02, 0.06)
     limb_height: tuple[float, float] = (0.10, 0.50)
     density: tuple[float, float] = (400.0, 1200.0)
     # Joint range (degrees, symmetric: [-r, +r]).
     joint_range: tuple[float, float] = (20.0, 120.0)
-    # Where a child attaches along its parent's axis (0=base, 1=tip).
+    # Where a child attaches along its parent's axis (0=base, 1=tip). Full
+    # range stays legal (a body can still evolve mid-shaft attachment), but
+    # _sample_attach_frac below biases sampling toward the ends -- a real
+    # jointed chain (hip->knee->ankle) attaches at segment ends, not
+    # partway up a shaft, and independent-uniform sampling was producing
+    # limbs sprouting out of another limb's middle by pure chance on every
+    # attachment.
     attach_frac: tuple[float, float] = (0.0, 1.0)
+    # A child's radius/height is drawn as a FRACTION OF ITS PARENT's own
+    # radius/height (tapering, like a real jointed limb: thigh -> shin ->
+    # foot each comparable to, usually a bit smaller than, what it's
+    # attached to) -- not independently from limb_radius/limb_height below.
+    # Independent sampling let a leaf limb two levels deep roll bigger than
+    # the torso it ultimately hangs off, or a torso end up with legs a
+    # fraction of its own thickness, by pure chance on every limb (see
+    # experiments/run25's champion and the "huge torso, tiny legs, then a
+    # giant leg" bodies this produced). Still clipped to limb_radius/
+    # limb_height as absolute simulability rails.
+    taper_radius_frac: tuple[float, float] = (0.45, 0.95)
+    taper_height_frac: tuple[float, float] = (0.55, 1.05)
     # Mounting angle around the parent's circumference: a small set of
     # standard positions (like a real bracket's bolt-hole pattern), not an
     # arbitrary continuous angle. A body can still evolve any number of
@@ -225,13 +245,16 @@ class Genome:
         target_non_root = int(rng.integers(1, bounds.max_limbs))  # 1 .. max_limbs-1
         g._grow_to_target(root, target_non_root, rng)
         if g.num_actuators() == 0:
+            radius, height = sample_tapered_size(rng, root.radius, root.height, bounds)
             root.children.append(
                 LimbGene(
-                    radius=_u(rng, bounds.limb_radius),
-                    height=_u(rng, bounds.limb_height),
+                    radius=radius,
+                    height=height,
                     density=_u(rng, bounds.density),
-                    attach_frac=_u(rng, bounds.attach_frac),
-                    attach_azimuth=_sample_azimuth(rng, bounds),
+                    attach_frac=sample_attach_frac(rng, bounds),
+                    attach_azimuth=sample_azimuth_avoiding(
+                        rng, bounds, [c.attach_azimuth for c in root.children]
+                    ),
                     joint=g._random_joint(rng),
                 )
             )
@@ -251,12 +274,15 @@ class Genome:
             if not eligible:
                 break  # tree-shape limits reached before hitting the target
             parent = eligible[rng.integers(len(eligible))]
+            radius, height = sample_tapered_size(rng, parent.radius, parent.height, self.bounds)
             child = LimbGene(
-                radius=_u(rng, self.bounds.limb_radius),
-                height=_u(rng, self.bounds.limb_height),
+                radius=radius,
+                height=height,
                 density=_u(rng, self.bounds.density),
-                attach_frac=_u(rng, self.bounds.attach_frac),
-                attach_azimuth=_sample_azimuth(rng, self.bounds),
+                attach_frac=sample_attach_frac(rng, self.bounds),
+                attach_azimuth=sample_azimuth_avoiding(
+                    rng, self.bounds, [c.attach_azimuth for c in parent.children]
+                ),
                 joint=self._random_joint(rng),
             )
             parent.children.append(child)
@@ -397,3 +423,63 @@ def _sample_azimuth(rng: np.random.Generator, bounds: "MorphologyBounds") -> flo
         return _u(rng, (0.0, 2 * math.pi))
     choices = bounds.azimuth_choices
     return float(choices[rng.integers(len(choices))])
+
+
+def _angular_dist(a: float, b: float) -> float:
+    """Shortest distance between two angles, in [0, pi]."""
+    return abs((a - b + math.pi) % (2 * math.pi) - math.pi)
+
+
+def sample_azimuth_avoiding(
+    rng: np.random.Generator, bounds: "MorphologyBounds", taken: list[float],
+) -> float:
+    """Like _sample_azimuth, but avoids azimuths already used by sibling
+    limbs on the same parent where possible -- a real bracket only has one
+    bolt per hole, so multiple children landing on the same or an adjacent
+    mounting point (previously possible on every attachment, independent
+    random choice) produced overlapping/clumped limbs rather than a spread
+    stance. Falls back to allowing a repeat only when every option is
+    already taken (e.g. more children than azimuth_choices has slots)."""
+    if bounds.azimuth_choices is None:
+        min_sep = math.pi / 6  # 30 degrees
+        candidate = _u(rng, (0.0, 2 * math.pi))
+        for _ in range(8):
+            if all(_angular_dist(candidate, t) >= min_sep for t in taken):
+                return candidate
+            candidate = _u(rng, (0.0, 2 * math.pi))
+        return candidate  # give up after 8 tries, accept whatever we have
+    choices = bounds.azimuth_choices
+    free = [c for c in choices if not any(_angular_dist(c, t) < 1e-6 for t in taken)]
+    pool = free or list(choices)
+    return float(pool[rng.integers(len(pool))])
+
+
+def sample_attach_frac(rng: np.random.Generator, bounds: "MorphologyBounds") -> float:
+    """Where along the parent's axis a child attaches, biased toward the
+    ends (0=base, 1=tip) rather than uniform -- a real jointed chain
+    attaches at segment ends (hip->knee->ankle), not partway up a shaft.
+    Beta(0.4, 0.4) is U-shaped: still covers the full range (mid-shaft
+    attachment stays legal, just less likely), rather than hard-restricting
+    to exactly the two ends."""
+    lo, hi = bounds.attach_frac
+    return float(lo + rng.beta(0.4, 0.4) * (hi - lo))
+
+
+def sample_tapered_size(
+    rng: np.random.Generator, parent_radius: float, parent_height: float,
+    bounds: "MorphologyBounds",
+) -> tuple[float, float]:
+    """A child limb's (radius, height), drawn as a fraction of its PARENT's
+    own size rather than independently from limb_radius/limb_height -- see
+    MorphologyBounds.taper_radius_frac/taper_height_frac. Clipped to
+    limb_radius/limb_height as absolute simulability rails, so tapering
+    from an extreme parent can't drift outside what the rest of the system
+    (actuator force caps, etc.) was tuned for."""
+    radius = _clip(parent_radius * _u(rng, bounds.taper_radius_frac), bounds.limb_radius)
+    height = _clip(parent_height * _u(rng, bounds.taper_height_frac), bounds.limb_height)
+    return radius, height
+
+
+def _clip(x: float, lohi: tuple[float, float]) -> float:
+    lo, hi = lohi
+    return float(min(max(x, lo), hi))

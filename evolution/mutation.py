@@ -24,7 +24,10 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from morphology.genome import Genome, LimbGene, JointGene, MorphologyBounds, _u, _sample_azimuth
+from morphology.genome import (
+    Genome, LimbGene, JointGene, MorphologyBounds, _u, _sample_azimuth,
+    sample_azimuth_avoiding, sample_attach_frac, sample_tapered_size,
+)
 
 
 @dataclass
@@ -132,12 +135,13 @@ def _grow_limb(g: Genome, b: MorphologyBounds, rng, mirror_chance: float = 0.0) 
     parent = _pick(candidates, rng)
     if parent is None:
         return
+    radius, height = sample_tapered_size(rng, parent.radius, parent.height, b)
     child = LimbGene(
-        radius=_u(rng, b.limb_radius),
-        height=_u(rng, b.limb_height),
+        radius=radius,
+        height=height,
         density=_u(rng, b.density),
-        attach_frac=_u(rng, b.attach_frac),
-        attach_azimuth=_sample_azimuth(rng, b),
+        attach_frac=sample_attach_frac(rng, b),
+        attach_azimuth=sample_azimuth_avoiding(rng, b, [c.attach_azimuth for c in parent.children]),
         joint=_random_joint(b, rng),
     )
     parent.children.append(child)
