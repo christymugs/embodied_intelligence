@@ -266,7 +266,9 @@ class Genome:
                     radius=radius,
                     height=height,
                     density=_u(rng, bounds.density),
-                    attach_frac=sample_attach_frac(rng, bounds),
+                    attach_frac=sample_attach_frac_avoiding(
+                        rng, bounds, [c.attach_frac for c in root.children if c.attach_frac is not None]
+                    ),
                     attach_azimuth=sample_azimuth_avoiding(
                         rng, bounds, [c.attach_azimuth for c in root.children]
                     ),
@@ -294,7 +296,9 @@ class Genome:
                 radius=radius,
                 height=height,
                 density=_u(rng, self.bounds.density),
-                attach_frac=sample_attach_frac(rng, self.bounds),
+                attach_frac=sample_attach_frac_avoiding(
+                    rng, self.bounds, [c.attach_frac for c in parent.children if c.attach_frac is not None]
+                ),
                 attach_azimuth=sample_azimuth_avoiding(
                     rng, self.bounds, [c.attach_azimuth for c in parent.children]
                 ),
@@ -478,6 +482,29 @@ def sample_attach_frac(rng: np.random.Generator, bounds: "MorphologyBounds") -> 
     to exactly the two ends."""
     lo, hi = bounds.attach_frac
     return float(lo + rng.beta(0.4, 0.4) * (hi - lo))
+
+
+def sample_attach_frac_avoiding(
+    rng: np.random.Generator, bounds: "MorphologyBounds", taken: list[float],
+) -> float:
+    """Like sample_attach_frac, but nudges away from where sibling limbs on
+    the same parent already attach. Biasing toward the ends (above) fixed
+    mid-shaft attachment but had a side effect: with only two likely spots
+    (base and tip) instead of a uniform spread, multiple children easily
+    land at the SAME end by chance, bunching every leg out of one spot on
+    the trunk instead of distributing along it like a real quadruped's
+    front/back leg placement (confirmed visually on experiments/run29's
+    champion). Resamples up to a few times if too close to an existing
+    sibling; still biased toward the ends overall, just spread between
+    them when more than one child shares a parent."""
+    lo, hi = bounds.attach_frac
+    min_sep = 0.2 * (hi - lo)
+    candidate = sample_attach_frac(rng, bounds)
+    for _ in range(8):
+        if all(abs(candidate - t) >= min_sep for t in taken):
+            return candidate
+        candidate = sample_attach_frac(rng, bounds)
+    return candidate  # give up after 8 tries, accept whatever we have
 
 
 def sample_tapered_size(
