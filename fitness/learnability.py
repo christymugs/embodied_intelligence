@@ -25,6 +25,22 @@ baseline climbed from -5.6 to +52.5 across generations while actual learning
 gain stayed flat at ~3-4, because raw-return auc rewarded starting good over
 improving). Subtracting r[0] before integrating means a flat curve scores ~0
 regardless of the height it is flat at.
+
+UNTRAINED_BASELINE_FLOOR guards the mirror-image exploit: a body whose
+untrained policy scores catastrophically (not just mediocre) gets "gain"
+credit for improving off of it, even if the trained result never becomes
+good in absolute terms. Confirmed happening in practice on experiments/
+run27: the champion's r[0] (untrained) got MORE negative every generation
+(-2040 at gen0 -> -3070 at gen49) while its actual trained return (r[-1])
+stayed flat and bad the whole run (-13.8 -> -4.7, never positive) -- auc
+kept climbing (1564 -> 3036) purely because the baseline it was measured
+against kept getting worse, not because anything learned to walk. The
+best individual in that run's ENTIRE final population scored final=30.26;
+every other top-10-by-auc individual scored final<=0. Clamping the
+baseline used for gain to a floor caps how much "improvement" credit a
+catastrophic start can buy, so genuinely reaching a good absolute return
+becomes necessary again, the same way the run14 fix (above) closed off
+the opposite direction.
 """
 
 from __future__ import annotations
@@ -32,6 +48,16 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 import numpy as np
+
+# A body scoring below this at t=0 is thrashing catastrophically (see
+# experiments/run27, r[0] as low as -3070), not meaningfully differentiated
+# from another catastrophic body at, say, -500 -- both are "started broken,"
+# and treating -3070 as MORE room to gain than -500 rewards worse starts.
+# -50 is comfortably below a real "fell in a few steps" outcome (run27's
+# best-by-final individual, which does something, scored final=30.26; the
+# uniformly-failed rest of that population scored <=0 but nowhere near
+# -1000s) and comfortably above the catastrophic-thrashing floor.
+UNTRAINED_BASELINE_FLOOR = -50.0
 
 _trapz = np.trapezoid if hasattr(np, "trapezoid") else np.trapz  # numpy>=2 renamed it
 
@@ -67,8 +93,10 @@ def compute_learnability(timesteps, returns, threshold: float | None = None,
     budget = float(t[-1]) if t[-1] > 0 else 1.0
 
     # Gain over this body's OWN untrained starting point, not raw return level
-    # (see module docstring for why).
-    gain = r - r[0]
+    # (see module docstring for why) -- floored so a catastrophic start can't
+    # buy artificial "room to gain" (see UNTRAINED_BASELINE_FLOOR above).
+    baseline = max(r[0], UNTRAINED_BASELINE_FLOOR)
+    gain = r - baseline
 
     # Average gain over training (area under the gain curve / budget).
     auc = float(_trapz(gain, t) / budget) if t.size > 1 else float(gain[-1])
