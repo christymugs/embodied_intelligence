@@ -152,6 +152,21 @@ class MorphologyBounds:
     # limb_height as absolute simulability rails.
     taper_radius_frac: tuple[float, float] = (0.45, 0.95)
     taper_height_frac: tuple[float, float] = (0.55, 1.05)
+    # Real stock doesn't come in arbitrary continuous sizes -- round rod/tube
+    # and cut-to-length stock come in a small set of standard sizes. Every
+    # limb's radius/height is snapped to the nearest of these (see
+    # snap_to_stock) rather than left as an arbitrary sampled float, so a
+    # buildable body corresponds to something orderable off a catalog, not a
+    # one-off custom-machined part -- the same reasoning already applied to
+    # azimuth_choices below (8 standard bracket-hole positions), just not
+    # applied to size until now. Set either to None to allow any continuous
+    # value (fully open, but each part may need custom machining).
+    radius_choices: tuple[float, ...] | None = (
+        0.015, 0.02, 0.025, 0.03, 0.04, 0.05, 0.06, 0.08, 0.10, 0.12,
+    )
+    height_choices: tuple[float, ...] | None = (
+        0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.60,
+    )
     # Mounting angle around the parent's circumference: a small set of
     # standard positions (like a real bracket's bolt-hole pattern), not an
     # arbitrary continuous angle. A body can still evolve any number of
@@ -228,8 +243,8 @@ class Genome:
         rng = rng or np.random.default_rng()
 
         root = LimbGene(
-            radius=_u(rng, bounds.root_radius),
-            height=_u(rng, bounds.root_height),
+            radius=snap_to_stock(_u(rng, bounds.root_radius), bounds.radius_choices),
+            height=snap_to_stock(_u(rng, bounds.root_height), bounds.height_choices),
             density=_u(rng, bounds.density),
             attach_frac=None,
             joint=None,
@@ -474,10 +489,20 @@ def sample_tapered_size(
     MorphologyBounds.taper_radius_frac/taper_height_frac. Clipped to
     limb_radius/limb_height as absolute simulability rails, so tapering
     from an extreme parent can't drift outside what the rest of the system
-    (actuator force caps, etc.) was tuned for."""
+    (actuator force caps, etc.) was tuned for. Snapped to radius_choices/
+    height_choices afterward -- see MorphologyBounds -- so the tapered
+    result still lands on a real stock size, not an arbitrary float."""
     radius = _clip(parent_radius * _u(rng, bounds.taper_radius_frac), bounds.limb_radius)
     height = _clip(parent_height * _u(rng, bounds.taper_height_frac), bounds.limb_height)
-    return radius, height
+    return snap_to_stock(radius, bounds.radius_choices), snap_to_stock(height, bounds.height_choices)
+
+
+def snap_to_stock(value: float, choices: tuple[float, ...] | None) -> float:
+    """Nearest value in `choices`, or `value` unchanged if choices is None
+    (fully continuous). See MorphologyBounds.radius_choices/height_choices."""
+    if choices is None:
+        return value
+    return float(min(choices, key=lambda c: abs(c - value)))
 
 
 def _clip(x: float, lohi: tuple[float, float]) -> float:

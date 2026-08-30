@@ -26,7 +26,7 @@ import numpy as np
 
 from morphology.genome import (
     Genome, LimbGene, JointGene, MorphologyBounds, _u, _sample_azimuth,
-    sample_azimuth_avoiding, sample_attach_frac, sample_tapered_size,
+    sample_azimuth_avoiding, sample_attach_frac, sample_tapered_size, snap_to_stock,
 )
 
 
@@ -77,7 +77,8 @@ def mutate(genome: Genome, rng: np.random.Generator, rates: MutationRates | None
     if rng.random() < rates.resize_limb:
         target = _pick(g.all_limbs()[1:], rng)  # any non-root limb
         if target is not None:
-            _resize_limb(target, b, rng, rates.sigma, is_root=False)
+            parent = _find_parent(g, target)
+            _resize_limb(target, b, rng, rates.sigma, is_root=False, parent=parent)
 
     if rng.random() < rates.perturb_joint:
         jointed = [l for l in g.all_limbs() if l.joint is not None]
@@ -91,7 +92,9 @@ def mutate(genome: Genome, rng: np.random.Generator, rates: MutationRates | None
             target.attach_frac = _clip(
                 target.attach_frac + rng.normal(0, rates.sigma), b.attach_frac
             )
-            target.attach_azimuth = _sample_azimuth(rng, b)
+            parent = _find_parent(g, target)
+            siblings = [c.attach_azimuth for c in parent.children if c is not target] if parent else []
+            target.attach_azimuth = sample_azimuth_avoiding(rng, b, siblings)
 
     if rng.random() < rates.grow_limb:
         _grow_limb(g, b, rng, rates.grow_mirror_chance)
@@ -108,12 +111,37 @@ def mutate(genome: Genome, rng: np.random.Generator, rates: MutationRates | None
 # --------------------------------------------------------------------------- #
 # Operators
 # --------------------------------------------------------------------------- #
-def _resize_limb(limb: LimbGene, b: MorphologyBounds, rng, sigma, is_root: bool) -> None:
-    rad_bounds = b.root_radius if is_root else b.limb_radius
-    hgt_bounds = b.root_height if is_root else b.limb_height
-    limb.radius = _jitter(limb.radius, rad_bounds, rng, sigma)
-    limb.height = _jitter(limb.height, hgt_bounds, rng, sigma)
+def _resize_limb(limb: LimbGene, b: MorphologyBounds, rng, sigma, is_root: bool,
+                  parent: LimbGene | None = None) -> None:
+    if is_root:
+        rad_bounds, hgt_bounds = b.root_radius, b.root_height
+    else:
+        # Clip within a taper-consistent range of the limb's ACTUAL current
+        # parent, not just the flat global bounds -- otherwise repeated
+        # jitter over many generations drifts a limb away from a sensible
+        # size relative to what it's attached to (the same tapering
+        # genome.py's initial growth uses, applied here too so an ongoing
+        # mutation can't silently undo it -- see sample_tapered_size).
+        assert parent is not None, "non-root limb must have a parent"
+        rad_bounds = _taper_bounds(parent.radius, b.taper_radius_frac, b.limb_radius)
+        hgt_bounds = _taper_bounds(parent.height, b.taper_height_frac, b.limb_height)
+    limb.radius = snap_to_stock(_jitter(limb.radius, rad_bounds, rng, sigma), b.radius_choices)
+    limb.height = snap_to_stock(_jitter(limb.height, hgt_bounds, rng, sigma), b.height_choices)
     limb.density = _jitter(limb.density, b.density, rng, sigma)
+
+
+def _taper_bounds(parent_val: float, frac_range: tuple[float, float],
+                   abs_bounds: tuple[float, float]) -> tuple[float, float]:
+    lo = max(parent_val * frac_range[0], abs_bounds[0])
+    hi = min(parent_val * frac_range[1], abs_bounds[1])
+    return (lo, hi) if lo <= hi else abs_bounds  # degenerate parent size: fall back
+
+
+def _find_parent(g: Genome, target: LimbGene) -> LimbGene | None:
+    for limb in g.all_limbs():
+        if target in limb.children:
+            return limb
+    return None
 
 
 def _perturb_joint(joint: JointGene, b: MorphologyBounds, rng, sigma) -> None:

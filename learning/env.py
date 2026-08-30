@@ -130,6 +130,24 @@ class TaskConfig:
     # half a clawback still leaves a profitable lunge-and-fall (banks ~100,
     # keeps ~50). Reverted to full clawback.
     fall_penalty_frac: float = 1.0
+    # fall_penalty_frac=1.0 claws back ALL of an episode's own positive
+    # banked reward on a fall, by design (see above) -- but that means EVERY
+    # fall nets to exactly the same reward (0), whether it happened after 5
+    # steps or 500. PPO gets no gradient distinguishing "closer to
+    # succeeding" from "failed immediately," since both look identical.
+    # Confirmed happening in practice, not just in theory: experiments/
+    # run28's champion had its return lock at EXACTLY 0.00 from step 5,000
+    # of training onward, all the way to 200,000 -- not still learning, just
+    # stuck with nothing to climb. This adds a small, ALWAYS-preserved (not
+    # subject to the clawback above) bonus for absolute distance reached
+    # before a fall, so different failures are no longer indistinguishable.
+    # Small and capped well below what continuing to walk would earn (a
+    # successful full episode's accumulated forward_reward), so it rewards
+    # getting further, without making "get some distance, then fall on
+    # purpose" competitive with "don't fall" -- that comparison is exactly
+    # what fall_penalty_frac=1.0 exists to keep unprofitable, and this sits
+    # alongside it rather than undoing it. 0 disables it.
+    fall_distance_bonus_weight: float = 0.5
     reset_noise: float = 0.01
     settle_steps: int = 30            # let the body settle before reward counts, so the
                                       # one-time "topple forward" drop isn't free reward
@@ -336,6 +354,10 @@ class MorphologyLocomotionEnv(gym.Env):
             fall_penalty = self.task.fall_penalty_frac * max(0.0, self._episode_reward)
             reward -= fall_penalty
             self._episode_reward -= fall_penalty
+            # Immune to the clawback above -- see fall_distance_bonus_weight.
+            distance_bonus = self.task.fall_distance_bonus_weight * max(0.0, x_after)
+            reward += distance_bonus
+            self._episode_reward += distance_bonus
         truncated = self._step_count >= self.task.horizon
 
         obs = self._get_obs()
