@@ -26,7 +26,7 @@ import numpy as np
 
 from morphology.genome import (
     Genome, LimbGene, JointGene, MorphologyBounds, _u, _sample_azimuth,
-    sample_azimuth_avoiding, sample_attach_frac_avoiding, sample_tapered_size, snap_to_stock,
+    sample_azimuth_avoiding, sample_attach_frac, sample_tapered_size, snap_to_stock,
 )
 
 
@@ -168,9 +168,7 @@ def _grow_limb(g: Genome, b: MorphologyBounds, rng, mirror_chance: float = 0.0) 
         radius=radius,
         height=height,
         density=_u(rng, b.density),
-        attach_frac=sample_attach_frac_avoiding(
-            rng, b, [c.attach_frac for c in parent.children if c.attach_frac is not None]
-        ),
+        attach_frac=sample_attach_frac(rng, b),
         attach_azimuth=sample_azimuth_avoiding(rng, b, [c.attach_azimuth for c in parent.children]),
         joint=_random_joint(b, rng),
     )
